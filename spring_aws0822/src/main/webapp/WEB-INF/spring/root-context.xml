@@ -34,4 +34,15 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
+	<!-- 클래스 생성자와 같다 -->
+	<!-- public class SqlSessionTemplate {
+		public sqlSessionFactory() {
+				
+		}
+	} -->
+	
+	<context:component-scan base-package="com.myaws.myapp">
+	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> <!-- 루트.xml에서 컨트롤러는 제외하겠다 -->
+	</context:component-scan>
+	
 </beans>

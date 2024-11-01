@@ -24,11 +24,11 @@ function check(){
 		alert("아이디를 입력해주세요");
 		fm.memberid.focus();
 		return;
-	} else if (fm.btn.value == "N") {
+	} /* else if (fm.btn.value == "N") {
 		alert("아이디중복체크를 해주세요");
 		fm.memberid.focus();
 		return;		
-	}else if (fm.memberpwd.value ==""){		
+	} */else if (fm.memberpwd.value ==""){		
 		alert("비밀번호를 입력해주세요");
 		fm.memberpwd.focus();
 		return;

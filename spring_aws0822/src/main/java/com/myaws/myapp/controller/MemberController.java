@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.myaws.myapp.domain.MemberVo;
+import com.myaws.myapp.service.MemberService;
 import com.myaws.myapp.service.Test;
 
 @Controller
@@ -14,9 +16,12 @@ import com.myaws.myapp.service.Test;
 public class MemberController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);	
-	/*
-	 * @Autowired private Test tt;
-	 */
+	
+	// @Autowired private Test tt;
+	 
+	@Autowired
+	MemberService memberService;
+	
 	@RequestMapping(value = "memberJoin.aws", method = RequestMethod.GET)
 	public String memberJoin() {
 		
@@ -24,6 +29,23 @@ public class MemberController {
 		// logger.info("tt°ªÀº? " + tt.test());
 		
 		return "WEB-INF/member/memberJoin";
+	}
+	
+	@RequestMapping(value = "memberJoinAction.aws", method = RequestMethod.POST)
+	public String memberJoinAction(MemberVo mv) {
+		logger.info("memberJoinAction µé¾î¿È");		
+		
+		int value = memberService.memberInsert(mv);
+		logger.info("value : " + value);
+		
+		String path = "";
+		if (value == 1) {
+			path = "redirect:/";
+		} else if (value == 0) {			
+			path = "redirect:/member/memberJoin.aws";			
+		}
+		
+		return path;
 	}
 	
 	@RequestMapping(value = "memberLogin.aws", method = RequestMethod.GET)

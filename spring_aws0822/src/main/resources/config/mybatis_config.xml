@@ -4,7 +4,7 @@
  
 <configuration> 
 <typeAliases>
- <typeAlias alias="mv" type="com.myaws.myapp.domain.MemberVo"/>
+ <typeAlias alias="mv" type="com.myaws.myapp.domain.MemberVo"/> <!-- 이름지정 -->
 
 </typeAliases>
 </configuration>
