@@ -13,17 +13,15 @@ import com.myaws.myapp.service.Test;
 @RequestMapping(value="/member/")
 public class MemberController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	
-	@Autowired
-	private Test tt;
-	
-	
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);	
+	/*
+	 * @Autowired private Test tt;
+	 */
 	@RequestMapping(value = "memberJoin.aws", method = RequestMethod.GET)
 	public String memberJoin() {
 		
 		logger.info("memberJoin 들어옴");		
-		logger.info("tt값은? " + tt.test());
+		// logger.info("tt값은? " + tt.test());
 		
 		return "WEB-INF/member/memberJoin";
 	}
