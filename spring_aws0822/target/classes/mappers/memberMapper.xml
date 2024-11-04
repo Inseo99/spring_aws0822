@@ -11,4 +11,8 @@ insert into member(memberid,memberpwd,membername,membergender,memberbirth,member
 values(#{memberid},#{memberpwd},#{membername},#{membergender},#{memberbirth},#{memberaddr},#{memberphone},#{memberemail},#{memberhobby})
 </insert>
 
+<select id="memberIdCheck" parameterType="String" resultType="int">
+SELECT COUNT(*) AS cnt FROM member WHERE memberid = #{memberid}
+</select>
+
 </mapper> 

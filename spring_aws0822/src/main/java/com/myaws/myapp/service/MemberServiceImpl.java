@@ -18,11 +18,17 @@ public class MemberServiceImpl implements MemberService{
 		
 	}
 	
-	
 	@Override
 	public int memberInsert(MemberVo mv) {
 		int value = mm.memberInsert(mv);
 		return value;
 	}
+
+	@Override
+	public int memberIdCheck(String memberid) {
+		int value = mm.memberIdCheck(memberid);
+		return value;
+	}
+	
 	
 }

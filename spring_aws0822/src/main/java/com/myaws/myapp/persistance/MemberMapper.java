@@ -8,6 +8,6 @@ public interface MemberMapper {
 	
 	public int memberInsert(MemberVo mv);
 	
-	
+	public int memberIdCheck(String memberid);
 	
 }

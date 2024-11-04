@@ -24,11 +24,11 @@ function check(){
 		alert("아이디를 입력해주세요");
 		fm.memberid.focus();
 		return;
-	} /* else if (fm.btn.value == "N") {
+	}  else if (fm.btn.value == "N") {
 		alert("아이디중복체크를 해주세요");
 		fm.memberid.focus();
 		return;		
-	} */else if (fm.memberpwd.value ==""){		
+	}  else if (fm.memberpwd.value ==""){		
 		alert("비밀번호를 입력해주세요");
 		fm.memberpwd.focus();
 		return;
@@ -113,8 +113,8 @@ $(document).ready(function() {
 	$("#btn").click(function() {
 		// alert("중복체크버튼 클릭")
 		
-		let memberId = $("#memberid").val();
-		if (memberId == "") {
+		let memberid = $("#memberid").val();
+		if (memberid == "") {
 			alert("아이디를 입력해주세요");
 			return;
 		}
@@ -123,7 +123,7 @@ $(document).ready(function() {
 			type : "post",	// 전송방식
 			url : "<%=request.getContextPath()%>/member/memberIdCheck.aws",
 			dataType : "json",		// json 타입은 문서에서 {"키값" : "vlaue값" , "키값" : "value값2"}
-			data : {"memberId" : memberId},
+			data : {"memberid" : memberid},
 			success : function(result) {	// 결과가 넘어와서 성공했을 때 받는 영역
 				// alert("전송성공");
 				// alert("길이는? : " + result.length); 
@@ -222,7 +222,7 @@ $(document).ready(function() {
 			</tr>
 			<tr>
 				<td colspan=2 style="text-align:center;height:60px;">
-				<button type="button" onclick="check();">회원가입하기
+				<button type="button" name="btn" onclick="check();">회원가입하기
 				<!-- <img src="../images/conc.png" width="50px" height="30px"> -->
 				</button>
 				
