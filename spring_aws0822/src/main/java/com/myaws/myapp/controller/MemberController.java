@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myaws.myapp.domain.MemberVo;
 import com.myaws.myapp.service.MemberService;
@@ -68,7 +69,11 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "memberLoginAction.aws", method = RequestMethod.POST)
-	public String memberLoginAction(@RequestParam("memberid") String memberid, @RequestParam("memberpwd") String memberpwd) {
+	public String memberLoginAction(
+			@RequestParam("memberid") String memberid, 
+			@RequestParam("memberpwd") String memberpwd,
+			RedirectAttributes rttr
+			) {
 				
 		MemberVo mv = memberService.memberLoginCheck(memberid);
 		// 저장된 비밀번호를 가져온다
@@ -78,12 +83,25 @@ public class MemberController {
 			
 			if(bCryptPasswordEncoder.matches(memberpwd, reservedPwd)) {
 				// System.out.println("비밀번호 일치");
+//				rttr.addAttribute("midx", mv.getMidx());
+//				rttr.addAttribute("memberid", mv.getMemberid());
+//				rttr.addAttribute("memberName", mv.getMembername());
+				
 				path = "redirect:/";
 			} else {
 				// System.out.println("비밀번호 불일치");
+//				rttr.addAttribute("midx", "");
+//				rttr.addAttribute("memberid", "");
+//				rttr.addAttribute("memberName", "");
+				rttr.addFlashAttribute("msg", "아이디/비밀번호를 확인해주세요.");
+				
 				path = "redirect:/member/memberLogin.aws";
 			}
 		} else {
+//			rttr.addAttribute("midx", "");
+//			rttr.addAttribute("memberid", "");
+//			rttr.addAttribute("memberName", "");
+			rttr.addFlashAttribute("msg", "해당하는 아이디가 없습니다.");
 			path = "redirect:/member/memberLogin.aws";
 		}
 		

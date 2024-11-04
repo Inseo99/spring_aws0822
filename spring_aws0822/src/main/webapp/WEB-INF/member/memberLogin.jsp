@@ -1,4 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+String msg = "";  
+if (request.getAttribute("msg") != null) {
+	msg = (String)request.getAttribute("msg");
+}
+%>
 <!DOCTYPE HTML>
 <HTML>
  <HEAD>
@@ -35,10 +41,14 @@ footer {
 	--background: plum; 
 	text-align:center;
 		}
-		
-
 </style>
 <script>
+<% 
+if(msg != "") {
+	out.println("alert('" + msg +"')");	
+}
+%>
+
 // 아이디, 비밀번호 유효성검사
 function check() {
 	// 이름으로 객체찾기
@@ -61,6 +71,7 @@ function check() {
 	fm.action = "<%=request.getContextPath()%>/member/memberLoginAction.aws";	// 가상경로지정 action은 처리하는 의미
 	fm.method = "post";
 	fm.submit();
+	
 	
 	return
 }
