@@ -15,4 +15,8 @@ values(#{memberid},#{memberpwd},#{membername},#{membergender},#{memberbirth},#{m
 SELECT COUNT(*) AS cnt FROM member WHERE memberid = #{memberid}
 </select>
 
+<select id="memberLoginCheck" parameterType="String" resultType="mv">
+select * from member where memberid = #{memberid}
+</select>
+
 </mapper> 

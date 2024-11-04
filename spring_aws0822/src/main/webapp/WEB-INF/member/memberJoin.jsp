@@ -67,7 +67,7 @@ function check(){
 		return;
 	}	
 	
-	var ans = confirm("저장하시겠습니까?");
+	var ans = confirm("회원가입 하겠습니까?");
 	
 	if (ans == true){
 		//alert("이동할 정보등록할 차례입니다.");
@@ -171,7 +171,7 @@ $(document).ready(function() {
 				<th class="idcolor">비밀번호</th>
 				<td>
 				<input type="password" name="memberpwd" maxlength="30" style="width:100px;">
-				</td>
+			 `		</td>
 			</tr>
 			<tr>
 				<th>비밀번호확인</th>

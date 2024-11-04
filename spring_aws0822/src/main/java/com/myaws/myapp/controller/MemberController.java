@@ -67,7 +67,33 @@ public class MemberController {
 		return "WEB-INF/member/memberLogin";
 	}
 	
-	
+	@RequestMapping(value = "memberLoginAction.aws", method = RequestMethod.POST)
+	public String memberLoginAction(@RequestParam("memberid") String memberid, @RequestParam("memberpwd") String memberpwd) {
+				
+		MemberVo mv = memberService.memberLoginCheck(memberid);
+		// 저장된 비밀번호를 가져온다
+		String path = "";
+		if (mv != null) {
+			String reservedPwd = mv.getMemberpwd();
+			
+			if(bCryptPasswordEncoder.matches(memberpwd, reservedPwd)) {
+				// System.out.println("비밀번호 일치");
+				path = "redirect:/";
+			} else {
+				// System.out.println("비밀번호 불일치");
+				path = "redirect:/member/memberLogin.aws";
+			}
+		} else {
+			path = "redirect:/member/memberLogin.aws";
+		}
+		
+		
+		// 회원정보를 세션에 담는다.
+		// 로그인이 안되면 다시 로그인 페이지로 ㄱ가고
+		// 로그인이 되면 메인으로 가라
+		
+		return path;
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "memberIdCheck.aws", method = RequestMethod.POST)
