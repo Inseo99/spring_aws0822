@@ -1,5 +1,7 @@
 package com.myaws.myapp.service;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,17 +27,18 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int memberIdCheck(String memberid) {
-		int value = mm.memberIdCheck(memberid);
+	public int memberIdCheck(String memberId) {
+		int value = mm.memberIdCheck(memberId);
 		return value;
 	}
 
 	@Override
-	public MemberVo memberLoginCheck(String memberid) {
-		MemberVo mv = mm.memberLoginCheck(memberid);
+	public MemberVo memberLoginCheck(String memberId) {
+		MemberVo mv = mm.memberLoginCheck(memberId);
 		System.out.println("mv:" + mv);
 		return mv;
 	}
-	
+
+
 	
 }

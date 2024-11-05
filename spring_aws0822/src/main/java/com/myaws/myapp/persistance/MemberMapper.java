@@ -1,5 +1,7 @@
 package com.myaws.myapp.persistance;
 
+import java.util.ArrayList;
+
 import com.myaws.myapp.domain.MemberVo;
 
 // 마이바티스에서 사용할 메소드를 정의해 놓는 곳
@@ -8,8 +10,9 @@ public interface MemberMapper {
 	
 	public int memberInsert(MemberVo mv);
 	
-	public int memberIdCheck(String memberid);
+	public int memberIdCheck(String memberId);
 
-	public MemberVo memberLoginCheck(String memberid);
+	public MemberVo memberLoginCheck(String memberId);
+
 	
 }

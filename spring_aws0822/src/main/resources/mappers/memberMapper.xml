@@ -19,4 +19,5 @@ SELECT COUNT(*) AS cnt FROM member WHERE memberid = #{memberid}
 select * from member where memberid = #{memberid}
 </select>
 
+
 </mapper> 
