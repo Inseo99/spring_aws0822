@@ -52,7 +52,7 @@ tbody tr:hover{
 </style>
 </head>
 <body>
-<h3>회원목록</h3>
+<h3 style = "padding:0px 10px;"> 회원목록 </h3>
 <hr>
 <table>
 	<thead>

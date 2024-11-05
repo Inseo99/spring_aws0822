@@ -44,7 +44,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "memberJoinAction.aws", method = RequestMethod.POST)
 	public String memberJoinAction(MemberVo mv) {
-		 logger.info("memberJoinAction µé¾î¿È");		
+		// logger.info("memberJoinAction µé¾î¿È");		
 		// logger.info("bCryptPasswordEncoder" + bCryptPasswordEncoder);
 		 
 		String memberpwd_enc = bCryptPasswordEncoder.encode(mv.getMemberpwd());
@@ -133,7 +133,7 @@ public class MemberController {
 	
 	@RequestMapping(value = "memberList.aws", method = RequestMethod.GET)
 	public String memberList(Model model) {		
-		 logger.info("memberList µé¾î¿È");
+		// logger.info("memberList µé¾î¿È");
 		
 		ArrayList<MemberVo> alist = memberService.memberSelectAll();
 		
