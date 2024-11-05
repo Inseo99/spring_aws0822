@@ -39,6 +39,11 @@ public class MemberServiceImpl implements MemberService{
 		return mv;
 	}
 
-
+	@Override
+	public ArrayList<MemberVo> memberSelectAll() {
+		ArrayList<MemberVo> alist = mm.memberSelectAll();
+		return alist;
+	}
+	
 	
 }

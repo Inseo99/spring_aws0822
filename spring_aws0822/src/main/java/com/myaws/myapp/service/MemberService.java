@@ -12,4 +12,5 @@ public interface MemberService {
 
 	public MemberVo memberLoginCheck(String memberId);
 
+	public ArrayList<MemberVo> memberSelectAll();
 }

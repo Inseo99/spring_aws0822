@@ -14,5 +14,6 @@ public interface MemberMapper {
 
 	public MemberVo memberLoginCheck(String memberId);
 
+	public ArrayList<MemberVo> memberSelectAll();
 	
 }

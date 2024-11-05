@@ -130,6 +130,18 @@ public class MemberController {
 		
 		return obj;
 	}
-
+	
+	@RequestMapping(value = "memberList.aws", method = RequestMethod.GET)
+	public String memberList(Model model) {		
+		 logger.info("memberList µé¾î¿È");
+		
+		ArrayList<MemberVo> alist = memberService.memberSelectAll();
+		
+		model.addAttribute("alist", alist);
+		
+		return "WEB-INF/member/memberList";
+	}
+	
+	
 
 }

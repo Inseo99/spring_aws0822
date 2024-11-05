@@ -19,5 +19,8 @@ SELECT COUNT(*) AS cnt FROM member WHERE memberid = #{memberid}
 select * from member where memberid = #{memberid}
 </select>
 
+<select id="memberSelectAll" resultType="mv">
+SELECT * FROM member WHERE delyn = 'N' ORDER BY midx DESC
+</select>
 
 </mapper> 
