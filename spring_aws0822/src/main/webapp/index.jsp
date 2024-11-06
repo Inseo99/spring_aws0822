@@ -8,12 +8,14 @@
 </head>
 <body>
 <header>
-<h3>
-<% if(session.getAttribute("midx") != null) {
-	out.print(session.getAttribute("memberName") + " 로그아웃");
-}
-%>
-</h3>
+<% if(session.getAttribute("midx") != null) { %>
+    <h3 style="display: flex; align-items: center;">
+        <span><%= session.getAttribute("memberName") %></span>
+        <form action="/member/memberLogout.aws" method="get" style="margin-left: 10px;">
+            <button type="submit">로그아웃</button>
+        </form>
+    </h3>
+<% } %>
 <hr>
 </header>
 

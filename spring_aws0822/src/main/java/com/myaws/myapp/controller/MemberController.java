@@ -139,6 +139,17 @@ public class MemberController {
 		return "WEB-INF/member/memberList";
 	}
 	
+	@RequestMapping(value = "memberLogout.aws", method = RequestMethod.GET)
+	public String memberLogout(HttpSession sesssion) {		
+		// logger.info("memberLogout µé¾î¿È");
+		
+		sesssion.removeAttribute("midx");
+		sesssion.removeAttribute("memberName");
+		sesssion.removeAttribute("memberId");
+		sesssion.invalidate();
+		
+		return "redirect:/";
+	}
 	
 
 }
