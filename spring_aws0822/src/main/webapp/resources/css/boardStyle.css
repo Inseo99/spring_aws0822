@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@charset "UTF-8";
 
 * { line-height: 1.5; font-size: 12px; margin: 0; padding: 0; }
 body { width: 800px; margin: 0 auto; }
@@ -12,7 +13,7 @@ img { vertical-align: middle; }
 
 
 /* header */
-header { border-bottom: 2px solid orange; }
+header { border-bottom: 2px solid skyblue; }
 header .mainTitle { font-size: 15px; padding: 10px 50px 5px; }
 header .search { text-align: right; margin-bottom: 10px; }
 

@@ -22,6 +22,7 @@
 <a href="<%=request.getContextPath()%>/member/memberJoin.aws">회원가입 페이지</a><br>
 <a href="<%=request.getContextPath()%>/member/memberLogin.aws">회원로그인 페이지</a><br>
 <a href="<%=request.getContextPath()%>/member/memberList.aws">회원목록 페이지</a><br>
+<a href="<%=request.getContextPath()%>/board/boardList.aws">게시판 페이지</a><br>
 
 </body>
 </html>

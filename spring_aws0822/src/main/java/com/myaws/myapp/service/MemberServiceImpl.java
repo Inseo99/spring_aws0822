@@ -35,7 +35,6 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberVo memberLoginCheck(String memberId) {
 		MemberVo mv = mm.memberLoginCheck(memberId);
-		System.out.println("mv:" + mv);
 		return mv;
 	}
 
