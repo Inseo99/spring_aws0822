@@ -2,6 +2,8 @@ package com.myaws.myapp.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +77,8 @@ public class MemberController {
 	public String memberLoginAction(
 			@RequestParam("memberid") String memberid, 
 			@RequestParam("memberpwd") String memberpwd,
-			RedirectAttributes rttr
+			RedirectAttributes rttr,
+			HttpSession sesssion
 			) {
 				
 		MemberVo mv = memberService.memberLoginCheck(memberid);
@@ -90,29 +93,23 @@ public class MemberController {
 				rttr.addAttribute("memberId", mv.getMemberid());
 				rttr.addAttribute("memberName", mv.getMembername());
 				
-				path = "redirect:/";
+				// logger.info("saveUrl : " + sesssion.getAttribute("saveUrl"));
+				
+				if (sesssion.getAttribute("saveUrl") != null) {
+					path = "redirect:" + sesssion.getAttribute("saveUrl").toString();
+				} else {
+					path = "redirect:/";					
+				}
+				
 			} else {
-				// System.out.println("비밀번호 불일치");
-//				rttr.addAttribute("midx", "");
-//				rttr.addAttribute("memberId", "");
-//				rttr.addAttribute("memberName", "");
 				rttr.addFlashAttribute("msg", "아이디/비밀번호를 확인해주세요.");
 				
 				path = "redirect:/member/memberLogin.aws";
 			}
 		} else {
-//			rttr.addAttribute("midx", "");
-//			rttr.addAttribute("memberId", "");
-//			rttr.addAttribute("memberName", "");
 			rttr.addFlashAttribute("msg", "해당하는 아이디가 없습니다.");
 			path = "redirect:/member/memberLogin.aws";
-		}
-		
-		
-		// 회원정보를 세션에 담는다.
-		// 로그인이 안되면 다시 로그인 페이지로 ㄱ가고
-		// 로그인이 되면 메인으로 가라
-		
+		}		
 		return path;
 	}
 	
@@ -126,7 +123,7 @@ public class MemberController {
 		// out.println("{\"cnt\" :\""+ cnt +"\"}");
 		
 		JSONObject obj = new JSONObject();
-		obj.put("cnt", cnt);
+			obj.put("cnt", cnt);
 		
 		return obj;
 	}
