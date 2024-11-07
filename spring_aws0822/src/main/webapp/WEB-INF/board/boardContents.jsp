@@ -29,12 +29,11 @@ function commentDel(cidx) {
 	if (ans == true) {
 		
 		$.ajax({
-			type : "get",	// 전송방식
+			type : "get",	
 			url : "<%=request.getContextPath()%>/comment/commentDeleteAction.aws?cidx=" + cidx,
-			dataType : "json",		// json 타입은 문서에서 {"키값" : "vlaue값" , "키값" : "value값2"}
-			success : function(result) {	// 결과가 넘어와서 성공했을 때 받는 영역
-				// alert("전송성공");				
-				// alert(result.value);
+			dataType : "json",		
+			success : function(result) {	
+				
 				$.boardCommentList();
 			},
 			error : function() {		// 결과가 실패했을 때 받는 영역
@@ -50,17 +49,17 @@ function commentDel(cidx) {
 $.boardCommentList = function(){
 	
 	$.ajax({
-		type : "get",	// 전송방식
+		type : "get",	
 		url : "<%=request.getContextPath()%>/comment/commentList.aws?bidx=<%=bv.getBidx()%>",
-		dataType : "json",		// json 타입은 문서에서 {"키값" : "vlaue값" , "키값" : "value값2"}
-		success : function(result) {	// 결과가 넘어와서 성공했을 때 받는 영역
+		dataType : "json",		
+		success : function(result) {	
 			// alert("전송성공");	
 		var strTr = "";
 		
 		$(result).each(function(){
 			
 			var btnn = "";
-			if (this.midx == "<%=midx%>"){	// 현재로그인 사람과 댓글쓴 사람의 번호가 같을때만 나타남				
+			if (this.midx == "<%=midx %>"){		
 				if (this.delyn == 'N') {
 					btnn = "<button class = 'btn' type = 'button' onclick = 'commentDel(" + this.cidx + ")'>삭제</button>";
 					
@@ -89,7 +88,7 @@ $.boardCommentList = function(){
 		$("#commentListView").html(str);
 		
 		},
-		error : function() {		// 결과가 실패했을 때 받는 영역
+		error : function() {		
 			// alert("전송실패");
 		}			
 	});		
@@ -104,11 +103,10 @@ $(document).ready(function() {	// cdn주소 필요
 		// alert("추천버튼 클릭")
 		
 		$.ajax({
-			type : "get",	// 전송방식
+			type : "get",
 			url : "<%=request.getContextPath()%>/board/boardRecom.aws?bidx=<%=bv.getBidx()%>",
-			dataType : "json",		// json 타입은 문서에서 {"키값" : "vlaue값" , "키값" : "value값2"}
-			success : function(result) {	// 결과가 넘어와서 성공했을 때 받는 영역
-				// alert("전송성공");				
+			dataType : "json",	
+			success : function(result) {	
 				var str = "추천("+result.recom+")";
 		
 				$("#btn").val(str);
@@ -143,17 +141,15 @@ $(document).ready(function() {	// cdn주소 필요
 		}
 		
 		$.ajax({
-			type : "post",	// 전송방식
+			type : "post",
 			url : "<%=request.getContextPath()%>/comment/commentWriteAction.aws",
 			data : {"cwriter" : cwriter, 
 					"ccontents" : ccontents, 
 					"bidx" : "<%=bv.getBidx()%>", 
 					"midx" : "<%=midx%>"
 					},
-			dataType : "json",		// json 타입은 문서에서 {"키값" : "vlaue값" , "키값" : "value값2"}
-			success : function(result) {	// 결과가 넘어와서 성공했을 때 받는 영역
-				// alert("전송성공");				
-				// var str = "("+result.value+")";
+			dataType : "json",		
+			success : function(result) {
 		 		alert("댓글이 등록되었습니다.");
 		 		if(result.value == 1) {
 		 			$("#contents").val("");
@@ -161,7 +157,7 @@ $(document).ready(function() {	// cdn주소 필요
 		 		
 		 		$.boardCommentList();
 			},
-			error : function() {		// 결과가 실패했을 때 받는 영역
+			error : function() {
 				alert("전송실패");
 			}			
 		});		

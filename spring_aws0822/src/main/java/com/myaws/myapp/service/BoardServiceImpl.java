@@ -52,4 +52,10 @@ public class BoardServiceImpl implements BoardService{
 		return value + value2;
 	}
 
+	@Override
+	public BoardVo boardViewCntUpdate(int bidx) {
+		BoardVo bv = bm.boardViewCntUpdate(bidx);
+		return bv;
+	}
+
 }

@@ -107,6 +107,20 @@ public class BoardController {
 		return path;
 	}
 	
+	@RequestMapping(value = "boardContents.aws", method = RequestMethod.GET)
+	public String boardContents(
+			@RequestParam("bidx") int bidx,
+			Model model) {	
+		
+		BoardVo bv = boardService.boardViewCntUpdate(bidx);
+		
+		model.addAttribute("bv", bv);
+		
+		path = "WEB-INF/board/boardContents";
+
+		return path;
+	}
+	
 	public String getUserIp(HttpServletRequest request) throws Exception {
 		
         String ip = null;
