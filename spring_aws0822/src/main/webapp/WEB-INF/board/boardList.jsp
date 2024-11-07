@@ -6,6 +6,7 @@
 <%
 ArrayList<BoardVo> blist = (ArrayList<BoardVo>)request.getAttribute("blist");
 
+// 페이징과 검색
 PageMaker pm = (PageMaker)request.getAttribute("pm");
 
 int totalCount = pm.getTotalCount();
@@ -15,6 +16,15 @@ String searchType = pm.getScri().getSearchType();
 
 String param = "keyword=" + keyword + "%searcType=" + searchType + "";
 
+// 메세지출력
+String msg = "";  
+if (request.getAttribute("msg") != null) {
+	msg = (String)request.getAttribute("msg");
+}
+
+if (msg != "") {
+	out.println("<script>alert('" + msg + "');</script>");	
+}
 %>
 <!DOCTYPE html>
 <html>

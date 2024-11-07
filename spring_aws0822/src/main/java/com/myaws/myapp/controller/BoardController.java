@@ -96,7 +96,7 @@ public class BoardController {
 		
 		path = "redirect:/board/boardList.aws";	
 		
-		if (value == 2) {
+		if (value == 2) {	// 넘어가는 화면에다가 msg가 뜨게 넘어가는 화면에다가 msg코드를 작성해야한다.
 			rttr.addFlashAttribute("msg", "글이 등록되었습니다..");
 			path = "redirect:/board/boardList.aws";			
 		} else {			
