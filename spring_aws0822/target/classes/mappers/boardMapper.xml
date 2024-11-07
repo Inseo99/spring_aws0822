@@ -36,8 +36,13 @@
 	UPDATE board SET originbidx = #{bidx} WHERE bidx = #{bidx}
 </update>
 
-<select id="boardViewCntUpdate" parameterType="int" resultType="bv">
+<select id="boardSelectOne" parameterType="int" resultType="bv">
 SELECT * FROM board WHERE delyn = 'N' AND bidx = #{bidx}
 </select>
+
+<update id="boardViewCntUpdate" parameterType="int">
+	UPDATE board SET viewcnt = viewcnt+1 WHERE bidx = #{bidx}
+</update>
+
 
 </mapper> 

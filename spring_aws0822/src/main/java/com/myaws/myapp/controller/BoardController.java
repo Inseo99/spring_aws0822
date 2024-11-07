@@ -112,7 +112,8 @@ public class BoardController {
 			@RequestParam("bidx") int bidx,
 			Model model) {	
 		
-		BoardVo bv = boardService.boardViewCntUpdate(bidx);
+		boardService.boardViewCntUpdate(bidx);
+		BoardVo bv = boardService.boardSelectOne(bidx);
 		
 		model.addAttribute("bv", bv);
 		

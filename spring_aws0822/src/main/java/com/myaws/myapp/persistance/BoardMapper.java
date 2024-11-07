@@ -16,5 +16,7 @@ public interface BoardMapper {
 	
 	public int boardOriginbidxUpdate(int bidx);
 
-	public BoardVo boardViewCntUpdate(int bidx);
+	public BoardVo boardSelectOne(int bidx);
+
+	public int boardViewCntUpdate(int bidx);
 }

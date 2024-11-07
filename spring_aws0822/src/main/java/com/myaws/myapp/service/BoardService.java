@@ -13,6 +13,8 @@ public interface BoardService {
 
 	public int boardInsert(BoardVo bv);
 
-	public BoardVo boardViewCntUpdate(int bidx);
+	public BoardVo boardSelectOne(int bidx);
+
+	public int boardViewCntUpdate(int bidx);
 
 }
