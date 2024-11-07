@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.myaws.myapp.domain.BoardVo;
 import com.myaws.myapp.domain.SearchCriteria;
@@ -39,6 +40,16 @@ public class BoardServiceImpl implements BoardService{
 	public int boardTatalCount(SearchCriteria scri) {						
 		int cnt = bm.boardTatalCount(scri);		
 		return cnt;
+	}
+
+	@Override
+//	@Transactional
+	public int boardInsert(BoardVo bv) {
+		int value = bm.boardInsert(bv);
+		int maxBidx = bv.getBidx();		
+		int value2 = bm.boardOriginbidxUpdate(maxBidx);
+
+		return value + value2;
 	}
 
 }

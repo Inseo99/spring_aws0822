@@ -11,4 +11,8 @@ public interface BoardMapper {
 	public ArrayList<BoardVo> boardSelectAll(HashMap<String, Object> hm);
 
 	public int boardTatalCount(SearchCriteria scri);
+
+	public int boardInsert(BoardVo bv);
+	
+	public int boardOriginbidxUpdate(int bidx);
 }

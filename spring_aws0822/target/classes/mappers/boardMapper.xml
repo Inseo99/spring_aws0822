@@ -5,23 +5,35 @@
 <mapper namespace="com.myaws.myapp.persistance.BoardMapper">
 
 <sql id="search">
-<if test="searchType != null and searchType.equals('writer')">
-	 AND writer LIKE CONCAT('%', #{keyword}, '%')
-</if>
-<if test="searchType != null and searchType.equals('subject')">
-	 AND subject LIKE CONCAT('%', #{keyword}, '%')
-</if>
+	<if test="searchType != null and searchType.equals('writer')">
+		 AND writer LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+	<if test="searchType != null and searchType.equals('subject')">
+		 AND subject LIKE CONCAT('%', #{keyword}, '%')
+	</if>
 </sql>
 
 <select id="boardSelectAll" parameterType="HashMap" resultType="bv">
-SELECT * FROM board WHERE delyn = 'N' 
-<include refid="search"/>
-ORDER BY originbidx DESC, depth ASC LIMIT #{startPageNum}, #{perPageNum}
+	SELECT * FROM board WHERE delyn = 'N' 
+	<include refid="search"/>
+	ORDER BY originbidx DESC, depth ASC LIMIT #{startPageNum}, #{perPageNum}
 </select>
 
 <select id="boardTatalCount" parameterType="scri" resultType="int">
-SELECT COUNT(*) AS cnt FROM board WHERE delyn = 'N'
-<include refid="search"/>
+	SELECT COUNT(*) AS cnt FROM board WHERE delyn = 'N'
+	<include refid="search"/>
 </select>
+
+<insert id="boardInsert" parameterType="bv">
+	<selectKey keyProperty="bidx" resultType="int" order = "AFTER">
+	SELECT MAX(bidx) AS bidx FROM board
+	</selectKey>
+	INSERT INTO board(originbidx, depth, level_, subject, contents, writer, password, midx, filename, ip) 
+	VALUE(null, 0, 0, #{subject}, #{contents}, #{writer}, #{password}, #{midx}, #{uploadedFileName}, #{ip})
+</insert>
+
+<update id="boardOriginbidxUpdate" parameterType="int">
+	UPDATE board SET originbidx = #{bidx} WHERE bidx = #{bidx}
+</update>
 
 </mapper> 
