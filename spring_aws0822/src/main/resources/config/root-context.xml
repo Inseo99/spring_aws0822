@@ -24,11 +24,14 @@
 	<!-- <bean id = "tt" class = "com.myaws.myapp.service.Test"></bean> -->
 	
 	<!-- Spring과 MyBatis를 연동하기 위한 설정으로, 데이터베이스 연결과 MyBatis의 SQL 세션을 관리하는 Bean들을 정의한 XML -->
+	
+	<context:property-placeholder location="classpath:/properties/db.properties"/>
+	
 	<bean id="db" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/aws0822?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"/>
-		<property name="username" value="root"/>
-		<property name="password" value="1234"/>
+		<property name="driverClassName" value="${db.driver}"/>
+		<property name="url" value="${db.url}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
 	</bean>
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
@@ -41,7 +44,11 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
 	</bean>
 	
-	<!-- <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/> -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<constructor-arg ref="db"/>
+	</bean>
+	
+	<tx:annotation-driven />
 	<!-- 클래스 생성자와 같다 -->
 	<!-- public class SqlSessionTemplate {
 		public sqlSessionFactory() {

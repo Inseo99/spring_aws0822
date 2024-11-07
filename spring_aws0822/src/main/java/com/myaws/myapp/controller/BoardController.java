@@ -80,7 +80,7 @@ public class BoardController {
 		MultipartFile file = filename;
 		String uploadedFileName = "";
 		
-		if (! file.getOriginalFilename().equals("")) {
+		if (! file.getOriginalFilename().equals("")) {	// 파일업로드
 			uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 			
 		}
