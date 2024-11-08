@@ -44,5 +44,11 @@ SELECT * FROM board WHERE delyn = 'N' AND bidx = #{bidx}
 	UPDATE board SET viewcnt = viewcnt+1 WHERE bidx = #{bidx}
 </update>
 
+<update id="boardRecomUpdate" parameterType="bv">
+	<selectKey keyProperty="recom" resultType="int" order = "AFTER">
+	SELECT recom FROM board WHERE bidx = #{bidx}
+	</selectKey>
+	UPDATE board SET recom = recom+1 WHERE bidx = #{bidx}
+</update>
 
 </mapper> 

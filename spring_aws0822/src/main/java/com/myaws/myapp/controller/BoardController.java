@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -183,6 +185,18 @@ public class BoardController {
 		}
 		
 		return entity;
+	} 
+	
+	@ResponseBody
+	@RequestMapping(value = "boardRecom.aws", method = RequestMethod.GET)
+	public JSONObject boardRecom(@RequestParam("bidx") int bidx) {	
+		
+		int value = boardService.boardRecomUpdate(bidx);
+		
+		JSONObject js = new JSONObject();
+		js.put("recom", value);
+		
+		return js;
 	}
 	
 	public String getUserIp(HttpServletRequest request) throws Exception {

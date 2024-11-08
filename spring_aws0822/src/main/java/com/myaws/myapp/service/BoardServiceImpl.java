@@ -64,4 +64,16 @@ public class BoardServiceImpl implements BoardService{
 		return value;
 	}
 
+	@Override
+	public int boardRecomUpdate(int bidx) {
+		BoardVo bv = new BoardVo();
+		
+		bv.setBidx(bidx);
+		bm.boardRecomUpdate(bv);
+		
+		int recom = bv.getRecom();
+		
+		return recom;
+	}
+
 }

@@ -138,7 +138,7 @@ $(document).ready(function() {	// cdn주소 필요
 		return;
 	});
 		
-	$.boardCommentList();
+	// $.boardCommentList();
 	
 	$("#btn").click(function() {
 		// alert("추천버튼 클릭")

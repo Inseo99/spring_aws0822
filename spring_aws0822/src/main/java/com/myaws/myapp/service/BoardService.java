@@ -17,4 +17,6 @@ public interface BoardService {
 
 	public int boardViewCntUpdate(int bidx);
 
+	public int boardRecomUpdate(int bidx);
+
 }
