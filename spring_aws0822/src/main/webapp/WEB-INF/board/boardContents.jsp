@@ -10,7 +10,7 @@ if(session.getAttribute("memberName") != null) {
 	memberName = (String)session.getAttribute("memberName");
 }
 if(session.getAttribute("midx") != null) {
-	midx = (int)session.getAttribute("midx");
+	midx = Integer.parseInt(session.getAttribute("midx").toString());
 }
 %>
 <!DOCTYPE html>
@@ -22,6 +22,42 @@ if(session.getAttribute("midx") != null) {
 <!-- jquery CDN주소 -->
 <link href="/resources/css/boardStyle.css" rel="stylesheet">
 <script> 
+
+function checkImageType(fileName) {
+	
+	var pattern = /jpg$|gif$|png$|jpeg$/i;	// 자바스크립트 정규표현식
+	
+	return fileName.match(pattern);
+}
+
+function getOriginalFileName(fileName) {	// 원본 파일이름 추출
+	
+	var idx = fileName.lastIndexOf("_") + 1;	
+	
+	return fileName.substr(idx);
+}
+
+function getImageLink(fileName) {	// 이미지 링크 가져오기
+	
+	var front = fileName.substr(0, 12);
+	var end = fileName.substr(14);
+	
+	return front + end;
+}
+
+// download();
+
+function download() {
+	// 주소사이에 s-는 빼고
+	// alert("<%=bv.getFilename()%>");
+	var downloadImage = getImageLink("<%=bv.getFilename()%>");
+	// alert(downloadImage);
+	var downLink = "<%=request.getContextPath()%>/board/displayFile.aws?fileName="+ downloadImage +"&down=1";	
+	// alert(downLink);
+	
+	return downLink;
+}
+
 function commentDel(cidx) {
 	
 	let ans = confirm("삭제하시겠습니까?");
@@ -95,8 +131,13 @@ $.boardCommentList = function(){
 	
 }
 
-$(document).ready(function() {	// cdn주소 필요
-	
+$(document).ready(function() {	// cdn주소 필요	
+
+	$("#dUrl").click(function() {
+		$("#dUrl").attr("href", download());
+		return;
+	});
+		
 	$.boardCommentList();
 	
 	$("#btn").click(function() {
@@ -184,15 +225,15 @@ $(document).ready(function() {	// cdn주소 필요
 		<div class="content">
 			<%=bv.getContents() %>
 		</div>
-		<% if (bv.getUploadedFileName() == null || bv.getUploadedFileName().equals("")) {}else{ %>
-		<img src="/images/<%=bv.getUploadedFileName() %>">
+		<% if (bv.getFilename() == null || bv.getFilename().equals("")) {}else{ %>
+		<img src="<%=request.getContextPath()%>/board/displayFile.aws?fileName=<%=bv.getFilename()%>">
 		<%} %>
 		
 	</article>
 
 	<div class="btnBox">
 		<a class="btn aBtn"
-			href="<%=request.getContextPath()%>/board/boardDownload.aws?filename=<%=bv.getUploadedFileName()%>">다운</a>
+			id="dUrl" href="#">다운</a>
 		<a class="btn aBtn"
 			href="<%=request.getContextPath()%>/board/boardModify.aws?bidx=<%=bv.getBidx()%>">수정</a>
 		<a class="btn aBtn" 

@@ -1,6 +1,8 @@
 package com.myaws.myapp.controller;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
@@ -8,9 +10,14 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +30,7 @@ import com.myaws.myapp.domain.BoardVo;
 import com.myaws.myapp.domain.PageMaker;
 import com.myaws.myapp.domain.SearchCriteria;
 import com.myaws.myapp.service.BoardService;
+import com.myaws.myapp.util.MediaUtils;
 import com.myaws.myapp.util.UploadFileUtiles;
 
 @Controller
@@ -71,13 +79,13 @@ public class BoardController {
 	@RequestMapping(value = "boardWriteAction.aws", method = RequestMethod.POST)
 	public String boardWriteAction(
 			BoardVo bv,
-			@RequestParam("filename") MultipartFile filename,
+			@RequestParam("attachfile") MultipartFile attachfile,
 			RedirectAttributes rttr,
 			HttpServletRequest request
 			) throws IOException, Exception {		
 		// logger.info("boardWriteAction 들어옴");
 		
-		MultipartFile file = filename;
+		MultipartFile file = attachfile;
 		String uploadedFileName = "";
 		
 		if (! file.getOriginalFilename().equals("")) {	// 파일업로드
@@ -120,6 +128,61 @@ public class BoardController {
 		path = "WEB-INF/board/boardContents";
 
 		return path;
+	}
+	
+	@RequestMapping(value = "/displayFile.aws", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> displayFile(
+			@RequestParam("fileName") String fileName,
+			@RequestParam(value = "down", defaultValue = "0") int down
+			) {
+		
+		ResponseEntity<byte[]> entity = null;	// byte타입 객체를 담는거
+		InputStream in = null;	// 데이터를 처음에 읽어주는 역할
+		
+		try{
+			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);	// 확장자이름 추출
+			MediaType mType = MediaUtils.getMediaType(formatName);	// 확장자 타입 추출
+			
+			HttpHeaders headers = new HttpHeaders();		
+			 
+			in = new FileInputStream(uploadPath+fileName);	// 파일경로 읽어드리면서 객체 생성
+			
+			if(mType != null){ // 지정된 타입을 다운 받을것인지 표시할것인지 선택
+				
+				if (down==1) {
+					fileName = fileName.substring(fileName.indexOf("_")+1);
+					headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+					headers.add("Content-Disposition", "attachment; filename=\""+
+							new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");	
+					
+				}else {
+					headers.setContentType(mType);	// 헤더에 이미지를 담고 화면에 띄우기
+				}
+				
+			}else{	// 지정된 타입이 아닐때 다운
+				
+				fileName = fileName.substring(fileName.indexOf("_")+1);
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				headers.add("Content-Disposition", "attachment; filename=\""+
+						new String(fileName.getBytes("UTF-8"),"ISO-8859-1")+"\"");				
+			}
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),
+					headers,
+					HttpStatus.CREATED);	// 상태들을 담기
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);	// 오류라고 리턴
+		}finally{
+			try {
+				in.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return entity;
 	}
 	
 	public String getUserIp(HttpServletRequest request) throws Exception {
