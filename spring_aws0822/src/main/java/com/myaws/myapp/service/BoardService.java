@@ -19,4 +19,6 @@ public interface BoardService {
 
 	public int boardRecomUpdate(int bidx);
 
+	public int boardDelete(int bidx, int midx, String password);
+
 }

@@ -132,6 +132,8 @@ $.boardCommentList = function(){
 }
 
 $(document).ready(function() {	// cdn주소 필요	
+	
+	$("#dUrl").html(getOriginalFileName("<%=bv.getFilename()%>"))
 
 	$("#dUrl").click(function() {
 		$("#dUrl").attr("href", download());
@@ -227,13 +229,17 @@ $(document).ready(function() {	// cdn주소 필요
 		</div>
 		<% if (bv.getFilename() == null || bv.getFilename().equals("")) {}else{ %>
 		<img src="<%=request.getContextPath()%>/board/displayFile.aws?fileName=<%=bv.getFilename()%>">
+		<p>
+		<a id="dUrl"  href="#"  class="fileDown">	
+		첨부파일 다운로드</a>
+		</p>
 		<%} %>
 		
 	</article>
 
 	<div class="btnBox">
-		<a class="btn aBtn"
-			id="dUrl" href="#">다운</a>
+		<!-- <a class="btn aBtn"
+			id="dUrl" href="#">다운</a> -->
 		<a class="btn aBtn"
 			href="<%=request.getContextPath()%>/board/boardModify.aws?bidx=<%=bv.getBidx()%>">수정</a>
 		<a class="btn aBtn" 

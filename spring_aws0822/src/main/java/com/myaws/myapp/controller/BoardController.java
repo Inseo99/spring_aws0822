@@ -199,6 +199,41 @@ public class BoardController {
 		return js;
 	}
 	
+	@RequestMapping(value = "boardDelete.aws", method = RequestMethod.GET)
+	public String boardDelete(@RequestParam("bidx") int bidx, Model model) {
+		
+		model.addAttribute("bidx", bidx);
+		
+		path = "WEB-INF/board/boardDelete";
+		
+		return path;
+	}
+	
+	@RequestMapping(value = "boardDeleteAction.aws", method = RequestMethod.POST)
+	public String boardDeleteAction(
+			@RequestParam("bidx") int bidx,
+			@RequestParam("password") String password,
+			RedirectAttributes rttr,
+			HttpSession session
+			) {		
+		// logger.info("boardDeleteAction 들어옴");
+		
+		int midx = Integer.parseInt(session.getAttribute("midx").toString());
+		
+		int value = boardService.boardDelete(bidx, midx, password);
+		
+		if (value == 1) {
+			rttr.addFlashAttribute("msg", "글이 삭제되었습니다.");
+			path = "redirect:/board/boardList.aws";			
+		} else {			
+			rttr.addFlashAttribute("msg", "삭제가 실패하였습니다.");
+			path = "redirect:/board/boardDelete.aws";
+		}
+		
+		return path;
+	}
+	
+	
 	public String getUserIp(HttpServletRequest request) throws Exception {
 		
         String ip = null;

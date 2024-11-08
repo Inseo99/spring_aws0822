@@ -76,4 +76,16 @@ public class BoardServiceImpl implements BoardService{
 		return recom;
 	}
 
+	@Override
+	public int boardDelete(int bidx, int midx, String password) {
+		
+		HashMap<String, Object> hm = new HashMap<String, Object>(); // 알아보기
+		hm.put("bidx", bidx);
+		hm.put("midx", midx);
+		hm.put("password", password);
+		
+		int cnt = bm.boardDelete(hm);
+		return cnt;
+	}
+
 }

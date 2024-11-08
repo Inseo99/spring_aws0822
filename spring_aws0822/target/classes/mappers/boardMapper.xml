@@ -51,4 +51,9 @@ SELECT * FROM board WHERE delyn = 'N' AND bidx = #{bidx}
 	UPDATE board SET recom = recom+1 WHERE bidx = #{bidx}
 </update>
 
+<update id="boardDelete" parameterType="HashMap">
+	UPDATE board SET delyn = 'Y', modifyday = NOW() WHERE bidx = #{bidx} AND password = #{password} AND midx = #{midx}
+</update>
+
+
 </mapper> 
