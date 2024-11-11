@@ -37,7 +37,7 @@
 </update>
 
 <select id="boardSelectOne" parameterType="int" resultType="bv">
-SELECT * FROM board WHERE delyn = 'N' AND bidx = #{bidx}
+	SELECT * FROM board WHERE delyn = 'N' AND bidx = #{bidx}
 </select>
 
 <update id="boardViewCntUpdate" parameterType="int">
@@ -52,8 +52,14 @@ SELECT * FROM board WHERE delyn = 'N' AND bidx = #{bidx}
 </update>
 
 <update id="boardDelete" parameterType="HashMap">
-	UPDATE board SET delyn = 'Y', modifyday = NOW() WHERE bidx = #{bidx} AND password = #{password} AND midx = #{midx}
+	UPDATE board SET delyn = 'Y', modifyday = NOW() 
+	WHERE bidx = #{bidx} AND password = #{password} AND midx = #{midx}
 </update>
 
+<update id="boardUpdate" parameterType="bv">
+	UPDATE board 
+	SET subject = #{subject}, contents = #{contents}, writer = #{writer}, filename = #{uploadedFileName}, modifyday = NOW(), ip = #{ip} 
+	WHERE bidx = #{bidx} AND password = #{password} AND midx = #{midx}
+</update>
 
 </mapper> 

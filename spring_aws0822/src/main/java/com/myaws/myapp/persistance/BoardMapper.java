@@ -23,4 +23,6 @@ public interface BoardMapper {
 	public int boardRecomUpdate(BoardVo bv);
 
 	public int boardDelete(HashMap<String, Object> hm);
+
+	public int boardUpdate(BoardVo bv);
 }

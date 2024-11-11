@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% String bidx = request.getAttribute("bidx").toString(); %>
+<%
+// 메세지출력
+String msg = "";  
+if (request.getAttribute("msg") != null) {
+	msg = (String)request.getAttribute("msg");
+}
+
+if (msg != "") {
+	out.println("<script>alert('" + msg + "');</script>");	
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>

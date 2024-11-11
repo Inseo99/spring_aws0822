@@ -107,7 +107,7 @@ public class BoardController {
 		path = "redirect:/board/boardList.aws";	
 		
 		if (value == 2) {	// 넘어가는 화면에다가 msg가 뜨게 넘어가는 화면에다가 msg코드를 작성해야한다.
-			rttr.addFlashAttribute("msg", "글이 등록되었습니다..");
+			rttr.addFlashAttribute("msg", "글이 등록되었습니다.");
 			path = "redirect:/board/boardList.aws";			
 		} else {			
 			rttr.addFlashAttribute("msg", "입력이 잘못되었습니다.");
@@ -227,12 +227,59 @@ public class BoardController {
 			path = "redirect:/board/boardList.aws";			
 		} else {			
 			rttr.addFlashAttribute("msg", "삭제가 실패하였습니다.");
-			path = "redirect:/board/boardDelete.aws";
+			path = "redirect:/board/boardDelete.aws?bidx=" + bidx;
 		}
 		
 		return path;
 	}
 	
+	@RequestMapping(value = "boardModify.aws", method = RequestMethod.GET)
+	public String boardModify(@RequestParam("bidx") int bidx, Model model) {
+
+		boardService.boardViewCntUpdate(bidx);
+		BoardVo bv = boardService.boardSelectOne(bidx);
+		
+		model.addAttribute("bv", bv);		
+		
+		path = "WEB-INF/board/boardModify";
+		
+		return path;
+	}
+	
+	@RequestMapping(value = "boardModifyAction.aws", method = RequestMethod.POST)
+	public String boardModifyAction(
+			BoardVo bv,
+			@RequestParam("attachfile") MultipartFile attachfile,
+			RedirectAttributes rttr,
+			HttpServletRequest request,
+			HttpSession session
+			) throws Exception {		
+		// logger.info("boardModifyAction 들어옴");
+		MultipartFile file = attachfile;
+		String uploadedFileName = "";
+		
+		if (! file.getOriginalFilename().equals("")) {	// 파일업로드
+			uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());			
+		}
+		int midx = Integer.parseInt(session.getAttribute("midx").toString());
+		String ip = getUserIp(request);
+
+		bv.setMidx(midx);
+		bv.setUploadedFileName(uploadedFileName);
+		bv.setIp(ip);
+		
+		int value = boardService.boardUpdate(bv);
+		
+		if (value == 1) {
+			rttr.addFlashAttribute("msg", "글이 수정되었습니다.");
+			path = "redirect:/board/boardList.aws";			
+		} else {			
+			rttr.addFlashAttribute("msg", "수정이 안되었습니다.");
+			path = "redirect:/board/boardModify.aws?bidx=" + bv.getBidx(); 
+		}
+		
+		return path;
+	}
 	
 	public String getUserIp(HttpServletRequest request) throws Exception {
 		

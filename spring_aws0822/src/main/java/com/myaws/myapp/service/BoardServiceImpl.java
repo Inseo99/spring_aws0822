@@ -88,4 +88,10 @@ public class BoardServiceImpl implements BoardService{
 		return cnt;
 	}
 
+	@Override
+	public int boardUpdate(BoardVo bv) {
+		int value = bm.boardUpdate(bv);
+		return value;
+	}
+
 }

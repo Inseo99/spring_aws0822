@@ -21,4 +21,6 @@ public interface BoardService {
 
 	public int boardDelete(int bidx, int midx, String password);
 
+	public int boardUpdate(BoardVo bv);
+
 }
