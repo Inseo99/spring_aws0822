@@ -25,4 +25,8 @@ public interface BoardMapper {
 	public int boardDelete(HashMap<String, Object> hm);
 
 	public int boardUpdate(BoardVo bv);
+
+	public int boardReplyUpdate(BoardVo bv);
+
+	public int boardReplyInsert(BoardVo bv);
 }

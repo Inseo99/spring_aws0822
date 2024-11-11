@@ -23,4 +23,6 @@ public interface BoardService {
 
 	public int boardUpdate(BoardVo bv);
 
+	public int boardReply(BoardVo bv);
+
 }

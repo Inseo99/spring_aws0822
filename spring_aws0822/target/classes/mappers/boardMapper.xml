@@ -62,4 +62,16 @@
 	WHERE bidx = #{bidx} AND password = #{password} AND midx = #{midx}
 </update>
 
+<update id="boardReplyUpdate" parameterType="bv">
+	UPDATE board SET depth = depth + 1 WHERE originbidx = #{originbidx} AND depth > #{depth}
+</update>
+
+<insert id="boardReplyInsert" parameterType="bv">
+	<selectKey keyProperty="bidx" resultType="int" order = "AFTER">
+	SELECT MAX(bidx) AS bidx FROM board
+	</selectKey>
+	INSERT INTO board(originbidx, depth, level_, subject, contents, writer, password, midx, filename, ip) 
+	VALUE(#{originbidx}, #{depth}+1, #{level_}+1, #{subject}, #{contents}, #{writer}, #{password}, #{midx}, #{uploadedFileName}, #{ip})
+</insert>
+
 </mapper> 

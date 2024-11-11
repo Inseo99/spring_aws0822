@@ -236,7 +236,6 @@ public class BoardController {
 	@RequestMapping(value = "boardModify.aws", method = RequestMethod.GET)
 	public String boardModify(@RequestParam("bidx") int bidx, Model model) {
 
-		boardService.boardViewCntUpdate(bidx);
 		BoardVo bv = boardService.boardSelectOne(bidx);
 		
 		model.addAttribute("bv", bv);		
@@ -276,6 +275,53 @@ public class BoardController {
 		} else {			
 			rttr.addFlashAttribute("msg", "수정이 안되었습니다.");
 			path = "redirect:/board/boardModify.aws?bidx=" + bv.getBidx(); 
+		}
+		
+		return path;
+	}
+	
+	@RequestMapping(value = "boardReply.aws", method = RequestMethod.GET)
+	public String boardReply(@RequestParam("bidx") int bidx, Model model) {
+
+		BoardVo bv = boardService.boardSelectOne(bidx);
+		
+		model.addAttribute("bv", bv);		
+		
+		path = "WEB-INF/board/boardReply";
+		
+		return path;
+	}
+	
+	@RequestMapping(value = "boardReplyAction.aws", method = RequestMethod.POST)
+	public String boardReplyAction(
+			BoardVo bv,
+			@RequestParam("attachfile") MultipartFile attachfile,
+			RedirectAttributes rttr,
+			HttpServletRequest request
+			) throws Exception {		
+		 logger.info("boardReplyAction 들어옴");
+		MultipartFile file = attachfile;
+		String uploadedFileName = "";
+		
+		if (!file.getOriginalFilename().equals("")) {	// 파일업로드
+			uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());			
+		}
+		int midx = Integer.parseInt(request.getSession().getAttribute("midx").toString());
+		String ip = getUserIp(request);
+
+		bv.setMidx(midx);
+		bv.setUploadedFileName(uploadedFileName);
+		bv.setIp(ip);
+		
+		int maxBidx = 0;
+		maxBidx = boardService.boardReply(bv);
+		
+		if (maxBidx == 0) {
+			rttr.addFlashAttribute("msg", "답변이 등록되지 않았습니다.");
+			path = "redirect:/board/boardReply.aws?bidx=" + bv.getBidx(); 
+		} else {			
+			rttr.addFlashAttribute("msg", "글이 등록되었습니다.");
+			path = "redirect:/board/boardList.aws";			
 		}
 		
 		return path;
