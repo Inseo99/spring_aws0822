@@ -43,7 +43,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-//	@Transactional
+	@Transactional
 	public int boardInsert(BoardVo bv) {
 		int value = bm.boardInsert(bv);
 		int maxBidx = bv.getBidx();		

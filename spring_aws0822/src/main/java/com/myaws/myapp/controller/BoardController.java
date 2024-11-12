@@ -299,7 +299,7 @@ public class BoardController {
 			RedirectAttributes rttr,
 			HttpServletRequest request
 			) throws Exception {		
-		 logger.info("boardReplyAction 들어옴");
+		// logger.info("boardReplyAction 들어옴");
 		MultipartFile file = attachfile;
 		String uploadedFileName = "";
 		
@@ -322,7 +322,7 @@ public class BoardController {
 		} else {			
 			rttr.addFlashAttribute("msg", "글이 등록되었습니다.");
 			path = "redirect:/board/boardList.aws";			
-		}
+			}
 		
 		return path;
 	}
