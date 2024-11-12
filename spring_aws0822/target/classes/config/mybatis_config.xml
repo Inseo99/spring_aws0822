@@ -7,6 +7,7 @@
  <typeAlias alias="mv" type="com.myaws.myapp.domain.MemberVo"/> <!-- 이름지정 -->
  <typeAlias alias="bv" type="com.myaws.myapp.domain.BoardVo"/> <!-- 이름지정 -->
  <typeAlias alias="scri" type="com.myaws.myapp.domain.SearchCriteria"/> <!-- 이름지정 -->
+ <typeAlias alias="cv" type="com.myaws.myapp.domain.CommentVo"/> <!-- 이름지정 -->
 
 </typeAliases>
 </configuration>

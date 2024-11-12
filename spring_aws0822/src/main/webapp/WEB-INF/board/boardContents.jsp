@@ -86,13 +86,13 @@ $.boardCommentList = function(){
 	
 	$.ajax({
 		type : "get",	
-		url : "<%=request.getContextPath()%>/comment/commentList.aws?bidx=<%=bv.getBidx()%>",
+		url : "<%=request.getContextPath()%>/comment/<%=bv.getBidx()%>/commentList.aws",
 		dataType : "json",		
 		success : function(result) {	
 			// alert("전송성공");	
+			
 		var strTr = "";
-		
-		$(result).each(function(){
+		$(result.clist).each(function(){
 			
 			var btnn = "";
 			if (this.midx == "<%=midx %>"){		
@@ -140,7 +140,7 @@ $(document).ready(function() {	// cdn주소 필요
 		return;
 	});
 		
-	// $.boardCommentList();
+	$.boardCommentList();
 	
 	$("#btn").click(function() {
 		// alert("추천버튼 클릭")

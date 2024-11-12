@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component	// 이 클래스를 bean으로 등록하기 위한 부모클래스
 @Aspect
 //@Slf4j 롬복 라이브러리 추가할때 사용
 public class SampleAdvice {
