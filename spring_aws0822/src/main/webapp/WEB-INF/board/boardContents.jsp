@@ -84,44 +84,55 @@ function commentDel(cidx) {
 //jquery로 만드는 함수
 $.boardCommentList = function(){
 	
+	let block = $("#block").val();
+	
+	
 	$.ajax({
 		type : "get",	
-		url : "<%=request.getContextPath()%>/comment/<%=bv.getBidx()%>/commentList.aws",
+		url : "<%=request.getContextPath()%>/comment/<%=bv.getBidx()%>/"+ block +"/commentList.aws",
 		dataType : "json",		
 		success : function(result) {	
-			// alert("전송성공");	
+			// alert("전송성공");
 			
-		var strTr = "";
-		$(result.clist).each(function(){
+			var strTr = "";
+			$(result.clist).each(function(){
 			
-			var btnn = "";
-			if (this.midx == "<%=midx %>"){		
+				var btnn = "";
+				if (this.midx == "<%=midx %>"){		
 				if (this.delyn == 'N') {
 					btnn = "<button class = 'btn' type = 'button' onclick = 'commentDel(" + this.cidx + ")'>삭제</button>";
 					
-				}				
+					}				
+				}
+			
+				strTr = strTr + "<tr>"
+				+ "<td>" + this.cidx + "</td>"
+				+ "<td>" + this.cwriter + "</td>"
+				+ "<td class='content'>" + this.ccontents + "</td>"
+				+ "<td>" + this.writeday + "</td>"
+				+ "<td>" + btnn + "</td>"
+				+ "</tr>"
+			
+			});
+		
+			var str = "<table class='replyTable'>"
+			+ "<tr>" 
+			+ "<th>번호</th>"
+			+ "<th>작성자</th>"
+			+ "<th>내용</th>"
+			+ "<th>날짜</th>"
+			+ "<th>DEL</th>"
+			+ "</tr>" + strTr + "</table>"
+			
+			$("#commentListView").html(str);
+	
+			if (result.moreView == "N") {
+				$("#morebtn").css("display", "none");	// 감춘다.
+			} else {
+				$("#morebtn").css("display", "block");	// 보여준다.
 			}
 			
-			strTr = strTr + "<tr>"
-			+ "<td>" + this.cidx + "</td>"
-			+ "<td>" + this.cwriter + "</td>"
-			+ "<td class='content'>" + this.ccontents + "</td>"
-			+ "<td>" + this.writeday + "</td>"
-			+ "<td>" + btnn + "</td>"
-			+ "</tr>"
-			
-		});
-		
-		var str = "<table class='replyTable'>"
-		+ "<tr>" 
-		+ "<th>번호</th>"
-		+ "<th>작성자</th>"
-		+ "<th>내용</th>"
-		+ "<th>날짜</th>"
-		+ "<th>DEL</th>"
-		+ "</tr>" + strTr + "</table>"
-		
-		$("#commentListView").html(str);
+			$("#block").val(result.nextBlock);	
 		
 		},
 		error : function() {		
@@ -195,7 +206,8 @@ $(document).ready(function() {	// cdn주소 필요
 			success : function(result) {
 		 		alert("댓글이 등록되었습니다.");
 		 		if(result.value == 1) {
-		 			$("#contents").val("");
+		 			$("#ccontents").val("");
+		 			$("#block").val(1);
 		 		}
 		 		
 		 		$.boardCommentList();
@@ -204,7 +216,12 @@ $(document).ready(function() {	// cdn주소 필요
 				alert("전송실패");
 			}			
 		});		
-	});	
+	});
+	
+	$("#more").click(function() {
+		$.boardCommentList();
+	});
+	
 });
 
 
@@ -252,14 +269,18 @@ $(document).ready(function() {	// cdn주소 필요
 
 	<article class="commentContents">
 		<form name="frm">
-		<p class="commentWriter" style="width:100px;">
-		<input type="text" id="cwriter" name="cwriter" value="<%=memberName%>" readonly="readonly" style="width:100%;border:0px;">
-		</p>	
-		<input type="text" id="ccontents" name="ccontents"style="width:75%;height:25px;">		
-		<button type="button" id="cmtbtn" class="replyBtn">댓글쓰기</button>
+			<p class="commentWriter" style="width:100px;">
+			<input type="text" id="cwriter" name="cwriter" value="<%=memberName%>" readonly="readonly" style="width:100%;border:0px;">
+			</p>	
+			<input type="text" id="ccontents" name="ccontents"style="width:75%;height:25px;">		
+			<button type="button" id="cmtbtn" class="replyBtn">댓글쓰기</button>
 	</form>	
-		
 		<div id = "commentListView"></div>
+		
+		<div id = "morebtn" style = "text-align:center; line-height:50px">
+			<button type = "button" id = "more" >더보기</button>
+			<input type = "hidden" id = "block" value = "1">
+		</div>
 	</article>
 </body>
 </html>

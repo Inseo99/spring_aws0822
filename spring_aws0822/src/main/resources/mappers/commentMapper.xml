@@ -5,9 +5,17 @@
 <mapper namespace="com.myaws.myapp.persistance.CommentMapper">
 
 <select id="commentSelectAll" parameterType="int" resultType="cv">
-	SELECT * FROM comment 
-	WHERE delyn = 'N' AND bidx = #{bidx}
+	SELECT * 
+	FROM comment 
+	WHERE delyn = 'N' AND bidx = #{0}
 	ORDER BY cidx DESC
+	LIMIT 0, #{1}
+</select>
+
+<select id="commentTotalCnt"  parameterType="int" resultType="int">
+	SELECT COUNT(*) AS cnt
+	FROM comment
+	WHERE delyn = 'N' AND bidx = #{bidx}
 </select>
 
 <insert id="commentInsert" parameterType="cv">

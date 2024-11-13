@@ -30,15 +30,29 @@ public class CommentController {
 	@Autowired(required = false)
 	private UserIp userIp;
 	
-	@RequestMapping(value = "/{bidx}/commentList.aws")
+	@RequestMapping(value = "/{bidx}/{block}/commentList.aws")
 	public JSONObject commentList(
-			@PathVariable("bidx") int bidx
+			@PathVariable("bidx") int bidx,
+			@PathVariable("block") int block
 			) {
 		
 		JSONObject js = new JSONObject();
 		
-		ArrayList<CommentVo> clist = commentService.commentSelectAll(bidx);
+		String moreView = "";
+		int nextBlock = 0;
+		int cnt = commentService.commentTotalCnt(bidx);
+		if (cnt > block*15) {
+			moreView = "Y";
+			nextBlock = block + 1;
+		} else {
+			moreView = "N";
+			nextBlock = block;
+		}
+		
+		ArrayList<CommentVo> clist = commentService.commentSelectAll(bidx, block);
 		js.put("clist", clist);
+		js.put("moreView", moreView);
+		js.put("nextBlock", nextBlock);
 		
 		return js;
 	}
