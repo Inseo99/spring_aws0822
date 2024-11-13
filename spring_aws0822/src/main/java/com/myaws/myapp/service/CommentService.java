@@ -12,5 +12,6 @@ public interface CommentService {
 
 	public int commentInsert(CommentVo cv);
 
+	public int commentDelete(CommentVo cv);
 
 }

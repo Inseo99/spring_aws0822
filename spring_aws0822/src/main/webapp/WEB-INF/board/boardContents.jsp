@@ -66,7 +66,7 @@ function commentDel(cidx) {
 		
 		$.ajax({
 			type : "get",	
-			url : "<%=request.getContextPath()%>/comment/commentDeleteAction.aws?cidx=" + cidx,
+			url : "<%=request.getContextPath()%>/comment/"+ cidx +"/commentDeleteAction.aws",
 			dataType : "json",		
 			success : function(result) {	
 				

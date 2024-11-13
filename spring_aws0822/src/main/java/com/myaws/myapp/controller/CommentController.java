@@ -21,7 +21,7 @@ import com.myaws.myapp.service.CommentService;
 import com.myaws.myapp.util.UserIp;
 
 @RestController	// ResponseBody가 있는거와 같은거
-@RequestMapping(value="/comment/")
+@RequestMapping(value="/comment")
 public class CommentController {
 
 	@Autowired(required = false)
@@ -43,7 +43,7 @@ public class CommentController {
 		return js;
 	}
 	
-	@RequestMapping(value = "commentWriteAction.aws", method = RequestMethod.POST)
+	@RequestMapping(value = "/commentWriteAction.aws", method = RequestMethod.POST)
 	public JSONObject commentWriteAction(CommentVo cv, HttpServletRequest request) throws Exception {
 		JSONObject js = new JSONObject();
 		
@@ -57,4 +57,25 @@ public class CommentController {
 		return js;
 	}
 	
+	@RequestMapping(value = "/{cidx}/commentDeleteAction.aws", method = RequestMethod.GET)
+	public JSONObject commentDeleteAction(
+			CommentVo cv,
+			@PathVariable("cidx") int cidx,
+			HttpServletRequest request
+			) throws Exception {
+		JSONObject js = new JSONObject();
+		
+		int midx = Integer.parseInt(request.getSession().getAttribute("midx").toString());
+		String cip = userIp.getUserIp(request);
+		
+		cv.setCidx(cidx);
+		cv.setMidx(midx);
+		cv.setCip(cip);
+		
+		int value = commentService.commentDelete(cv);
+		
+		js.put("value", value);
+		
+		return js;
+	}
 }

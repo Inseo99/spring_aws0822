@@ -15,4 +15,8 @@
 	VALUE(NULL, #{ccontents}, #{cwriter}, #{bidx}, #{midx}, #{cip})
 </insert>
 
+<update id="commentDelete" parameterType="cv">
+	UPDATE comment SET delyn = 'Y', cip = #{cip} WHERE cidx = #{cidx} AND  midx = #{midx}
+</update>
+
 </mapper> 
