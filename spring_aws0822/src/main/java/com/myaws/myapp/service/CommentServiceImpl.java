@@ -30,4 +30,10 @@ public class CommentServiceImpl implements CommentService{
 		ArrayList<CommentVo> clist = cm.commentSelectAll(bidx);
 		return clist;
 	}
+
+	@Override
+	public int commentInsert(CommentVo cv) {
+		int value = cm.commentInsert(cv);
+		return value;
+	}
 }

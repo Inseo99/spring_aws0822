@@ -10,4 +10,9 @@
 	ORDER BY cidx DESC
 </select>
 
+<insert id="commentInsert" parameterType="cv">
+	INSERT INTO comment(csubject, ccontents, cwriter, bidx, midx, cip) 
+	VALUE(#{csubject}, #{ccontents}, #{cwriter}, #{bidx}, #{midx}, #{cip})
+</insert>
+
 </mapper> 
