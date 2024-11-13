@@ -4,13 +4,17 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myaws.myapp.domain.CommentVo;
 import com.myaws.myapp.service.CommentService;
@@ -39,7 +43,7 @@ public class CommentController {
 		return js;
 	}
 	
-	@RequestMapping(value = "commentWriteAction.aws")
+	@RequestMapping(value = "commentWriteAction.aws", method = RequestMethod.POST)
 	public JSONObject commentWriteAction(CommentVo cv, HttpServletRequest request) throws Exception {
 		JSONObject js = new JSONObject();
 		
@@ -53,17 +57,4 @@ public class CommentController {
 		return js;
 	}
 	
-	@RequestMapping(value = "commentDeleteAction.aws")
-	public JSONObject commentDeleteAction(CommentVo cv, HttpServletRequest request) throws Exception {
-		JSONObject js = new JSONObject();
-		
-		String cip = userIp.getUserIp(request);
-		cv.setCip(cip);
-		
-		int value = commentService.commentInsert(cv);
-		
-		js.put("value", value);
-		
-		return js;
-	}
 }
