@@ -164,7 +164,7 @@ $(document).ready(function() {	// cdn주소 필요
 	$("#cmtbtn").click(function() {
 		
 		let loginCheck = "<%=midx%>";
-		if (loginCheck == "" || loginCheck == "null" || loginCheck == null) {
+		if (loginCheck == "" || loginCheck == "null" || loginCheck == null || loginCheck == 0) {
 			alert("로그인을 해주세요.");
 			return;
 		}
