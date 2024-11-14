@@ -33,7 +33,7 @@ if (msg != "") {
 <body>
 <header>
 	<h2 class="mainTitle">글목록</h2>
-	<form class="search" name = "frm" action = "<%=request.getContextPath()%>/board/boardList.aws">
+	<form class="search" name = "frm" action = "${pageContext.request.contextPath}/board/boardList.aws">
 		<select name = "searchType">
 			<option value = "subject">제목</option>
 			<option value = "writer">작성자</option>
