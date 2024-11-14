@@ -1,6 +1,7 @@
 <%@page import="com.myaws.myapp.domain.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%BoardVo bv = (BoardVo)request.getAttribute("bv"); // 강제형변환 양쪽형을 맞춰준다
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%// BoardVo bv = (BoardVo)request.getAttribute("bv"); // 강제형변환 양쪽형을 맞춰준다
 //메세지출력
 String msg = "";  
 if (request.getAttribute("msg") != null) {
@@ -45,7 +46,7 @@ function check() {
 	  let ans = confirm("저장하시겠습니까?");
 	  
 	  if (ans == true) {
-		  fm.action="<%=request.getContextPath()%>/board/boardModifyAction.aws";
+		  fm.action="{pageContext.request.contextPath}/board/boardModifyAction.aws";
 		  fm.method="post";
 		  fm.enctype="multipart/form-data";	// 이미지와 문자열을 모두 담아서 넘길 수 있게 바이너리 멀티파트타입으로 넘긴다.
 		  fm.submit();
@@ -62,19 +63,19 @@ function check() {
 </header>
 
 <form name="frm">
-<input type = "hidden" name = "bidx" value = "<%=bv.getBidx()%>">
+<input type = "hidden" name = "bidx" value = "${bv.bidx}">
 	<table class="writeTable">
 		<tr>
 			<th>제목</th>
-			<td><input type="text" name="subject" value = "<%=bv.getSubject() %>"></td>
+			<td><input type="text" name="subject" value = "${bv.subject}"></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td><textarea name="contents" rows="6"><%=bv.getContents() %></textarea></td>
+			<td><textarea name="contents" rows="6">"${bv.contents}>"</textarea></td>
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td><input type="text" name="writer" value = "<%=bv.getWriter()%>"></td>
+			<td><input type="text" name="writer" value = "${bv.writer}"></td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
@@ -82,13 +83,13 @@ function check() {
 		</tr>
 		<tr>
 			<th>첨부파일</th>
-			<td><input type="file" name = "attachfile" value = "<%=bv.getFilename()%>"></td>
+			<td><input type="file" name = "attachfile" value = "${bv.filename}"></td>
 		</tr>
 	</table>
 	
 	<div class="btnBox">
 		<button type="button" class="btn" onclick="check();">저장</button>
-		<a class="btn aBtn" href="<%=request.getContextPath()%>/board/boardContents.aws?bidx=<%=bv.getBidx()%>">취소</a>
+		<a class="btn aBtn" href="#" onclick = "history.back();">취소</a>
 	</div>	
 </form>
 

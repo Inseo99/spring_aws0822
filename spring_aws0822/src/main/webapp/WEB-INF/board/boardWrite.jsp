@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String msg = "";  
 if (request.getAttribute("msg") != null) {
@@ -44,7 +45,7 @@ function check() {
 	  let ans = confirm("저장하시겠습니까?");		// 함수의 값을 참과 거짓 true false로 나눈다.
 	  
 	  if (ans == true) {
-		  fm.action="<%=request.getContextPath()%>/board/boardWriteAction.aws";
+		  fm.action="{pageContext.request.contextPath}/board/boardWriteAction.aws";
 		  fm.method="post";
 		  fm.enctype="multipart/form-data";
 		  fm.submit();
