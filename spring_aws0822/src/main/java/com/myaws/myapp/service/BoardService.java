@@ -25,4 +25,6 @@ public interface BoardService {
 
 	public int boardReply(BoardVo bv);
 
+	public int boardInsertReact(BoardVo bv);
+
 }

@@ -19,8 +19,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.header.Header;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -119,6 +122,22 @@ public class BoardController {
 		}
 		
 		return path;
+	}
+	
+	@ResponseBody
+	@PostMapping("/boardWriteActionReact.aws")
+	public ResponseEntity<BoardVo> boardWriteActionReact(@RequestBody BoardVo bv) {
+		ResponseEntity<BoardVo> entity = null;
+		
+		int value = boardService.boardInsertReact(bv);
+		
+		if(value == 2) {
+			entity = new ResponseEntity<BoardVo>(HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<BoardVo>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity; 
 	}
 	
 	@RequestMapping(value = "boardContents.aws", method = RequestMethod.GET)
@@ -330,4 +349,5 @@ public class BoardController {
 		
 		return path;
 	}
+
 }
