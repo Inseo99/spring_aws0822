@@ -125,19 +125,19 @@ public class BoardController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/boardWriteActionReact.aws")
-	public ResponseEntity<BoardVo> boardWriteActionReact(@RequestBody BoardVo bv) {
-		ResponseEntity<BoardVo> entity = null;
+	@PostMapping("/boardWriteActionReact.aws")	// 리퀘스트 맵핑에서 메소드가 포스트방식을 뜻하는 어노테이션
+	public JSONObject boardWriteActionReact(@RequestBody BoardVo bv) {
 		
-		int value = boardService.boardInsertReact(bv);
+		JSONObject js = new JSONObject();
+		int value = boardService.boardInsert(bv);
 		
 		if(value == 2) {
-			entity = new ResponseEntity<BoardVo>(HttpStatus.OK);
+			js.put("result", "success");
 		} else {
-			entity = new ResponseEntity<BoardVo>(HttpStatus.BAD_REQUEST);
+			js.put("result", "fail");
 		}
 		
-		return entity; 
+		return js; 
 	}
 	
 	@RequestMapping(value = "boardContents.aws", method = RequestMethod.GET)
