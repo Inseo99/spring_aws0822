@@ -1,0 +1,244 @@
+@charset "UTF-8";
+/* 기본 설정 */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #5d99c6, #dfe9f3);
+}
+
+/* 전체 대시보드 레이아웃 */
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* 상단바 */
+.header {
+    background-color: #70c2e7;
+    color: white;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* 사용자 정보 및 알림 아이콘 */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#current-time, #current-date {
+    font-size: 13px;
+    color: #e0e0e0;
+}
+
+/* 콘텐츠 영역 */
+.dashboard-content {
+    display: flex;
+    flex: 1;
+}
+
+/* 사이드바 */
+.sidebar {
+    width: 150px;
+    background-color: #577590;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    color: #a8dadc;
+}
+
+/* 서브메뉴 스타일 */
+.submenu {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu.visible {
+    max-height: 1000px;
+}
+
+.submenu li {
+    margin-bottom: 10px;
+    font-size: 10px;
+}
+
+.submenu li a,
+.menu-item a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.submenu li a:hover,
+.menu-item a:hover {
+    color: #a8dadc;
+}
+
+/* 메인 콘텐츠 */
+.main {
+    flex: 1;
+    padding: 30px;
+    background-color: #f1faee;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 프로필 섹션 */
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile .photo {
+    width: 120px;
+    height: 150px;
+    background-color: #8ecae6;
+    border-radius: 8px;
+}
+
+.profile .details p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #1d3557;
+}
+
+/* 위젯 섹션 */
+.widgets {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 위젯 크기를 내용에 맞게 조정 */
+    gap: 20px; /* 위젯 간 간격 유지 */
+    align-items: start; /* 위젯이 다른 높이를 가져도 위쪽 정렬 */
+}
+
+.widget {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    height: auto;
+    min-height: 150px; /* 최소 높이 */
+}
+
+.widget h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #1d3557;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th, table td {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+/* 버튼 스타일 */
+.widget button {
+    position: absolute;
+    margin-top: 8px;
+    padding: 6px 8px;
+    font-size: 12px;
+    background-color: #fff;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    bottom: 5px;
+    right: 15px;
+}
+
+/* 달력 스타일 */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7일로 구성된 열 */
+    grid-template-rows: auto repeat(5, 1fr); /* 요일을 위에 두고 나머지 날짜는 행을 나누어 배치 */
+    grid-gap: 5px;
+    margin-top: 20px;
+}
+
+/* 요일 표시 */
+.calendar-header {
+    display: contents; /* .calendar 내부에서 행과 열로만 나누고, 전체적인 grid에 포함되도록 함 */
+    font-weight: bold;
+    color: #1d3557;
+    background-color: #f1faee;
+    padding: 10px 0;
+}
+
+.calendar-header div {
+    text-align: center;
+    padding: 8px 0;
+}
+
+/* 날짜 표시 */
+.calendar-days {
+    display: contents; /* 날짜들도 grid에 포함되도록 설정 */
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* 오늘 날짜 스타일 */
+.today {
+    background-color: #3083af;
+    color: white;
+    font-weight: bold;
+}
+
+/* 날짜가 비어있는 스타일 (빈 셀) */
+.empty {
+    background-color: transparent;
+    pointer-events: none; /* 클릭 불가 */
+}
+
+/* 캘린더 위젯 */
+.widget-calendar {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MyBatis는 Java에서 데이터베이스와의 상호작용을 쉽게 해주는 프레임워크로, XML 파일을 통해 SQL 쿼리를 매핑하는 방식 -->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+ 
+<configuration> 
+<typeAliases>
+ <typeAlias alias="mv" type="com.myaws.myapp.domain.MemberVo"/> <!-- 이름지정 -->
+ <typeAlias alias="bv" type="com.myaws.myapp.domain.BoardVo"/> <!-- 이름지정 -->
+ <typeAlias alias="scri" type="com.myaws.myapp.domain.SearchCriteria"/> <!-- 이름지정 -->
+
+</typeAliases>
+</configuration>

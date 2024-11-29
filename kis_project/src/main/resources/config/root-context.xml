@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- <bean id = "tt" class = "com.myaws.myapp.service.Test"></bean> -->
+	
+	<!-- Spring과 MyBatis를 연동하기 위한 설정으로, 데이터베이스 연결과 MyBatis의 SQL 세션을 관리하는 Bean들을 정의한 XML -->
+	
+	<context:property-placeholder location="classpath:/properties/m-db.properties"/>
+	
+	<bean id="m-db" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driver}"/>
+		<property name="url" value="${db.url}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+		<property name="dataSource" ref="m-db"/>
+		<!-- <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+		<property name="configLocation" value="classpath:config/mybatis_config.xml"/> -->
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<constructor-arg ref="m-db"/>
+	</bean>
+	
+	<tx:annotation-driven />
+	<!-- 클래스 생성자와 같다 -->
+	<!-- public class SqlSessionTemplate {
+		public sqlSessionFactory() {
+				
+		}
+	} -->
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+	<context:component-scan base-package="com.kis.management">
+	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/> <!-- 루트.xml에서 컨트롤러는 제외하겠다 -->
+	</context:component-scan>
+	
+</beans>

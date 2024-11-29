@@ -1,0 +1,252 @@
+@charset "UTF-8";
+/* 기본 설정 */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, #5d99c6, #dfe9f3);
+}
+
+/* 전체 대시보드 레이아웃 */
+.save {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* 상단바 */
+.header {
+    background-color: #70c2e7;
+    color: white;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* 사용자 정보 및 알림 아이콘 */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#current-time, #current-date {
+    font-size: 13px;
+    color: #e0e0e0;
+}
+
+/* 콘텐츠 영역 */
+.save-content {
+    display: flex;
+    flex: 1;
+}
+
+/* 사이드바 */
+.sidebar {
+    width: 150px;
+    height: 100%;
+    background-color: #577590;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    color: #a8dadc;
+}
+
+/* 서브메뉴 스타일 */
+.submenu {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+}
+
+.submenu.visible {
+    max-height: 1000px;
+}
+
+.submenu li {
+    margin-bottom: 10px;
+    font-size: 10px;
+}
+
+.submenu li a,
+.menu-item a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.submenu li a:hover,
+.menu-item a:hover {
+    color: #a8dadc;
+}
+
+/* 정보 등록 폼 */
+.info-form {
+    width: 100%;
+	height: 100%;
+    flex: 1;
+    margin: auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 왼쪽 정렬 */
+.title-left {
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* 사진 영역 스타일 */
+.photo-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 사진 첨부 영역 스타일 */
+.photo-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.photo-preview {
+    width: 105px; /* 증명사진 가로 크기 */
+    height: 135px; /* 증명사진 세로 크기 */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.upload-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.hidden-input {
+    display: none; /* 파일 업로드 버튼 숨기기 */
+}
+
+/* 정보 테이블 스타일 */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+.info-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+th {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+td input {
+    width: 100%; /* 입력 필드 전체 너비 */
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.info-table input[type="text"],
+.info-table input[type="date"],
+.info-table input[type="file"] {
+    width: 100%;
+    padding: 5px;
+    font-size: 14px;
+    border: none;
+}
+
+/* 합쳐진 테이블 스타일 */
+.combined-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    table-layout: auto;
+}
+
+.combined-info-table th {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f0f0f0;
+    width: 10%; /* 제목 열 너비 */
+}
+
+.combined-info-table td {
+    padding: 10px 15px;
+}
+
+/* 근무 상태 옵션 스타일 */
+.status-options {
+    display: inline-block; /* 플렉스 박스를 사용하여 콘텐츠 한 줄로 배치 */
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    gap: 5px; /* 라디오 버튼과 텍스트 간의 간격 설정 */
+    width: 7%; /* 콘텐츠 너비에 맞추기 */
+    padding: 0 1px; /* 내부 여백 제거 */
+    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    border: none;
+}
+
+.status-options input[type="radio"] {
+    margin: 0; /* 버튼과 텍스트 간 여백 제거 */
+}
+
+/* 입력 필드 및 텍스트 영역 스타일 */
+.combined-info-table input,
+.combined-info-table textarea {
+    width: 100%;
+    font-size: 14px;
+    padding: 5px;
+    border: none;
+}
+
+.combined-info-table textarea {
+	height: 100px;
+}
+
+
+/* button */
+.btnBox { text-align:right; margin-top: 10px;}
+.btn { background: black; color: white; border-radius: 3px; border: none; width: 50px; height: 20px; 
+	cursor: pointer; display: inline-block; vertical-align: middle; font-size: 11px; text-align: center; text-decoration: none;}
+.aBtn {	text-align: center; line-height: 20px; }

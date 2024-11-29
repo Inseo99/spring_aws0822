@@ -1,0 +1,113 @@
+@charset "UTF-8";
+/* 기본 설정 */
+body {
+    background: linear-gradient(to bottom, #2980b9, #6dd5fa); /* 밝은 파란색 그라데이션 */
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+/* 컨테이너 */
+.container {
+    background: rgba(255, 255, 255, 0.9); /* 반투명 흰색 배경 */
+    border: none; /* 테두리 제거 */
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    width: 400px;
+    padding: 30px 20px;
+    text-align: center;
+    backdrop-filter: blur(10px); /* 배경 흐림 효과 */
+}
+
+/* 탭 버튼 */
+.tab-container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 8px 20px; /* 버튼 크기 확대 */
+    border: none; /* 테두리 제거 */
+    background-color: #fff; /* 흰색 배경 */
+    font-size: 14px;
+    color: #2980b9; /* 파란색 텍스트 */
+    border-radius: 20px; /* 둥근 버튼 */
+    margin: 0 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* 애니메이션 추가 */
+}
+
+.tab-btn.active {
+    background-color: #2980b9; /* 활성화된 버튼 파란색 */
+    color: #fff; /* 텍스트 흰색 */
+    box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3); /* 그림자 추가 */
+}
+
+.tab-btn:hover {
+    background-color: #6dd5fa; /* 호버 시 밝은 파란색 */
+    color: #fff;
+}
+
+/* 로그인 박스 */
+.login-box {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* 폼 그룹 */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 로그인 버튼 */
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: skyblue;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: deepskyblue;
+}
+
+/* 링크 */
+.find-link {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #555;
+    text-decoration: underline;
+    cursor: pointer;
+}
