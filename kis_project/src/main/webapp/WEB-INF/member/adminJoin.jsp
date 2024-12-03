@@ -75,8 +75,8 @@ function check() {
 
 $(document).ready(function () {
     $("#btn").click(function () {
-        const memberid = $("#member_id").val();
-        if (memberid === "") {
+        const member_id = $("#member_id").val();
+        if (member_id === "") {
             alert("아이디를 입력해주세요.");
             return;
         }
@@ -145,7 +145,7 @@ $(document).ready(function () {
                     <label for="birth">생년월일</label>
                     <input type="date" id="birth" name="birth">
                 </div>
-                <button type="button" class="signup-btn">회원가입</button>
+                <button type="button" class="signup-btn" onclick="check();">회원가입</button>
             </form>
         </div>
     </div>

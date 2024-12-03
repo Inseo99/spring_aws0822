@@ -20,8 +20,8 @@ private MemberMapper mm;
    }
    
    @Override
-   public int memberInsert(MemberVo mv) {
-      int value = mm.memberInsert(mv);
+   public int adminInsert(MemberVo mv) {
+      int value = mm.adminInsert(mv);
       return value;
    }
 
@@ -40,5 +40,11 @@ private MemberMapper mm;
 	public int memberIdCheck(String member_id) {
 		int value = mm.memberIdCheck(member_id);
 		return value;
+	}
+
+	@Override
+	public int employeeInsert(MemberVo mv) {
+		int value = mm.employeeInsert(mv);
+	      return value;
 	}
 }

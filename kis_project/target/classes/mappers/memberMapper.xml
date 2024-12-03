@@ -4,17 +4,22 @@
 
 <mapper namespace="com.kis.management.persistance.MemberMapper">
 
-<insert id="memberInsert" parameterType="mv">
+<insert id="adminInsert" parameterType="mv">
    insert into member(grade,position,name,contact,birth,member_id,member_pwd,email) 
-   values(#{grade},#{position},#{name},#{contact},#{birth},#{member_id},#{member_pwd},#{email})
+   values(#{grade}, #{position}, #{name}, #{contact}, #{birth}, #{member_id}, #{member_pwd}, #{email})
 </insert>
 
 <select id="memberLoginCheck" parameterType="HashMap" resultType="mv">
-   select * from member where member_id = #{member_id}
+   select * from member where member_id = #{member_id} AND grade = #{grade}
 </select>
 
 <select id="memberIdCheck" parameterType="String" resultType="int">
 SELECT COUNT(*) AS cnt FROM member WHERE member_id = #{member_id}
 </select>
+
+<insert id="employeeInsert" parameterType="mv">
+   INSERT INTO member(grade, employee_id, department_name, position, name, e_name, h_name, contact, emergency_contact, birth, address, email, member_id, member_pwd, work_status, join_date, leave_date, salary, remaining_leave, notes) 
+   VALUES(#{grade}, #{employee_id}, #{department_name}, #{position}, #{name}, #{e_name}, #{h_name}, #{contact}, #{emergency_contact}, #{birth}, #{address}, #{email}, #{member_id}, #{member_pwd}, #{work_status}, #{join_date}, #{leave_date}, #{salary}, #{remaining_leave}, #{notes})
+</insert>
 
 </mapper> 

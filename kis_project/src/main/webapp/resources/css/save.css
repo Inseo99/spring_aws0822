@@ -216,19 +216,27 @@ td input {
 
 /* 근무 상태 옵션 스타일 */
 .status-options {
-    display: inline-block; /* 플렉스 박스를 사용하여 콘텐츠 한 줄로 배치 */
+    display: flex; /* Flexbox 사용 */
     align-items: center; /* 수직 가운데 정렬 */
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    gap: 5px; /* 라디오 버튼과 텍스트 간의 간격 설정 */
-    width: 7%; /* 콘텐츠 너비에 맞추기 */
-    padding: 0 1px; /* 내부 여백 제거 */
-    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+    gap: 10px; /* 라디오 버튼과 텍스트 간 간격 */
+    padding: 5px 0; /* 위아래 여백 추가 */
     white-space: nowrap; /* 줄바꿈 방지 */
     border: none;
 }
 
-.status-options input[type="radio"] {
-    margin: 0; /* 버튼과 텍스트 간 여백 제거 */
+.radio-option {
+    display: flex; /* 라벨을 플렉스 컨테이너로 설정 */
+    align-items: center; /* 라디오 버튼과 텍스트를 수직 정렬 */
+    cursor: pointer; /* 포인터 커서 표시 */
+    font-size: 14px; /* 텍스트 크기 */
+    gap: 5px; /* 라디오 버튼과 텍스트 사이 간격 */
+}
+
+.radio-option input[type="radio"] {
+    appearance: auto; /* 브라우저 기본 라디오 버튼 표시 */
+    margin: 0; /* 여백 제거 */
+    width: 16px; /* 버튼 크기 조정 */
+    height: 16px; /* 버튼 크기 조정 */
 }
 
 /* 입력 필드 및 텍스트 영역 스타일 */

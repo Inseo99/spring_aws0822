@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.kis.management.domain.*"%>
 <%
 String msg = "";  
 if (request.getAttribute("msg") != null) {
@@ -10,7 +11,15 @@ if (request.getAttribute("msg") != null) {
 if (msg != "") {
    out.println("<script>alert('" + msg + "');</script>");   
 }
+
+MemberVo mv = (MemberVo)session.getAttribute("mv");
 %>
+<c:if test="${empty mv}">
+    <script>
+        alert('세션이 만료되었습니다. 로그인 페이지로 이동합니다.');
+        window.location.href = '${pageContext.request.contextPath}/index.jsp';
+    </script>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,13 +56,13 @@ document.addEventListener('DOMContentLoaded', function () {
 <body>
     <div class="dashboard">
         <!-- 상단바 -->
-        <div class="header">
+      <div class="header">
           <div class="logo">koreacompany</div>
           <div class="user-info">
               <span id="current-date"></span>
               <span id="current-time"></span>
               <span id="name">${name}</span>
-              <a href="../login.jsp">로그아웃</a>
+              <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
           </div>
       </div>
 
@@ -81,8 +90,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 <li class="menu-item" id="employee-management">직원 관리
                     <ul class="submenu">
                         <li><a href="./departmentList.html">부서 목록</a></li>
-                        <li><a href="./employeeList.html">직원 목록</a></li>
-                        <li><a href="./employeeRegister.html">직원 등록</a></li>
+                        <li><a href="${pageContext.request.contextPath}/member/memberList.jsp">직원 목록</a></li>
+                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
                     </ul>
                 </li>
                 <li class="menu-item"><a href="../public/noticeList.html">공지사항</a></li>
@@ -95,11 +104,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 <section class="profile">
                     <div class="photo"></div>
                     <div class="details">
-                        <p><strong>이름:</strong> 홍길동</p>
-                        <p><strong>부서:</strong> 개발팀</p>
-                        <p><strong>직급:</strong> 사원</p>
-                        <p><strong>이메일:</strong> hong@company.com</p>
-                        <p><strong>전화번호:</strong> 010-1234-5678</p>
+                        <p><strong>이 름 : </strong> ${mv.name}</p>
+                        <p><strong>부 서 : </strong> ${mv.department_name}</p>
+                        <p><strong>직 급 : </strong> ${mv.position}</p>
+                        <p><strong>이 메 일 : </strong> ${mv.email}</p>
+                        <p><strong>연 락 처 : </strong> ${mv.contact}</p>
                     </div>
                 </section>
 

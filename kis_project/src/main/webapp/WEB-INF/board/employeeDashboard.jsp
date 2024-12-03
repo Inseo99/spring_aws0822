@@ -1,6 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.kis.management.domain.*"%>
+<%
+String msg = "";  
+if (request.getAttribute("msg") != null) {
+   msg = (String)request.getAttribute("msg");
+}
+
+if (msg != "") {
+   out.println("<script>alert('" + msg + "');</script>");   
+}
+
+MemberVo mv = (MemberVo)session.getAttribute("mv");
+%>
+<c:if test="${empty mv}">
+    <script>
+        alert('세션이 만료되었습니다. 로그인 페이지로 이동합니다.');
+        window.location.href = '${pageContext.request.contextPath}/index.jsp';
+    </script>
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,38 +28,40 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dashboard.css">
 <script>
 
-function updateTime() {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const day = now.getDate(); // 일
-    const month = now.getMonth() + 1; // 월 (0부터 시작하므로 +1)
-    const year = now.getFullYear(); // 연도
-    const weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
+document.addEventListener('DOMContentLoaded', function () {
+    function updateTime() {
+        var now = new Date();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+        var day = now.getDate(); // 일
+        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1)
+        var year = now.getFullYear(); // 연도
+        var weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
 
-    document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
-    document.getElementById('current-date').textContent = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} (${weekday})`; // 날짜 형식 (YYYY-MM-DD)
-}
+        document.getElementById('current-time').textContent = hours + ":" + minutes + ":" + seconds;
+        document.getElementById('current-date').textContent = year + "-" + month + "-" + day + " (" + weekday + ")";
+    }
 
-// 매초마다 시간 갱신
-setInterval(updateTime, 1000);
+    // 매초마다 시간 갱신
+    setInterval(updateTime, 1000);
 
-// 최초 실행
-updateTime();
+    // 최초 실행
+    updateTime();
+});
 
 </script>
 </head>
 <body>
     <div class="dashboard">
         <!-- 상단바 -->
-        <div class="header">
+      <div class="header">
           <div class="logo">koreacompany</div>
           <div class="user-info">
               <span id="current-date"></span>
               <span id="current-time"></span>
-              <span id="username">사용자 이름</span>
-              <a href="#">로그 아웃</a>
+              <span id="name">${name}</span>
+              <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
           </div>
       </div>
 
@@ -49,7 +70,7 @@ updateTime();
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
-                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/employeeDashboard.aws">홈</a></li>
+                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
                 <li class="menu-item" id="work-report">업무 보고
                     <ul class="submenu">
                         <li><a href="../public/weekWorkList.html">주간 업무</a></li>
@@ -68,8 +89,8 @@ updateTime();
                 <li class="menu-item" id="employee-management">직원 관리
                     <ul class="submenu">
                         <li><a href="./departmentList.html">부서 목록</a></li>
-                        <li><a href="./employeeList.html">직원 목록</a></li>
-                        <li><a href="./employeeRegister.html">직원 등록</a></li>
+                        <li><a href="${pageContext.request.contextPath}/member/memberList.jsp">직원 목록</a></li>
+                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
                     </ul>
                 </li>
                 <li class="menu-item"><a href="../public/noticeList.html">공지사항</a></li>
@@ -83,11 +104,11 @@ updateTime();
                 <section class="profile">
                     <div class="photo"></div>
                     <div class="details">
-                        <p><strong>이름:</strong> 홍길동</p>
-                        <p><strong>부서:</strong> 개발팀</p>
-                        <p><strong>직급:</strong> 사원</p>
-                        <p><strong>이메일:</strong> hong@company.com</p>
-                        <p><strong>전화번호:</strong> 010-1234-5678</p>
+                        <p><strong>이 름 : </strong> ${mv.name}</p>
+                        <p><strong>부 서 : </strong> ${mv.department_name}</p>
+                        <p><strong>직 급 : </strong> ${mv.position}</p>
+                        <p><strong>이 메 일 : </strong> ${mv.email}</p>
+                        <p><strong>연 락 처 : </strong> ${mv.contact}</p>
                     </div>
                 </section>
 

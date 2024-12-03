@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,7 +58,7 @@ public class MemberController {
       String memberpwd_enc = bCryptPasswordEncoder.encode(mv.getMember_pwd());
       mv.setMember_pwd(memberpwd_enc);
       
-      int value = memberService.memberInsert(mv);
+      int value = memberService.adminInsert(mv);
       
       String path = "";
       if (value == 1) {
@@ -77,7 +78,8 @@ public class MemberController {
          @RequestParam("member_id") String member_id, 
          @RequestParam("member_pwd") String member_pwd, 
          RedirectAttributes rttr,
-         HttpSession session
+         HttpSession session,
+         Model model
          ) {
       
       MemberVo mv = memberService.memberLoginCheck(member_id, grade);
@@ -93,10 +95,13 @@ public class MemberController {
             rttr.addAttribute("name", mv.getName());
             
             if ("admin".equals(grade)) {
+                session.setAttribute("mv", mv);
             	rttr.addFlashAttribute("msg", "로그인 되었습니다.");
             	path = "redirect:/board/adminDashboard.aws";                                          
             } else if ("employee".equals(grade)) {
-               path = "redirect:/board/employeeDashboard.aws";
+            	session.setAttribute("mv", mv);
+            	rttr.addFlashAttribute("msg", "로그인 되었습니다.");
+            	path = "redirect:/board/employeeDashboard.aws";
             }
             
          } else {
@@ -119,5 +124,45 @@ public class MemberController {
       return path;
    }
    
+   @RequestMapping(value = "memberLogout.aws", method = RequestMethod.GET)
+	public String memberLogout(HttpSession sesssion) {		
+		// logger.info("memberLogout 들어옴");
+		
+		sesssion.removeAttribute("midx");
+		sesssion.removeAttribute("grade");
+		sesssion.removeAttribute("name");
+		sesssion.removeAttribute("member_id");
+		sesssion.invalidate();
+		
+		return "redirect:/";
+	}
+   
+   @RequestMapping(value = "employeeRegister.aws", method = RequestMethod.GET)
+   public String employeeRegister() {
+      return "WEB-INF/member/employeeRegister";
+   }
+   
+   @RequestMapping(value = "employeeRegisterAction.aws", method = RequestMethod.POST)
+   public String employeeRegisterAction(
+		   MemberVo mv, 
+		   RedirectAttributes rttr) {
+	  // logger.info("employeeRegisterAction 들어옴");
+	  
+      String memberpwd_enc = bCryptPasswordEncoder.encode(mv.getMember_pwd());
+      mv.setMember_pwd(memberpwd_enc);
+      
+      int value = memberService.employeeInsert(mv);
+      
+      String path = "";
+      if (value == 1) {
+    	 rttr.addFlashAttribute("msg", "정보가 등록되었습니다.");
+         path = "redirect:/member/memberList.aws";
+      } else if (value == 0) {         
+    	 rttr.addFlashAttribute("msg", "정보가 등록되지 않았습니다.");
+         path = "redirect:/member/employeeRegister.aws";         
+      }
+      
+      return path;
+   }
    
 }

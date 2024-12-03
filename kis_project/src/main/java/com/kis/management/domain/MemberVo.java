@@ -4,7 +4,7 @@ public class MemberVo {	// Vo : Value Object
 	private int midx;
 	private String grade;
 	private int employee_id;
-	private String department_name;
+	private String department_name = "¿ŒªÁ∆¿";
 	private String position;
 	private String name;
 	private String e_name;
@@ -17,15 +17,15 @@ public class MemberVo {	// Vo : Value Object
 	private String member_id;
 	private String member_pwd;
 	private String attendance_status;
-	private String work_status;
+	private String work_status = "¿Á¡˜";
 	private String join_date;
 	private String leave_date;
 	private String salary;
 	private int remaining_leave;
 	private String notes;
+	private String photo;
 	private String delyn;
 	private String writeday;
-	private String ip;
 	
 	public int getMidx() {
 		return midx;
@@ -153,6 +153,12 @@ public class MemberVo {	// Vo : Value Object
 	public void setRemaining_leave(int remaining_leave) {
 		this.remaining_leave = remaining_leave;
 	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 	public String getNotes() {
 		return notes;
 	}
@@ -171,12 +177,4 @@ public class MemberVo {	// Vo : Value Object
 	public void setWriteday(String writeday) {
 		this.writeday = writeday;
 	}
-	public String getIp() {
-		return ip;
-	}
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-	
-	
 }
