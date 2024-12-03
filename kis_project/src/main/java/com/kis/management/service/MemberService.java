@@ -7,4 +7,6 @@ public interface MemberService {
    public int memberInsert(MemberVo mv);
 
    public MemberVo memberLoginCheck(String member_id, String grade);
+   
+   public int memberIdCheck(String member_id);
 }

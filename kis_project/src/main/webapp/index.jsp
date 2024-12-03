@@ -2,13 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-String msg = "";  
-if (request.getAttribute("msg") != null) {
-   msg = (String)request.getAttribute("msg");
-}
-
-if (msg != "") {
-   out.println("<script>alert('" + msg + "');</script>");   
+String msg = (String) session.getAttribute("msg");
+if (msg != null) {
+    session.removeAttribute("msg");
+    out.println("<script>alert('" + msg + "');</script>");
 }
 %>
 <!DOCTYPE html>
@@ -35,11 +32,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 로그인 버튼 클릭 시 폼 전송
     const submitButton = document.querySelector('.login-btn');
+    
     submitButton.addEventListener('click', () => {
-        loginForm.action = "${pageContext.request.contextPath}/member/memberLoginAction.aws";
-        loginForm.method = "post";
-        loginForm.submit(); // 폼 전송
+        if (validateForm(loginForm)) { // 유효성 검사 함수 호출
+        	loginForm.action = "${pageContext.request.contextPath}/member/memberLoginAction.aws";
+            loginForm.method = "post";
+            loginForm.submit(); // 폼 전송
+        }
     });
+        
+    function validateForm(loginForm) {
+        if (!loginForm.member_id.value) {
+            alert("아이디를 입력해주세요.");
+            loginForm.member_id.focus();
+            return false;
+        }
+        if (!loginForm.member_pwd.value) {
+            alert("비밀번호를 입력해주세요.");
+            loginForm.member_pwd.focus();
+            return false;
+        }
+        
+        return true;
+    }
 });
 </script>
 <head>
@@ -58,11 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
                <input type="hidden" id="grade" name="grade" value="admin">
                <div class="form-group">
                    <label for="member_id">아이디</label>
-                   <input type="text" id="member_id" name="member_id" required>
+                   <input type="text" id="member_id" name="member_id">
                </div>
                <div class="form-group">
                    <label for="member_pwd">비밀번호</label>
-                   <input type="password" id="member_pwd" name="member_pwd" required>
+                   <input type="password" id="member_pwd" name="member_pwd">
                </div>
                <button type="button" class="login-btn">로그인</button>
            </form>

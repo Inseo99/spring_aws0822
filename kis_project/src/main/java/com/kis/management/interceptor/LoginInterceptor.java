@@ -40,7 +40,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
       modelAndView.getModel().clear();
       
       HttpSession session = request.getSession();
-      if(midx != null) {
+      if(midx != "") {
          session.setAttribute("midx", midx);
          session.setAttribute("member_id", member_id);
          session.setAttribute("name", name);

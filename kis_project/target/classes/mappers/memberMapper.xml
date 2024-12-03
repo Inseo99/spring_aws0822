@@ -13,4 +13,8 @@
    select * from member where member_id = #{member_id}
 </select>
 
+<select id="memberIdCheck" parameterType="String" resultType="int">
+SELECT COUNT(*) AS cnt FROM member WHERE member_id = #{member_id}
+</select>
+
 </mapper> 

@@ -35,4 +35,10 @@ private MemberMapper mm;
       MemberVo mv = mm.memberLoginCheck(hm);
       return mv;
    }
+
+	@Override
+	public int memberIdCheck(String member_id) {
+		int value = mm.memberIdCheck(member_id);
+		return value;
+	}
 }

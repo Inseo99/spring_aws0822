@@ -2,6 +2,7 @@ package com.kis.management.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kis.management.domain.MemberVo;
@@ -27,6 +29,18 @@ public class MemberController {
    
    @Autowired(required = false)
    private BCryptPasswordEncoder bCryptPasswordEncoder;
+   
+   @ResponseBody
+   @RequestMapping(value = "memberIdCheck.aws", method = RequestMethod.POST)
+   public JSONObject memberIdCheck(@RequestParam("member_id") String member_id) {
+	   
+	   int cnt = memberService.memberIdCheck(member_id);
+	   
+	   JSONObject obj = new JSONObject();
+	   obj.put("cnt", cnt);
+	   
+	   return obj;
+   }
    
    @RequestMapping(value = "adminJoin.aws", method = RequestMethod.GET)
    public String memberJoin() {
@@ -56,11 +70,12 @@ public class MemberController {
       return path;
    }
    
+   
    @RequestMapping(value = "memberLoginAction.aws", method = RequestMethod.POST)
    public String memberLoginAction(
          @RequestParam("grade") String grade,
          @RequestParam("member_id") String member_id, 
-         @RequestParam("member_pwd") String member_pwd,
+         @RequestParam("member_pwd") String member_pwd, 
          RedirectAttributes rttr,
          HttpSession session
          ) {
@@ -78,21 +93,31 @@ public class MemberController {
             rttr.addAttribute("name", mv.getName());
             
             if ("admin".equals(grade)) {
-               path = "redirect:/board/adminDashboard.aws";                                          
+            	rttr.addFlashAttribute("msg", "로그인 되었습니다.");
+            	path = "redirect:/board/adminDashboard.aws";                                          
             } else if ("employee".equals(grade)) {
                path = "redirect:/board/employeeDashboard.aws";
             }
             
          } else {
-            rttr.addFlashAttribute("msg", "아이디/비밀번호를 확인해주세요.");
+        	 rttr.addAttribute("midx", "");
+             rttr.addAttribute("grade", "");
+             rttr.addAttribute("member_id", "");
+             rttr.addAttribute("name", "");
+             session.setAttribute("msg", "아이디/비밀번호를 확인해주세요.");
             
-            path = "redirect:/";
+             path = "redirect:/";
          }
       } else {
-         rttr.addFlashAttribute("msg", "해당하는 아이디가 없습니다.");
-         path = "redirect:/";
+    	  rttr.addAttribute("midx", "");
+          rttr.addAttribute("grade", "");
+          rttr.addAttribute("member_id", "");
+          rttr.addAttribute("name", "");
+          session.setAttribute("msg", "해당하는 아이디가 없습니다.");
+          path = "redirect:/";
       }      
       return path;
    }
+   
    
 }

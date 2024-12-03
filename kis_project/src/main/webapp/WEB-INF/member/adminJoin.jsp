@@ -4,75 +4,107 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>회원가입</title>
-    <link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet"> <!-- 동일한 스타일 적용 -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const emailRegex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,}$/i;
-            const submitButton = document.querySelector('.signup-btn');
-            const form = document.forms['frm'];
+<meta charset="UTF-8">
+<title>회원가입</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet"> <!-- 동일한 스타일 적용 -->
+<script>
+const email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,}$/i;
 
-            // 회원가입 버튼 클릭 시 폼 전송
-            submitButton.addEventListener('click', () => {
-                if (validateForm(form)) { // 유효성 검사 함수 호출
-                    form.action = "${pageContext.request.contextPath}/member/adminJoinAction.aws";
-                    form.method = "post";
-                    form.submit(); // 폼 전송
-                }
-            });
+function check() {
+    const fm = document.frm;
 
-            function validateForm(form) {
-                if (!form.member_id.value) {
-                    alert("아이디를 입력해주세요.");
-                    form.member_id.focus();
-                    return false;
+    if (fm.member_id.value === "") {
+        alert("아이디를 입력해주세요.");
+        fm.member_id.focus();
+        return;
+    }
+    if (!$("#btn").data("idChecked")) {
+        alert("아이디 중복 체크를 해주세요.");
+        fm.member_id.focus();
+        return;
+    }
+    if (fm.member_pwd.value === "" || fm.member_pwd2.value === "") {
+        alert("비밀번호를 입력해주세요.");
+        fm.member_pwd.focus();
+        return;
+    }
+    if (fm.member_pwd.value !== fm.member_pwd2.value) {
+        alert("비밀번호가 일치하지 않습니다.");
+        fm.member_pwd2.focus();
+        return;
+    }
+    if (fm.name.value === "") {
+        alert("이름을 입력해주세요.");
+        fm.name.focus();
+        return;
+    }
+    if (fm.position.value === "") {
+        alert("직급을 입력해주세요.");
+        fm.position.focus();
+        return;
+    }
+    if (fm.email.value === "") {
+        alert("이메일을 입력해주세요.");
+        fm.email.focus();
+        return;
+    }
+    if (!email.test(fm.email.value)) {
+        alert("이메일 형식이 올바르지 않습니다.");
+        fm.email.focus();
+        return;
+    }
+    if (fm.contact.value === "") {
+        alert("연락처를 입력해주세요.");
+        fm.contact.focus();
+        return;
+    }
+    if (fm.birth.value === "") {
+        alert("생일을 입력해주세요.");
+        fm.birth.focus();
+        return;
+    }
+
+    const ans = confirm("회원가입 하겠습니까?");
+    if (ans) {
+        fm.action = "${pageContext.request.contextPath}/member/adminJoinAction.aws";
+        fm.method = "post";
+        fm.submit();
+    }
+}
+
+$(document).ready(function () {
+    $("#btn").click(function () {
+        const memberid = $("#member_id").val();
+        if (memberid === "") {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "${pageContext.request.contextPath}/member/memberIdCheck.aws",
+            dataType: "json",
+            data: { member_id: member_id },
+            success: function (result) {
+            	console.log("AJAX 요청 성공:", result);
+                if (result.cnt === 0) {
+                    alert("사용할 수 있는 아이디입니다.");
+                    $("#btn").data("idChecked", true);
+                } else {
+                    alert("사용할 수 없는 아이디입니다.");
+                    $("#btn").data("idChecked", false);
                 }
-                if (!form.member_pwd.value || !form.member_pwd2.value) {
-                    alert("비밀번호를 입력해주세요.");
-                    form.member_pwd.focus();
-                    return false;
-                }
-                if (form.member_pwd.value !== form.member_pwd2.value) {
-                    alert("비밀번호가 일치하지 않습니다.");
-                    form.member_pwd2.focus();
-                    return false;
-                }
-                if (!form.name.value) {
-                    alert("이름을 입력해주세요.");
-                    form.name.focus();
-                    return false;
-                }
-                if (!form.position.value) {
-                    alert("직급을 입력해주세요.");
-                    form.position.focus();
-                    return false;
-                }
-                if (!form.email.value) {
-                    alert("이메일을 입력해주세요.");
-                    form.email.focus();
-                    return false;
-                }
-                if (!emailRegex.test(form.email.value)) {
-                    alert("이메일 형식이 올바르지 않습니다.");
-                    form.email.value = "";
-                    form.email.focus();
-                    return false;
-                }
-                if (!form.contact.value) {
-                    alert("연락처를 입력해주세요.");
-                    form.contact.focus();
-                    return false;
-                }
-                if (!form.birth.value) {
-                    alert("생일을 입력해주세요.");
-                    form.birth.focus();
-                    return false;
-                }
-                return true;
-            }
+            },
+            error: function () {
+                alert("아이디 중복 확인 중 오류가 발생했습니다.");
+                $("#member_id").val("");
+            },
         });
-    </script>
+    });
+});
+
+</script>
 </head>
 <body>
     <div class="container">
@@ -83,6 +115,7 @@
                 <div class="form-group">
                     <label for="member_id">아이디</label>
                     <input type="text" id="member_id" name="member_id" placeholder="아이디를 입력하세요">
+                    <button type="button" id="btn">중복 확인</button>
                 </div>
                 <div class="form-group">
                     <label for="member_pwd">비밀번호</label>

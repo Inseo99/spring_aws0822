@@ -9,5 +9,7 @@ public interface MemberMapper {
    public int memberInsert(MemberVo mv);
 
    public MemberVo memberLoginCheck(HashMap<String, Object> hm);
+
+   public int memberIdCheck(String member_id);
    
 }
