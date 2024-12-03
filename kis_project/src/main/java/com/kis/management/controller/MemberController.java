@@ -1,5 +1,7 @@
 package com.kis.management.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -165,4 +167,14 @@ public class MemberController {
       return path;
    }
    
+   @RequestMapping(value = "memberList.aws", method = RequestMethod.GET)
+	public String memberList(Model model) {		
+		 logger.info("memberList µé¾î¿È");
+		
+		ArrayList<MemberVo> mlist = memberService.memberSelectAll();
+		
+		model.addAttribute("mlist", mlist);
+		
+		return "WEB-INF/member/memberList";
+	}
 }

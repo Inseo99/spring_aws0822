@@ -41,7 +41,7 @@ body, html {
 }
 
 /* 콘텐츠 영역 */
-.List-content {
+.list-content {
     display: flex;
     flex: 1;
 }

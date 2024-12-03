@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet"> <!-- 동일한 스타일 적용 -->
+<link href="${pageContext.request.contextPath}/resources/css/login.css" rel="stylesheet">
 <script>
 const email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,}$/i;
 

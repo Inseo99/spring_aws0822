@@ -1,5 +1,6 @@
 package com.kis.management.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
@@ -46,5 +47,11 @@ private MemberMapper mm;
 	public int employeeInsert(MemberVo mv) {
 		int value = mm.employeeInsert(mv);
 	      return value;
+	}
+
+	@Override
+	public ArrayList<MemberVo> memberSelectAll() {
+		ArrayList<MemberVo> mlist = mm.memberSelectAll();
+		return mlist;
 	}
 }

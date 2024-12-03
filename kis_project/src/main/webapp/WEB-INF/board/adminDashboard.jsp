@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <li class="menu-item" id="employee-management">직원 관리
                     <ul class="submenu">
                         <li><a href="./departmentList.html">부서 목록</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/memberList.jsp">직원 목록</a></li>
+                        <li><a href="${pageContext.request.contextPath}/member/memberList.aws">직원 목록</a></li>
                         <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
                     </ul>
                 </li>
