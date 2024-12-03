@@ -13,6 +13,7 @@ public class MemberVo {	// Vo : Value Object
 	private String emergency_contact;
 	private String birth;
 	private String address;
+	private String email;
 	private String member_id;
 	private String member_pwd;
 	private String attendance_status;
@@ -97,6 +98,12 @@ public class MemberVo {	// Vo : Value Object
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getMember_id() {
 		return member_id;

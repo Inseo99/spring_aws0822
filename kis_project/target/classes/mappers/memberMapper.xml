@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- MyBatis는 Java에서 데이터베이스와의 상호작용을 쉽게 해주는 프레임워크로, XML 파일을 통해 SQL 쿼리를 매핑하는 방식 -->
-<!-- mapper는 MyBatis에서 SQL 쿼리와 Java 메서드를 연결하는 역할 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.kis.management.persistance.memberMapper">
+<mapper namespace="com.kis.management.persistance.MemberMapper">
 
+<insert id="memberInsert" parameterType="mv">
+   insert into member(grade,position,name,contact,birth,member_id,member_pwd,email) 
+   values(#{grade},#{position},#{name},#{contact},#{birth},#{member_id},#{member_pwd},#{email})
+</insert>
+
+<select id="memberLoginCheck" parameterType="HashMap" resultType="mv">
+   select * from member where member_id = #{member_id}
+</select>
 
 </mapper> 
