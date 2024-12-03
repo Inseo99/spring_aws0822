@@ -17,7 +17,7 @@ if (msg != "") {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>직원 목록</title>
+<title>부서 목록</title>
 <link href="${pageContext.request.contextPath}/resources/css/list.css" rel="stylesheet">
 <script>
 
@@ -46,24 +46,24 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </head>
 <body>
-    <div class="List">
+	<div class="List">
         <!-- 상단바 -->
-      <div class="header">
-          <div class="logo">koreacompany</div>
-          <div class="user-info">
-              <span id="current-date"></span>
-              <span id="current-time"></span>
-              <span id="name">${name}</span>
-              <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
-          </div>
-      </div>
+        <div class="header">
+		    <div class="logo">koreacompany</div>
+		    <div class="user-info">
+		        <span id="current-date"></span>
+              	<span id="current-time"></span>
+              	<span id="name">${name}</span>
+              	<a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
+    		</div>
+		</div>
 
-        <!--콘텐츠 -->
+        <!-- 리스트 콘텐츠 -->
         <div class="list-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
-	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
+				    <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
 	                <li class="menu-item" id="work-report">업무 보고
 	                    <ul class="submenu">
 	                        <li><a href="../public/weekWorkList.html">주간 업무</a></li>
@@ -88,67 +88,72 @@ document.addEventListener('DOMContentLoaded', function () {
 	                </li>
 	                <li class="menu-item"><a href="../public/noticeList.html">공지사항</a></li>
 	                <li class="menu-item"><a href="../public/communityList.html">커뮤니티</a></li>
-	            </ul>
+				</ul>
             </nav>
             <!-- 목록 콘텐츠 -->
             <div class="main-list">
                 <header>
-                    <h2 class="mainTitle">직원 목록</h2>
-                    <form class="search" name="frm" action="${pageContext.request.contextPath}/member/memberList.aws">
-                        <select name="searchType">
-                            <option value="name">이름</option>
-                            <option value="department">부서</option>
-                        </select>
-                        <input type="text" name="keyword">
-                        <button type="submit" class="btn">검색</button>
-                    </form>
-                </header>
+					<h2 class="mainTitle">부서 목록</h2>
+					<form class="search" name="frm" action="./employeeList.html">
+						<select name="searchType">
+							<option value="leaderName">팀장 이름</option>
+							<option value="department">부서</option>
+						</select>
+						<input type="text" name="keyword">
+						<button type="submit" class="btn">검색</button>
+					</form>
+				</header>
                 <table class="main-table">
                     <thead>
                         <tr>
                             <th>번호</th>
                             <th>부서</th>
-                            <th>직급</th>
-                            <th>이름</th>
-                            <th>출퇴근</th>
-                            <th>연락처</th>
-                            <th>입사 날짜</th>
+                            <th>인원</th>
+                            <th>팀장 이름</th>
+                            <th>부서 연락처</th>
+                            <th>최근 수정 날짜</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items = "${mlist}" var = "mv" varStatus="status"> 
                         <tr>
-                            <td>${mv.midx}</td>
-                            <td>${mv.department_name}</td>
-                            <td>${mv.position}</td>
-                            <td>${mv.name}</td>
-                            <td>${mv.attendance_status}</td>
-                            <td>${mv.contact}</td>
-                            <td>${mv.join_date}</td>
+                            <td>1</td>
+                            <td><a href="./employeeList.html">개발팀</a></td>
+                            <td>7</td>
+                            <td>홍길동</td>
+                            <td>010-1234-5678</td>
+                            <td>2022-01-15</td>
                         </tr>
-                    </c:forEach>
+                        <tr>
+                            <td>2</td>
+                            <td>디자인팀</td>
+                            <td>5</td>
+                            <td>김철수</td>
+                            <td>010-2345-6789</td>
+                            <td>2021-11-10</td>
+                        </tr>
+                        <!-- 추가 직원들 -->
                     </tbody>
                 </table>
                 <div class="btnBox">
-                    <a class="btn aBtn" href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원등록</a>
-                </div>
+					<a class="btn" href="${pageContext.request.contextPath}/board/departmentRegister.aws">부서 등록</a>
+				</div>
             </div>
         </div>
     </div>
     <script>
-        // 모든 메뉴 항목을 선택
-        const menuItems = document.querySelectorAll('.menu-item');
-    
-        // 각 메뉴 항목에 클릭 이벤트 등록
-        menuItems.forEach(menuItem => {
-            menuItem.addEventListener('click', (event) => {
-                const submenu = menuItem.querySelector('.submenu');
-                
-                if (submenu) {
-                    submenu.classList.toggle('visible'); // 서브메뉴 토글
-                }
-            });
-        });
-    </script>
+	 	// 모든 메뉴 항목 선택
+	    const menuItems = document.querySelectorAll('.menu-item');
+	
+	    // 각 메뉴 항목에 클릭 이벤트 등록
+	    menuItems.forEach(menuItem => {
+	        menuItem.addEventListener('click', (event) => {
+	            const submenu = menuItem.querySelector('.submenu');
+	            
+	            if (submenu) {
+	                submenu.classList.toggle('visible'); // 서브메뉴 토글
+	            }
+	        });
+	    });
+	</script>
 </body>
 </html>
