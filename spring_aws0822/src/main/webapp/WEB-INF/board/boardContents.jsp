@@ -47,7 +47,6 @@ function getImageLink(fileName) {	// 이미지 링크 가져오기
 }
 
 // download();
-
 function download() {
 	// 주소사이에 s-는 빼고
 	var downloadImage = getImageLink("${bv.filename}");

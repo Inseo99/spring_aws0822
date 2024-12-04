@@ -119,10 +119,13 @@ body, html {
 }
 
 .profile .photo {
-    width: 120px;
-    height: 150px;
-    background-color: #8ecae6;
-    border-radius: 8px;
+    width: 105px; /* 증명사진 가로 크기 */
+    height: 135px; /* 증명사진 세로 크기 */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .profile .details p {

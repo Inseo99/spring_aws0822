@@ -19,5 +19,7 @@ public interface MemberMapper {
    public int memeberTatalCount(SearchCriteria scri);
 
    public ArrayList<MemberVo> memberSelectAll(HashMap<String, Object> hm);
+
+   public MemberVo memberSelectOne(int midx);
    
 }

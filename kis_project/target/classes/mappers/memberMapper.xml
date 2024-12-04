@@ -18,14 +18,14 @@ SELECT COUNT(*) AS cnt FROM member WHERE member_id = #{member_id}
 </select>
 
 <insert id="employeeInsert" parameterType="mv">
-   INSERT INTO member (grade, employee_id, department_name, position, name, e_name, h_name, contact, emergency_contact, birth, address, email, member_id, member_pwd, work_status, join_date, leave_date, salary, remaining_leave, notes)
+   INSERT INTO member (grade, employee_id, department_name, position, name, e_name, h_name, contact, emergency_contact, birth, address, email, member_id, member_pwd, work_status, join_date, leave_date, salary, remaining_leave, notes, photo)
    VALUES (#{grade}, #{employee_id}, #{department_name}, #{position}, #{name}, #{e_name}, #{h_name}, #{contact}, #{emergency_contact}, #{birth}, #{address}, #{email}, #{member_id}, #{member_pwd}, #{work_status}, #{join_date}, 
            <if test="leave_date != null and leave_date != ''">#{leave_date}</if>
            <if test="leave_date == null or leave_date == ''">NULL</if>,
            #{salary}, 
            <if test="remaining_leave != null">#{remaining_leave}</if>
            <if test="remaining_leave == null">0</if>
-           , #{notes})
+           , #{notes}, #{uploadedFileName})
 </insert>
 
 
@@ -47,6 +47,10 @@ SELECT COUNT(*) AS cnt FROM member WHERE member_id = #{member_id}
 	SELECT * FROM member WHERE delyn = 'N'
 	<include refid="search"/>
 	ORDER BY midx DESC LIMIT #{startPageNum}, #{perPageNum}
+</select>
+
+<select id="memberSelectOne" parameterType="int" resultType="mv">
+	SELECT * FROM member WHERE delyn = 'N' AND midx = #{midx}
 </select>
 
 </mapper> 

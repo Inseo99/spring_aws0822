@@ -26,6 +26,7 @@ public class MemberVo {	// Vo : Value Object
 	private String photo;
 	private String delyn;
 	private String writeday;
+	private String uploadedFileName;
 	
 	public int getMidx() {
 		return midx;
@@ -150,7 +151,7 @@ public class MemberVo {	// Vo : Value Object
 	public int getRemaining_leave() {
 		return remaining_leave;
 	}
-	public void setRemaining_leave(int remaining_leave) {
+	public void setRemaining_leave(Integer remaining_leave) {
 		this.remaining_leave = remaining_leave;
 	}
 	public String getPhoto() {
@@ -177,4 +178,11 @@ public class MemberVo {	// Vo : Value Object
 	public void setWriteday(String writeday) {
 		this.writeday = writeday;
 	}
+	public String getUploadedFileName() {
+		return uploadedFileName;
+	}
+	public void setUploadedFileName(String uploadedFileName) {
+		this.uploadedFileName = uploadedFileName;
+	}
+	
 }

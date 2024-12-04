@@ -1,16 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-String msg = "";  
-if (request.getAttribute("msg") != null) {
-   msg = (String)request.getAttribute("msg");
-}
-
-if (msg != "") {
-   out.println("<script>alert('" + msg + "');</script>");   
-}
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,7 +97,6 @@ function joincheck() {
     if (ans) {
         fm.action = "${pageContext.request.contextPath}/member/employeeRegisterAction.aws";
         fm.method = "post";
-        fm.enctype = "multipart/form-data";
         fm.submit();
     }
 }
@@ -121,7 +110,7 @@ function setDefault(input) {
 </script>
 </head>
 <body>
-	<div class="save"> 
+	<div class="save">
         <!-- 상단바 -->
         <div class="header">
           <div class="logo">koreacompany</div>
@@ -156,7 +145,7 @@ function setDefault(input) {
 	                </li>
 	                <li class="menu-item" id="employee-management">직원 관리
 	                    <ul class="submenu">
-	                        <li><a href="${pageContext.request.contextPath}/department/departmentList.aws">부서 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/departmentList.aws">부서 목록</a></li>
 	                        <li><a href="${pageContext.request.contextPath}/member/memberList.aws">직원 목록</a></li>
 	                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
 	                    </ul>
@@ -168,81 +157,86 @@ function setDefault(input) {
 			<div class="info-form">
 			    <h3 class="title-left">직원 정보 등록</h3>
 			    <form name="frm">
-			    <input type="hidden" name="grade" value="employee">
+			    <input type="hidden" name="grade" value="${mv.grade }">
 			        <!-- 직원 정보 섹션 -->
 			        <table class="info-table">
 			           <tr>
 						    <td class="photo-cell" rowspan="4">
 						        <div class="photo-box">
-						            <div class="photo-preview"></div>
+						            <div class="photo-preview">
+						            <img src="${pageContext.request.contextPath}/member/displayFile.aws?fileName=${mv.photo}">
+						            </div>
 						            <label for="attachfile" class="upload-label">사진 첨부</label>
 						            <input type="file" id="attachfile" name="attachfile" class="hidden-input">
 						        </div>
 						    </td>
 						    <th>직원번호</th>
-						    <td><input type="text" id="employee_id" name="employee_id" aria-labelledby="employee_id-label"></td>
+						    <td><input type="text" id="employee_id" name="employee_id" value="${mv.employee_id}"  aria-labelledby="employee_id-label"></td>
 						    <th>이름</th>
-						    <td><input type="text" id="name" name="name" aria-labelledby="name-label"></td>
+						    <td><input type="text" id="name" name="name" value="${mv.name}" aria-labelledby="name-label"></td>
 						</tr>
 			            <tr>
 			                <th>연락처</th>
-			                <td><input type="text" id="contact" name="contact"></td>
+			                <td><input type="text" id="contact" name="contact" value="${mv.contact}"></td>
 			                <th>긴급 연락처</th>
-			                <td><input type="text" id="emergency_contact" name="emergency_contact"></td>
+			                <td><input type="text" id="emergency_contact" name="emergency_contact" value="${mv.emergency_contact}"></td>
 			            </tr>
 			            <tr>
 			                <th>부서</th>
-			                <td><input type="text" id="department_name" name="department_name"></td>
+			                <td><input type="text" id="department_name" name="department_name" value="${mv.department_name}"></td>
 			                <th>직급</th>
-			                <td><input type="text" id="position" name="position"></td>
+			                <td><input type="text" id="position" name="position" value="${mv.position}"></td>
 			            </tr>
 			            <tr>
 			                <th>입사일</th>
-			                <td><input type="date" id="join_date" name="join_date"></td>
+			                <td><input type="date" id="join_date" name="join_date" value="${mv.join_date}"></td>
 			                <th>퇴사일</th>
-			                <td><input type="date" id="leave_date" name="leave_date"></td>
+			                <td><input type="date" id="leave_date" name="leave_date" value="${mv.leave_date}"></td>
 			            </tr>
 			        </table>
 			        <table class="combined-info-table">
 					    <tr>
 					        <th style="border-top: none;">근무 상태</th>
-					        <td colspan="3" class="status-options">
-					            <input type="radio" name="work_status" value="재직" checked> 재직
-					            <input type="radio" name="work_status" value="휴직"> 휴직
-					            <input type="radio" name="work_status" value="퇴직"> 퇴직
+					        <td colspan="3" class="status-options" >
+					            <input type="radio" name="work_status" value="재직"
+						            <c:if test="${mv.work_status == '재직'}">checked</c:if>> 재직
+						        <input type="radio" name="work_status" value="휴직"
+						            <c:if test="${mv.work_status == '휴직'}">checked</c:if>> 휴직
+						        <input type="radio" name="work_status" value="퇴직"
+						            <c:if test="${mv.work_status == '퇴직'}">checked</c:if>> 퇴직
 					        </td>
 					    </tr>
 					    <tr>
 					        <th>한자명</th>
-					        <td><input type="text" id="h_name" name="h_name"></td>
+					        <td><input type="text" id="h_name" name="h_name" value="${mv.h_name}"></td>
 					        <th>영문명</th>
-					        <td><input type="text" id="e_name" name="e_name"></td>
+					        <td><input type="text" id="e_name" name="e_name" value="${mv.e_name}"></td>
 					    </tr>
 					    <tr>
 					        <th>이메일</th>
-					        <td><input type="email" id="email" name="email"></td>
+					        <td><input type="email" id="email" name="email" value="${mv.email}"></td>
 					        <th>생년월일</th>
-					        <td><input type="date" id="birth" name="birth"></td>
+					        <td><input type="date" id="birth" name="birth" value="${mv.birth}"></td>
 					    </tr>
 					    <tr>
 					        <th>주소</th>
-					        <td colspan="3"><input type="text" id="address" name="address"></td>
+					        <td colspan="3"><input type="text" id="address" name="address" value="${mv.address}"></td>
 					    </tr>
 					    <tr>
 					        <th>특이사항</th>
-					        <td colspan="3"><textarea id="notes" name="notes"></textarea></td>
+					        <td colspan="3"><textarea id="notes" name="notes">${mv.notes}</textarea></td>
 					    </tr>
 					    <tr>
 					        <th>아이디</th>
-					        <td><input type="text" id="member_id" name="member_id"></td>
+					        <td><input type="text" id="member_id" name="member_id" value="${mv.member_id}"></td>
 					        <th>비밀번호</th>
-					        <td><input type="password" id="member_pwd" name="member_pwd"></td>
+					        <td><input type="password" id="member_pwd" name="member_pwd" value="${mv.member_pwd}"></td>
 					    </tr>
 					    <tr>
 					        <th>월급여</th>
-					        <td><input type="text" id="salary" name="salary"></td>
+					        <td><input type="text" id="salary" name="salary" value="${mv.salary}"></td>
 					        <th>남은 연차</th>
-					        <td><input type="number" id="remaining_leave" name="remaining_leave" min="0" value="0" onblur="setDefault(this)"></td>
+					        <td><input type="number" id="remaining_leave" name="remaining_leave" min="0" value="${mv.remaining_leave}" onblur="setDefault(this)"></td>
 					    </tr>
 					</table>			
 			        <!-- 저장/취소 버튼 -->

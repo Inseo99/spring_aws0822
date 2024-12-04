@@ -18,4 +18,6 @@ public interface MemberService {
    public int memeberTatalCount(SearchCriteria scri);
 
    public ArrayList<MemberVo> memberSelectAll(SearchCriteria scri);
+
+   public MemberVo memberSelectOne(int midx);
 }

@@ -102,7 +102,9 @@ document.addEventListener('DOMContentLoaded', function () {
             <main class="main">
                 <!-- 직원 정보 -->
                 <section class="profile">
-                    <div class="photo"></div>
+                    <div class="photo">
+                    <img src="${pageContext.request.contextPath}/member/displayFile.aws?fileName=${mv.photo}">
+                    </div>
                     <div class="details">
                         <p><strong>이 름 : </strong> ${mv.name}</p>
                         <p><strong>부 서 : </strong> ${mv.department_name}</p>

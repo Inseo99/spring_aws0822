@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>
                             <td>${mv.department_name}</td>
                             <td>${mv.position}</td>
-                            <td><a href="${pageContext.request.contextPath}/member/employeeM odify.aws?midx=${mv.midx}">${mv.name}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/member/memberModify.aws?midx=${mv.midx}">${mv.name}</a></td>
                             <td>${mv.attendance_status}</td>
                             <td>${mv.contact}</td>
                             <td>${mv.join_date}</td>

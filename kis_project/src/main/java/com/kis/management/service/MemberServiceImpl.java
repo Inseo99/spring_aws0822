@@ -68,4 +68,10 @@ private MemberMapper mm;
 		ArrayList<MemberVo> mlist = mm.memberSelectAll(hm);
 		return mlist;
 	}
+
+	@Override
+	public MemberVo memberSelectOne(int midx) {
+		MemberVo mv = mm.memberSelectOne(midx);
+		return mv;
+	}
 }

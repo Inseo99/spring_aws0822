@@ -20,6 +20,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
          session.removeAttribute("member_id");
          session.removeAttribute("name");
          session.removeAttribute("grade");
+         session.removeAttribute("photo");
          session.invalidate();
       }
             
@@ -35,6 +36,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
       String member_id = modelAndView.getModel().get("member_id").toString();
       String name = modelAndView.getModel().get("name").toString();
       String grade = modelAndView.getModel().get("grade").toString();
+      String photo = modelAndView.getModel().get("photo").toString();
       
       
       modelAndView.getModel().clear();
@@ -45,6 +47,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
          session.setAttribute("member_id", member_id);
          session.setAttribute("name", name);
          session.setAttribute("grade", grade);
+         session.setAttribute("photo", photo);
       }      
    }
 }
