@@ -21,7 +21,7 @@ public class MemberVo {	// Vo : Value Object
 	private String join_date;
 	private String leave_date;
 	private String salary;
-	private int remaining_leave;
+	private Integer remaining_leave;
 	private String notes;
 	private String photo;
 	private String delyn;

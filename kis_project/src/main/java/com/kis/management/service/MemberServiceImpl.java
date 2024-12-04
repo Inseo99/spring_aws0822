@@ -1,5 +1,6 @@
 package com.kis.management.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kis.management.domain.MemberVo;
+import com.kis.management.domain.SearchCriteria;
 import com.kis.management.persistance.MemberMapper;
 
 @Service
@@ -46,5 +48,24 @@ private MemberMapper mm;
 	public int employeeInsert(MemberVo mv) {
 		int value = mm.employeeInsert(mv);
 	      return value;
+	}
+	
+	@Override
+	public int memeberTatalCount(SearchCriteria scri) {
+		int cnt = mm.memeberTatalCount(scri);		
+		return cnt;
+	}
+
+	@Override
+	public ArrayList<MemberVo> memberSelectAll(SearchCriteria scri) {
+		
+		HashMap<String, Object> hm = new HashMap<String, Object>(); // 알아보기
+		hm.put("startPageNum", (scri.getPage()-1) * scri.getPerPageNum());
+		hm.put("perPageNum", scri.getPerPageNum());
+		hm.put("searchType", scri.getSearchType());
+		hm.put("keyword", scri.getKeyword());
+		
+		ArrayList<MemberVo> mlist = mm.memberSelectAll(hm);
+		return mlist;
 	}
 }

@@ -41,7 +41,7 @@ body, html {
 }
 
 /* 콘텐츠 영역 */
-.List-content {
+.list-content {
     display: flex;
     flex: 1;
 }
@@ -143,3 +143,12 @@ header .search {
 	cursor: pointer; display: inline-block; vertical-align: middle; font-size: 11px; text-align: center; text-decoration: none;}
 .btnBox { text-align:right; margin-top: 10px;}
 .aBtn {	text-align: center; line-height: 20px; }
+
+/* 페이지네이션 */
+.page { display: flex; justify-content: center; margin: 20px 0;}
+.page ul { display: flex; list-style: none; gap: 10px;}
+.page ul li { padding: 3px 5px; border: 1px solid #ddd; border-radius: 5px; background-color: white; cursor: pointer; transition: background-color 0.3s;}
+.page ul li:hover { background-color: #90e0ef; color: white;}
+.page ul li a { text-decoration: none; color: inherit;}
+.page ul li a:focus { outline: none;}
+.page ul li.on { background-color: #0077b6; color: white;}

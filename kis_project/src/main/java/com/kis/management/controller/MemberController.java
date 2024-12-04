@@ -1,5 +1,7 @@
 package com.kis.management.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kis.management.domain.MemberVo;
 import com.kis.management.service.MemberService;
+import com.kis.management.domain.PageMaker;
+import com.kis.management.domain.SearchCriteria;
 import com.kis.management.controller.MemberController;
 
 @Controller
@@ -27,6 +31,9 @@ public class MemberController {
    
    @Autowired
    private MemberService memberService;
+   
+   @Autowired(required = false)
+	private PageMaker pm;
    
    @Autowired(required = false)
    private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -165,4 +172,19 @@ public class MemberController {
       return path;
    }
    
+   @RequestMapping(value = "memberList.aws", method = RequestMethod.GET)
+	public String memberList(SearchCriteria scri, Model model) {
+		
+	   	int cnt = memberService.memeberTatalCount(scri);
+		
+		pm.setScri(scri);		
+		pm.setTotalCount(cnt);
+	   
+		ArrayList<MemberVo> mlist = memberService.memberSelectAll(scri);
+		
+		model.addAttribute("mlist", mlist);
+		model.addAttribute("pm", pm);
+		
+		return "WEB-INF/member/memberList";
+	}
 }

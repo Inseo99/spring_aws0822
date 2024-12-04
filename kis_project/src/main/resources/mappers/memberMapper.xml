@@ -5,12 +5,12 @@
 <mapper namespace="com.kis.management.persistance.MemberMapper">
 
 <insert id="adminInsert" parameterType="mv">
-   insert into member(grade,position,name,contact,birth,member_id,member_pwd,email) 
-   values(#{grade}, #{position}, #{name}, #{contact}, #{birth}, #{member_id}, #{member_pwd}, #{email})
+   INSERT INTO member(grade,position,name,contact,birth,member_id,member_pwd,email) 
+   VALUES(#{grade}, #{position}, #{name}, #{contact}, #{birth}, #{member_id}, #{member_pwd}, #{email})
 </insert>
 
 <select id="memberLoginCheck" parameterType="HashMap" resultType="mv">
-   select * from member where member_id = #{member_id} AND grade = #{grade}
+   SELECT * FROM member where member_id = #{member_id} AND grade = #{grade}
 </select>
 
 <select id="memberIdCheck" parameterType="String" resultType="int">
@@ -18,8 +18,35 @@ SELECT COUNT(*) AS cnt FROM member WHERE member_id = #{member_id}
 </select>
 
 <insert id="employeeInsert" parameterType="mv">
-   INSERT INTO member(grade, employee_id, department_name, position, name, e_name, h_name, contact, emergency_contact, birth, address, email, member_id, member_pwd, work_status, join_date, leave_date, salary, remaining_leave, notes) 
-   VALUES(#{grade}, #{employee_id}, #{department_name}, #{position}, #{name}, #{e_name}, #{h_name}, #{contact}, #{emergency_contact}, #{birth}, #{address}, #{email}, #{member_id}, #{member_pwd}, #{work_status}, #{join_date}, #{leave_date}, #{salary}, #{remaining_leave}, #{notes})
+   INSERT INTO member (grade, employee_id, department_name, position, name, e_name, h_name, contact, emergency_contact, birth, address, email, member_id, member_pwd, work_status, join_date, leave_date, salary, remaining_leave, notes)
+   VALUES (#{grade}, #{employee_id}, #{department_name}, #{position}, #{name}, #{e_name}, #{h_name}, #{contact}, #{emergency_contact}, #{birth}, #{address}, #{email}, #{member_id}, #{member_pwd}, #{work_status}, #{join_date}, 
+           <if test="leave_date != null and leave_date != ''">#{leave_date}</if>
+           <if test="leave_date == null or leave_date == ''">NULL</if>,
+           #{salary}, 
+           <if test="remaining_leave != null">#{remaining_leave}</if>
+           <if test="remaining_leave == null">0</if>
+           , #{notes})
 </insert>
+
+
+<sql id="search">
+	<if test="searchType != null and searchType.equals('name')">
+		 AND name LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+	<if test="searchType != null and searchType.equals('department_name')">
+		 AND department_name LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+</sql>
+
+<select id="memeberTatalCount" parameterType="scri" resultType="int">
+	SELECT COUNT(*) AS cnt FROM member WHERE delyn = 'N'
+	<include refid="search"/>
+</select>
+
+<select id="memberSelectAll" parameterType="HashMap" resultType="mv">
+	SELECT * FROM member WHERE delyn = 'N'
+	<include refid="search"/>
+	ORDER BY midx DESC LIMIT #{startPageNum}, #{perPageNum}
+</select>
 
 </mapper> 

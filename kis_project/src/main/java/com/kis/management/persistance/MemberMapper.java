@@ -1,8 +1,10 @@
 package com.kis.management.persistance;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kis.management.domain.MemberVo;
+import com.kis.management.domain.SearchCriteria;
 
 public interface MemberMapper {
 
@@ -13,5 +15,9 @@ public interface MemberMapper {
    public int memberIdCheck(String member_id);
 
    public int employeeInsert(MemberVo mv);
+
+   public int memeberTatalCount(SearchCriteria scri);
+
+   public ArrayList<MemberVo> memberSelectAll(HashMap<String, Object> hm);
    
 }

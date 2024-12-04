@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,}$/i;
 
-function check() {
+function joincheck() {
     const fm = document.frm;
 	
     if (fm.employee_id.value === "") {
@@ -70,6 +70,11 @@ function check() {
     if (fm.position.value === "") {
         alert("직급을 입력해주세요.");
         fm.position.focus();
+        return;
+    }
+    if (fm.join_date.value === "") {
+        alert("입사일을 입력해주세요.");
+        fm.join_date.focus();
         return;
     }
     if (fm.email.value === "") {
@@ -106,6 +111,12 @@ function check() {
     }
 }
 
+function setDefault(input) {
+    if (input.value === "") {
+        input.value = 0;
+    }
+}
+
 </script>
 </head>
 <body>
@@ -121,37 +132,37 @@ function check() {
           </div>
       </div>
 
-        <!-- 대시보드 콘텐츠 -->
-        <div class="dashboard-content">
+        <!-- 콘텐츠 -->
+        <div class="save-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
-                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
-                <li class="menu-item" id="work-report">업무 보고
-                    <ul class="submenu">
-                        <li><a href="../public/weekWorkList.html">주간 업무</a></li>
-                        <li><a href="../public/monthWorkList.html">월간 업무</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item" id="attendance-management">근태 관리
-                    <ul class="submenu">
-                        <li><a href="#">휴가 신청</a></li>
-                        <li><a href="#">출장 신청</a></li>
-                        <li><a href="../public/calendar.html">일정 관리</a></li>
-                        <li><a href="./leaveList.html">휴가 승인</a></li>
-                        <li><a href="./businessTripList.html">출장 승인</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item" id="employee-management">직원 관리
-                    <ul class="submenu">
-                        <li><a href="./departmentList.html">부서 목록</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/memberList.jsp">직원 목록</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item"><a href="../public/noticeList.html">공지사항</a></li>
-                <li class="menu-item"><a href="../public/communityList.html">커뮤니티</a></li>
-            </ul>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
+	                <li class="menu-item" id="work-report">업무 보고
+	                    <ul class="submenu">
+	                        <li><a href="${pageContext.request.contextPath}/board/weekWorkList.aws">주간 업무</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/monthWorkList.aws">월간 업무</a></li>
+	                    </ul>
+	                </li>
+	                <li class="menu-item" id="attendance-management">근태 관리
+	                    <ul class="submenu">
+	                        <li><a href="${pageContext.request.contextPath}/board/leaveWrite.aws">휴가 신청</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/businessTripWrite.aws">출장 신청</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/calendar.aws">일정 관리</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/leaveList.aws">휴가 승인</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/businessTripList.aws">출장 승인</a></li>
+	                    </ul>
+	                </li>
+	                <li class="menu-item" id="employee-management">직원 관리
+	                    <ul class="submenu">
+	                        <li><a href="${pageContext.request.contextPath}/board/departmentList.aws">부서 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/member/memberList.aws">직원 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
+	                    </ul>
+	                </li>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/noticeList.aws">공지사항</a></li>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/communityList.aws">커뮤니티</a></li>
+	            </ul>
             </nav>
 			<div class="info-form">
 			    <h3 class="title-left">직원 정보 등록</h3>
@@ -176,7 +187,7 @@ function check() {
 			                <th>연락처</th>
 			                <td><input type="text" id="contact" name="contact"></td>
 			                <th>긴급 연락처</th>
-			                <td><input type="text" id="emergency-contact" name="emergency-contact"></td>
+			                <td><input type="text" id="emergency_contact" name="emergency_contact"></td>
 			            </tr>
 			            <tr>
 			                <th>부서</th>
@@ -186,9 +197,9 @@ function check() {
 			            </tr>
 			            <tr>
 			                <th>입사일</th>
-			                <td><input type="date" id="join-date" name="join-date"></td>
+			                <td><input type="date" id="join_date" name="join_date"></td>
 			                <th>퇴사일</th>
-			                <td><input type="date" id="leave-date" name="leave-date"></td>
+			                <td><input type="date" id="leave_date" name="leave_date"></td>
 			            </tr>
 			        </table>
 			        <table class="combined-info-table">
@@ -230,12 +241,12 @@ function check() {
 					        <th>월급여</th>
 					        <td><input type="text" id="salary" name="salary"></td>
 					        <th>남은 연차</th>
-					        <td><input type="text" id="remaining-leave" name="remaining-leave"></td>
+					        <td><input type="number" id="remaining_leave" name="remaining_leave" min="0" value="0" onblur="setDefault(this)"></td>
 					    </tr>
 					</table>			
 			        <!-- 저장/취소 버튼 -->
 			        <div class="btnBox">
-			            <button type="button" class="btn" onclick="check();">저장</button>
+			            <button type="button" class="btn" onclick="joincheck();">저장</button>
 			            <a class="btn aBtn" onclick="history.back();">취소</a>
 			        </div>
 			    </form>

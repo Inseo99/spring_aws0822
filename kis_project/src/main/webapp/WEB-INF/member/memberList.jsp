@@ -18,28 +18,30 @@ if (msg != "") {
 <head>
 <meta charset="UTF-8">
 <title>직원 목록</title>
-<link rel="stylesheet" href="../css/list.css">
+<link href="${pageContext.request.contextPath}/resources/css/list.css" rel="stylesheet">
 <script>
 
-function updateTime() {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const day = now.getDate(); // 일
-    const month = now.getMonth() + 1; // 월 (0부터 시작하므로 +1)
-    const year = now.getFullYear(); // 연도
-    const weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
+document.addEventListener('DOMContentLoaded', function () {
+    function updateTime() {
+        var now = new Date();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+        var day = now.getDate(); // 일
+        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1)
+        var year = now.getFullYear(); // 연도
+        var weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
 
-    document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
-    document.getElementById('current-date').textContent = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} (${weekday})`; // 날짜 형식 (YYYY-MM-DD)
-}
+        document.getElementById('current-time').textContent = hours + ":" + minutes + ":" + seconds;
+        document.getElementById('current-date').textContent = year + "-" + month + "-" + day + " (" + weekday + ")";
+    }
 
-// 매초마다 시간 갱신
-setInterval(updateTime, 1000);
+    // 매초마다 시간 갱신
+    setInterval(updateTime, 1000);
 
-// 최초 실행
-updateTime();
+    // 최초 실행
+    updateTime();
+});
 
 </script>
 </head>
@@ -56,46 +58,46 @@ updateTime();
           </div>
       </div>
 
-        <!-- 대시보드 콘텐츠 -->
-        <div class="dashboard-content">
+        <!--콘텐츠 -->
+        <div class="list-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
-                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
-                <li class="menu-item" id="work-report">업무 보고
-                    <ul class="submenu">
-                        <li><a href="../public/weekWorkList.html">주간 업무</a></li>
-                        <li><a href="../public/monthWorkList.html">월간 업무</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item" id="attendance-management">근태 관리
-                    <ul class="submenu">
-                        <li><a href="#">휴가 신청</a></li>
-                        <li><a href="#">출장 신청</a></li>
-                        <li><a href="../public/calendar.html">일정 관리</a></li>
-                        <li><a href="./leaveList.html">휴가 승인</a></li>
-                        <li><a href="./businessTripList.html">출장 승인</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item" id="employee-management">직원 관리
-                    <ul class="submenu">
-                        <li><a href="./departmentList.html">부서 목록</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/memberList.jsp">직원 목록</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item"><a href="../public/noticeList.html">공지사항</a></li>
-                <li class="menu-item"><a href="../public/communityList.html">커뮤니티</a></li>
-            </ul>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
+	                <li class="menu-item" id="work-report">업무 보고
+	                    <ul class="submenu">
+	                        <li><a href="${pageContext.request.contextPath}/board/weekWorkList.aws">주간 업무</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/monthWorkList.aws">월간 업무</a></li>
+	                    </ul>
+	                </li>
+	                <li class="menu-item" id="attendance-management">근태 관리
+	                    <ul class="submenu">
+	                        <li><a href="${pageContext.request.contextPath}/board/leaveWrite.aws">휴가 신청</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/businessTripWrite.aws">출장 신청</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/calendar.aws">일정 관리</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/leaveList.aws">휴가 승인</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/board/businessTripList.aws">출장 승인</a></li>
+	                    </ul>
+	                </li>
+	                <li class="menu-item" id="employee-management">직원 관리
+	                    <ul class="submenu">
+	                        <li><a href="${pageContext.request.contextPath}/board/departmentList.aws">부서 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/member/memberList.aws">직원 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
+	                    </ul>
+	                </li>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/noticeList.aws">공지사항</a></li>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/communityList.aws">커뮤니티</a></li>
+	            </ul>
             </nav>
             <!-- 목록 콘텐츠 -->
             <div class="main-list">
                 <header>
                     <h2 class="mainTitle">직원 목록</h2>
-                    <form class="search" name="frm" action="${pageContext.request.contextPath}/member/memberList.jsp">
+                    <form class="search" name="frm" action="${pageContext.request.contextPath}/member/memberList.aws">
                         <select name="searchType">
                             <option value="name">이름</option>
-                            <option value="department">부서</option>
+                            <option value="department_name">부서</option>
                         </select>
                         <input type="text" name="keyword">
                         <button type="submit" class="btn">검색</button>
@@ -114,30 +116,39 @@ updateTime();
                         </tr>
                     </thead>
                     <tbody>
+                    <c:forEach items = "${mlist}" var = "mv" varStatus="status"> 
                         <tr>
-                            <td>1</td>
-                            <td>개발팀</td>
-                            <td>팀장</td>
-                            <td>홍길동</td>
-                            <td>출근</td>
-                            <td>010-1234-5678</td>
-                            <td>2022-01-15</td>
+                            <td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>
+                            <td>${mv.department_name}</td>
+                            <td>${mv.position}</td>
+                            <td><a href="${pageContext.request.contextPath}/member/employeeM odify.aws?midx=${mv.midx}">${mv.name}</a></td>
+                            <td>${mv.attendance_status}</td>
+                            <td>${mv.contact}</td>
+                            <td>${mv.join_date}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>디자인팀</td>
-                            <td>디자이너</td>
-                            <td>김철수</td>
-                            <td>퇴근</td>
-                            <td>010-2345-6789</td>
-                            <td>2021-11-10</td>
-                        </tr>
-                        <!-- 추가 직원들 -->
+                    </c:forEach>
                     </tbody>
                 </table>
                 <div class="btnBox">
                     <a class="btn aBtn" href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원등록</a>
                 </div>
+                <c:set var = "queryParam" value = "keyword=${pm.scri.keyword}&searchType=${pm.scri.searchType}"></c:set>
+				<div class="page">
+					<ul>
+						<c:if test="${pm.prev == true}">
+							<li><a href = "${pageContext.request.contextPath}/member/memberList.aws?page=${pm.startPage - 1}&${queryParam}">◀</a></li>
+						</c:if>		
+						<c:forEach var = "i" begin = "${pm.startPage}" end = "${pm.endPage}" step = "1">
+							<li <c:if test="${i == pm.scri.page}"> class = 'on'</c:if>>
+								<a href = "${pageContext.request.contextPath}/member/memberList.aws?page=${i}&${queryParam}">
+								${i}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pm.next && pm.endPage > 0 }">
+							<li><a href = "${pageContext.request.contextPath}/member/memberList.aws?page=${pm.endPage + 1}&${queryParam}">▶</a></li>
+						</c:if>
+					</ul>
+				</div>
             </div>
         </div>
     </div>

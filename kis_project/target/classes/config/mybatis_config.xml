@@ -5,6 +5,9 @@
 <configuration> 
 <typeAliases>
  <typeAlias alias="mv" type="com.kis.management.domain.MemberVo"/> <!-- 이름지정 -->
+ <typeAlias alias="scri" type="com.kis.management.domain.SearchCriteria"/>
+
+
 
 </typeAliases>
 </configuration>
