@@ -53,4 +53,25 @@ SELECT COUNT(*) AS cnt FROM member WHERE member_id = #{member_id}
 	SELECT * FROM member WHERE delyn = 'N' AND midx = #{midx}
 </select>
 
+<update id="memberUpdate" parameterType="mv">
+	UPDATE member 
+	SET employee_id = #{employee_id}, department_name = #{department_name}, position = #{position}, name = #{name}, e_name = #{e_name}, h_name = #{h_name}, contact = #{contact}, emergency_contact = #{emergency_contact}, birth = #{birth}, address = #{address}, email = #{email}, member_id = #{member_id}, member_pwd = #{member_pwd}, work_status = #{work_status}, join_date = #{join_date}, 
+		<if test="leave_date != null and leave_date != ''">
+		leave_date = #{leave_date},
+		</if> 
+		salary = #{salary}, remaining_leave = #{remaining_leave}, notes = #{notes}, photo = #{uploadedFileName} 
+	WHERE midx = #{midx} 
+</update>
+
+<update id="memberDelete" parameterType="int">
+	UPDATE member SET delyn = 'Y' 
+	WHERE midx = #{midx}
+</update>
+
+<update id="informationUpdate" parameterType="mv">
+	UPDATE member
+	SET name = #{name}, e_name = #{e_name}, h_name = #{h_name}, contact = #{contact}, emergency_contact = #{emergency_contact}, birth = #{birth}, address = #{address}, email = #{email}, notes = #{notes}
+	WHERE midx = #{midx}
+</update>
+
 </mapper> 

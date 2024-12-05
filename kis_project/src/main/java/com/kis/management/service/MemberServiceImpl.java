@@ -47,7 +47,7 @@ private MemberMapper mm;
 	@Override
 	public int employeeInsert(MemberVo mv) {
 		int value = mm.employeeInsert(mv);
-	      return value;
+	    return value;
 	}
 	
 	@Override
@@ -73,5 +73,23 @@ private MemberMapper mm;
 	public MemberVo memberSelectOne(int midx) {
 		MemberVo mv = mm.memberSelectOne(midx);
 		return mv;
+	}
+
+	@Override
+	public int memberUpdate(MemberVo mv) {
+		int value = mm.memberUpdate(mv);
+	    return value;
+	}
+
+	@Override
+	public int memberDelete(int midx) {
+		int value = mm.memberDelete(midx);
+		return value;
+	}
+
+	@Override
+	public int informationUpdate(MemberVo mv) {
+		int value = mm.informationUpdate(mv);
+	    return value;
 	}
 }

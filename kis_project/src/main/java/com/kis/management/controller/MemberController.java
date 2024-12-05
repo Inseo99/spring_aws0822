@@ -118,16 +118,11 @@ public class MemberController {
             rttr.addAttribute("name", mv.getName());
             rttr.addAttribute("photo", mv.getPhoto());
             
-            if ("admin".equals(grade)) {
-                session.setAttribute("mv", mv);
-            	rttr.addFlashAttribute("msg", "로그인 되었습니다.");
-            	path = "redirect:/board/adminDashboard.aws";                                          
-            } else if ("employee".equals(grade)) {
-            	session.setAttribute("mv", mv);
-            	rttr.addFlashAttribute("msg", "로그인 되었습니다.");
-            	path = "redirect:/board/employeeDashboard.aws";
-            }
+            session.setAttribute("mv", mv);
+            rttr.addFlashAttribute("msg", "로그인 되었습니다.");
             
+            path = "redirect:/board/dashboard.aws";         
+          
          } else {
         	 rttr.addAttribute("midx", "");
              rttr.addAttribute("grade", "");
@@ -201,6 +196,40 @@ public class MemberController {
 	   return path;
    }
    
+   @RequestMapping(value = "information.aws", method = RequestMethod.GET)
+	public String information(
+			@RequestParam("midx") int midx, 
+			Model model
+			) {
+	   
+	   MemberVo mv = memberService.memberSelectOne(midx);
+		
+	   model.addAttribute("mv", mv);
+	   model.addAttribute("midx", midx);
+		
+	   return "WEB-INF/member/information";
+	}
+   
+   @RequestMapping(value = "informationAction.aws", method = RequestMethod.POST)
+	public String information(
+			MemberVo mv,
+			@RequestParam("midx") int midx,
+			RedirectAttributes rttr
+			) throws Exception {		
+		
+		int value = memberService.informationUpdate(mv);
+		
+		String path = "";
+		if (value == 1) {
+			rttr.addFlashAttribute("msg", "글이 수정되었습니다.");
+			path = "redirect:/board/dashboard.aws";			
+		} else {
+			path = "redirect:/member/information.aws?midx=" + midx; 
+		}
+		
+		return path;
+	}
+   
    @RequestMapping(value = "memberList.aws", method = RequestMethod.GET)
 	public String memberList(SearchCriteria scri, Model model) {
 		
@@ -225,9 +254,64 @@ public class MemberController {
 	   
 	   MemberVo mv = memberService.memberSelectOne(midx);
 		
-	   model.addAttribute("mv", mv);		
+	   model.addAttribute("mv", mv);
+	   model.addAttribute("midx", midx);
 		
 	   return "WEB-INF/member/memberModify";
+	}
+   
+   @RequestMapping(value = "memberModifyAction.aws", method = RequestMethod.POST)
+	public String memberModifyAction(
+			MemberVo mv,
+			@RequestParam("midx") int midx,
+			@RequestParam("attachfile") MultipartFile attachfile,
+			RedirectAttributes rttr
+			) throws Exception {		
+		// logger.info("boardModifyAction 들어옴");
+		MultipartFile file = attachfile;
+		String uploadedFileName = "";
+		
+		if (! file.getOriginalFilename().equals("")) {	// 파일업로드
+			uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());			
+		}
+
+		String memberpwd_enc = bCryptPasswordEncoder.encode(mv.getMember_pwd());
+		
+		mv.setUploadedFileName(uploadedFileName);
+		mv.setMember_pwd(memberpwd_enc);
+		
+		int value = memberService.memberUpdate(mv);
+		// System.out.println("value: " + value);
+		
+		String path = "";
+		if (value == 1) {
+			rttr.addFlashAttribute("msg", "글이 수정되었습니다.");
+			path = "redirect:/member/memberList.aws";			
+		} else {
+			path = "redirect:/member/memberModify.aws?midx=" + midx; 
+		}
+		
+		return path;
+	}
+   
+   @RequestMapping(value = "memberDeleteAction.aws", method = RequestMethod.POST)
+	public String memberDeleteAction(
+			@RequestParam("midx") int midx,
+			RedirectAttributes rttr,
+			HttpSession session
+			) {		
+		
+		int value = memberService.memberDelete(midx);
+		
+		String path = "";
+		if (value == 1) {
+			rttr.addFlashAttribute("msg", "글이 삭제되었습니다.");
+			path = "redirect:/member/memberList.aws";		
+		} else {			
+			path = "redirect:/member/memberModify.aws?midx=" + midx;
+		}
+		
+		return path;
 	}
    
    @RequestMapping(value = "/displayFile.aws", method = RequestMethod.GET)

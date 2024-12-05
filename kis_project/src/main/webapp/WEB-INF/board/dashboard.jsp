@@ -71,39 +71,45 @@ document.addEventListener('DOMContentLoaded', function () {
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
-                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
-                <li class="menu-item" id="work-report">업무 보고
-                    <ul class="submenu">
-                        <li><a href="../public/weekWorkList.html">주간 업무</a></li>
-                        <li><a href="../public/monthWorkList.html">월간 업무</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item" id="attendance-management">근태 관리
-                    <ul class="submenu">
-                        <li><a href="#">휴가 신청</a></li>
-                        <li><a href="#">출장 신청</a></li>
-                        <li><a href="../public/calendar.html">일정 관리</a></li>
-                        <li><a href="./leaveList.html">휴가 승인</a></li>
-                        <li><a href="./businessTripList.html">출장 승인</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item" id="employee-management">직원 관리
-                    <ul class="submenu">
-                        <li><a href="${pageContext.request.contextPath}/board/departmentList.aws">부서 목록</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/memberList.aws">직원 목록</a></li>
-                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item"><a href="../public/noticeList.html">공지사항</a></li>
-                <li class="menu-item"><a href="../public/communityList.html">커뮤니티</a></li>
-            </ul>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/dashboard.aws">홈</a></li>
+	                <li class="menu-item" id="work-report">업무 보고
+	                    <ul class="submenu">
+	                        <li><a href="../public/weekWorkList.html">주간 업무</a></li>
+	                        <li><a href="../public/monthWorkList.html">월간 업무</a></li>
+	                    </ul>
+	                </li>
+	                <li class="menu-item" id="attendance-management">근태 관리
+	                    <ul class="submenu">
+	                        <li><a href="#">휴가 신청</a></li>
+	                        <li><a href="#">출장 신청</a></li>
+	                        <li><a href="../public/calendar.html">일정 관리</a></li>
+	                        <c:if test="${sessionScope.grade == 'admin'}">
+	                        <li><a href="./leaveList.html">휴가 승인</a></li>
+	                        <li><a href="./businessTripList.html">출장 승인</a></li>
+	                        </c:if>
+	                    </ul>
+	                </li>
+	                <c:if test="${sessionScope.grade == 'admin'}">
+	                <li class="menu-item" id="employee-management">직원 관리
+	                    <ul class="submenu">
+	                        <li><a href="${pageContext.request.contextPath}/department/departmentList.aws">부서 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/member/memberList.aws">직원 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
+	                    </ul>
+	                </li>
+	                </c:if>
+	                <li class="menu-item"><a href="../public/noticeList.html">공지사항</a></li>
+	                <li class="menu-item"><a href="../public/communityList.html">커뮤니티</a></li>
+	            </ul>
             </nav>
             <!-- 메인 콘텐츠 -->
             <main class="main">
                 <!-- 직원 정보 -->
                 <section class="profile">
                     <div class="photo">
+                	<c:if test="${!empty mv.photo}">
                     <img src="${pageContext.request.contextPath}/member/displayFile.aws?fileName=${mv.photo}">
+                    </c:if>
                     </div>
                     <div class="details">
                         <p><strong>이 름 : </strong> ${mv.name}</p>
@@ -111,13 +117,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p><strong>직 급 : </strong> ${mv.position}</p>
                         <p><strong>이 메 일 : </strong> ${mv.email}</p>
                         <p><strong>연 락 처 : </strong> ${mv.contact}</p>
+                        <a class="more-button" href="${pageContext.request.contextPath}/member/information.aws?midx=${mv.midx}">더보기</a>
                     </div>
                 </section>
 
                 <!-- 위젯 -->
                 <section class="widgets">
                     <div class="widget">
-                        <h3>알림</h3>
+                        <h3>업무 보고</h3>
                         <table class="listTable">
                      <tr>
                         <td>No</td>
@@ -129,8 +136,23 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>제목</td>
                         <td>날짜</td>
                      </tr>
+                     <tr>
+                        <td>No</td>
+                        <td>제목</td>
+                        <td>날짜</td>
+                     </tr>
+                     <tr>
+                        <td>No</td>
+                        <td>제목</td>
+                        <td>날짜</td>
+                     </tr>
+                     <tr>
+                        <td>No</td>
+                        <td>제목</td>
+                        <td>날짜</td>
+                     </tr>
                   </table>
-                        <button>더보기</button>
+                        <a class="more-button">더보기</a>
                     </div>
                     <div class="widget">
                         <h3>커뮤니티</h3>
@@ -141,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>날짜</td>
                      </tr>
                   </table>
-                        <button>더보기</button>
+                        <a class="more-button">더보기</a>
                     </div>
                     <div class="widget">
                         <h3>일정관리</h3>
@@ -167,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                           </div>
                       </div>
                   </div>
-                        <button>더보기</button>
+                        <a class="more-button">더보기</a>
                     </div>
                     <div class="widget">
                         <h3>공지사항</h3>
@@ -183,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>날짜</td>
                      </tr>
                   </table>
-                        <button>더보기</button>
+                        <a class="more-button">더보기</a>
                     </div>
                 </section>
             </main>

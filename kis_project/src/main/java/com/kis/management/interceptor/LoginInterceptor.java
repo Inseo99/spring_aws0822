@@ -32,12 +32,24 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
          HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)
          throws Exception {
       
-      String midx = modelAndView.getModel().get("midx").toString();
-      String member_id = modelAndView.getModel().get("member_id").toString();
-      String name = modelAndView.getModel().get("name").toString();
-      String grade = modelAndView.getModel().get("grade").toString();
-      String photo = modelAndView.getModel().get("photo").toString();
-      
+	   String midx = "";
+	   String member_id = "";
+	   String name = "";
+	   String grade = "";
+	   String photo = "";
+	   
+	  if (modelAndView.getModel().get("photo") == null || modelAndView.getModel().get("photo") == "") {
+		  midx = modelAndView.getModel().get("midx").toString();
+	      member_id = modelAndView.getModel().get("member_id").toString();
+	      name = modelAndView.getModel().get("name").toString();
+	      grade = modelAndView.getModel().get("grade").toString();
+	  } else {		  
+		  midx = modelAndView.getModel().get("midx").toString();
+		  member_id = modelAndView.getModel().get("member_id").toString();
+		  name = modelAndView.getModel().get("name").toString();
+		  grade = modelAndView.getModel().get("grade").toString();
+		  photo = modelAndView.getModel().get("photo").toString();  
+	  }
       
       modelAndView.getModel().clear();
       

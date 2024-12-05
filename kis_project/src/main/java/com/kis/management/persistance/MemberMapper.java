@@ -21,5 +21,11 @@ public interface MemberMapper {
    public ArrayList<MemberVo> memberSelectAll(HashMap<String, Object> hm);
 
    public MemberVo memberSelectOne(int midx);
+
+   public int memberUpdate(MemberVo mv);
+
+   public int memberDelete(int midx);
+
+   public int informationUpdate(MemberVo mv);
    
 }

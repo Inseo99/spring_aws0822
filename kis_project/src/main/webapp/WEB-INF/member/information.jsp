@@ -1,122 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.kis.management.domain.*"%>
+<%
+String msg = "";  
+if (request.getAttribute("msg") != null) {
+   msg = (String)request.getAttribute("msg");
+}
+
+if (msg != "") {
+   out.println("<script>alert('" + msg + "');</script>");   
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>직원 등록</title>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<title>개인 정보</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/save.css">
 <script>
 
-document.addEventListener('DOMContentLoaded', function () {
-    function updateTime() {
-        var now = new Date();
-        var hours = now.getHours().toString().padStart(2, '0');
-        var minutes = now.getMinutes().toString().padStart(2, '0');
-        var seconds = now.getSeconds().toString().padStart(2, '0');
-        var day = now.getDate(); // 일
-        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1)
-        var year = now.getFullYear(); // 연도
-        var weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
+function updateTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const day = now.getDate(); // 일
+    const month = now.getMonth() + 1; // 월 (0부터 시작하므로 +1)
+    const year = now.getFullYear(); // 연도
+    const weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
 
-        document.getElementById('current-time').textContent = hours + ":" + minutes + ":" + seconds;
-        document.getElementById('current-date').textContent = year + "-" + month + "-" + day + " (" + weekday + ")";
-    }
+    document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+    document.getElementById('current-date').textContent = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} (${weekday})`; // 날짜 형식 (YYYY-MM-DD)
+}
 
-    // 매초마다 시간 갱신
-    setInterval(updateTime, 1000);
+// 매초마다 시간 갱신
+setInterval(updateTime, 1000);
 
-    // 최초 실행
-    updateTime();
-});
-
-const email = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,}$/i;
+// 최초 실행
+updateTime();
 
 function modifycheck() {
     const fm = document.frm;
-	
-    if (fm.employee_id.value === "") {
-        alert("직원번호를 입력해주세요.");
-        fm.employee_id.focus();
-        return;
-    }
-    if (fm.name.value === "") {
-        alert("이름을 입력해주세요.");
-        fm.name.focus();
-        return;
-    }
-    if (fm.contact.value === "") {
-        alert("연락처를 입력해주세요.");
-        fm.contact.focus();
-        return;
-    }
-    if (fm.department_name.value === "") {
-        alert("부서를 입력해주세요.");
-        fm.department_name.focus();
-        return;
-    }
-    if (fm.position.value === "") {
-        alert("직급을 입력해주세요.");
-        fm.position.focus();
-        return;
-    }
-    if (fm.join_date.value === "") {
-        alert("입사일을 입력해주세요.");
-        fm.join_date.focus();
-        return;
-    }
-    if (fm.email.value === "") {
-        alert("이메일을 입력해주세요.");
-        fm.email.focus();
-        return;
-    }
-    if (!email.test(fm.email.value)) {
-        alert("이메일 형식이 올바르지 않습니다.");
-        fm.email.focus();
-        return;
-    }
-    if (fm.birth.value === "") {
-        alert("생년월일을 입력해주세요.");
-        fm.birth.focus();
-        return;
-    }
-    if (fm.member_id.value === "") {
-        alert("아이디를 입력해주세요.");
-        fm.member_id.focus();
-        return;
-    }
-    if (fm.member_pwd.value === "") {
-        alert("비밀번호를 입력해주세요.");
-        fm.member_pwd.focus();
-        return;
-    }
-
     const ans = confirm("정보를 수정하겠습니까?");
-    if (ans) {
-        fm.action = "${pageContext.request.contextPath}/member/memberModifyAction.aws";
-        fm.method = "post";
-        fm.enctype="multipart/form-data";
-        fm.submit();
-    }
-}
-
-function deletecheck() {
-    const fm = document.frm;
-    const ans = confirm("정보를 삭제하겠습니까?");
     
     if (ans) {
-        fm.action = "${pageContext.request.contextPath}/member/memberDeleteAction.aws";
+        fm.action = "${pageContext.request.contextPath}/member/informationAction.aws";
         fm.method = "post";
         fm.enctype="multipart/form-data";
         fm.submit();
-    }
-}
-
-function setDefault(input) {
-    if (input.value === "") {
-        input.value = 0;
     }
 }
 
@@ -126,16 +58,14 @@ function setDefault(input) {
 	<div class="save">
         <!-- 상단바 -->
         <div class="header">
-          <div class="logo">koreacompany</div>
-          <div class="user-info">
-              <span id="current-date"></span>
-              <span id="current-time"></span>
-              <span id="name">${name}</span>
-              <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
-          </div>
-      </div>
-
-        <!-- 콘텐츠 -->
+	          <div class="logo">koreacompany</div>
+	          <div class="user-info">
+	              <span id="current-date"></span>
+	              <span id="current-time"></span>
+	              <span id="name">${name}</span>
+	              <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
+	          </div>
+	      </div>
         <div class="save-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
@@ -172,7 +102,7 @@ function setDefault(input) {
 	            </ul>
             </nav>
 			<div class="info-form">
-			    <h3 class="title-left">직원 정보 등록</h3>
+			    <h3 class="title-left">개인 정보</h3>
 			    <form name="frm">
 			    <input type="hidden" name="grade" value="${mv.grade }">
 			    <input type="hidden" name="midx" value="${mv.midx }">
@@ -186,12 +116,10 @@ function setDefault(input) {
 						            <img src="${pageContext.request.contextPath}/member/displayFile.aws?fileName=${mv.photo}">
 						            </div>
 						            </c:if>
-						            <label for="attachfile" class="upload-label">사진 첨부</label>
-						            <input type="file" id="attachfile" name="attachfile" class="hidden-input">
 						        </div>
 						    </td>
 						    <th>직원번호</th>
-						    <td><input type="text" id="employee_id" name="employee_id" value="${mv.employee_id}"  aria-labelledby="employee_id-label"></td>
+						    <td><input type="text" id="employee_id" name="employee_id" value="${mv.employee_id}"  aria-labelledby="employee_id-label" readonly></td>
 						    <th>이름</th>
 						    <td><input type="text" id="name" name="name" value="${mv.name}" aria-labelledby="name-label"></td>
 						</tr>
@@ -203,26 +131,26 @@ function setDefault(input) {
 			            </tr>
 			            <tr>
 			                <th>부서</th>
-			                <td><input type="text" id="department_name" name="department_name" value="${mv.department_name}"></td>
+			                <td><input type="text" id="department_name" name="department_name" value="${mv.department_name}" readonly></td>
 			                <th>직급</th>
-			                <td><input type="text" id="position" name="position" value="${mv.position}"></td>
+			                <td><input type="text" id="position" name="position" value="${mv.position}" readonly></td> 
 			            </tr>
 			            <tr>
 			                <th>입사일</th>
-			                <td><input type="date" id="join_date" name="join_date" value="${mv.join_date}"></td>
+			                <td><input type="date" id="join_date" name="join_date" value="${mv.join_date}" readonly></td>
 			                <th>퇴사일</th>
-			                <td><input type="date" id="leave_date" name="leave_date" value="${mv.leave_date}"></td>
+			                <td><input type="date" id="leave_date" name="leave_date" value="${mv.leave_date}" readonly></td>
 			            </tr>
 			        </table>
 			        <table class="combined-info-table">
 					    <tr>
 					        <th style="border-top: none;">근무 상태</th>
-					        <td colspan="3" class="status-options" >
-					            <input type="radio" name="work_status" value="재직"
+					        <td colspan="3" class="status-options">
+					            <input type="radio" name="work_status" value="재직" disabled
 						            <c:if test="${mv.work_status == '재직'}">checked</c:if>> 재직
-						        <input type="radio" name="work_status" value="휴직"
+						        <input type="radio" name="work_status" value="휴직" disabled
 						            <c:if test="${mv.work_status == '휴직'}">checked</c:if>> 휴직
-						        <input type="radio" name="work_status" value="퇴직"
+						        <input type="radio" name="work_status" value="퇴직" disabled
 						            <c:if test="${mv.work_status == '퇴직'}">checked</c:if>> 퇴직
 					        </td>
 					    </tr>
@@ -247,23 +175,14 @@ function setDefault(input) {
 					        <td colspan="3"><textarea id="notes" name="notes">${mv.notes}</textarea></td>
 					    </tr>
 					    <tr>
-					        <th>아이디</th>
-					        <td><input type="text" id="member_id" name="member_id" value="${mv.member_id}"></td>
-					        <th>비밀번호</th>
-					        <td><input type="password" id="member_pwd" name="member_pwd" value="${mv.member_pwd}"></td>
-					    </tr>
-					    <tr>
-					        <th>월급여</th>
-					        <td><input type="text" id="salary" name="salary" value="${mv.salary}"></td>
 					        <th>남은 연차</th>
-					        <td><input type="number" id="remaining_leave" name="remaining_leave" min="0" value="${mv.remaining_leave}" onblur="setDefault(this)"></td>
+					        <td><input type="number" id="remaining_leave" name="remaining_leave" min="0" value="${mv.remaining_leave}" onblur="setDefault(this)" readonly></td>
 					    </tr>
 					</table>			
 			        <!-- 저장/취소 버튼 -->
 			        <div class="btnBox">
-			            <button type="button" class="btn" onclick="modifycheck();">저장</button>
-			            <button type="button" class="btn" onclick="deletecheck();">삭제</button>
-			            <a class="btn aBtn" href="${pageContext.request.contextPath}/member/memberList.aws">취소</a>
+			            <button type="button" class="btn" onclick = "modifycheck();">저장</button>
+			            <a class="btn aBtn" href="${pageContext.request.contextPath}/board/dashboard.aws">취소</a>
 			        </div>
 			    </form>
 			</div>           

@@ -20,4 +20,10 @@ public interface MemberService {
    public ArrayList<MemberVo> memberSelectAll(SearchCriteria scri);
 
    public MemberVo memberSelectOne(int midx);
+
+   public int memberUpdate(MemberVo mv);
+
+   public int memberDelete(int midx);
+
+   public int informationUpdate(MemberVo mv);
 }

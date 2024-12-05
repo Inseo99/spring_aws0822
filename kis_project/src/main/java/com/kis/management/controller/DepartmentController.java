@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(value="/board/")
-public class BoardController {
+@RequestMapping(value="/department/")
+public class DepartmentController {
    
-   private static final Logger logger = LoggerFactory.getLogger(MemberController.class);   
+   private static final Logger logger = LoggerFactory.getLogger(DepartmentController.class);   
    
    String path = "";
    
-   @RequestMapping(value = "dashboard.aws", method = RequestMethod.GET)
-   public String dashboard() {   
+   @RequestMapping(value = "departmentList.aws", method = RequestMethod.GET)
+   public String departmentList() {   
       
-      path = "WEB-INF/board/dashboard";
+      path = "WEB-INF/department/departmentList";
 
       return path;
    }
