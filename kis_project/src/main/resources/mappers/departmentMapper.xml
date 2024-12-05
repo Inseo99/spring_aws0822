@@ -4,5 +4,47 @@
 
 <mapper namespace="com.kis.management.persistance.DepartmentMapper">
 
+<sql id="search">
+	<if test="searchType != null and searchType.equals('teamLeader')">
+		 AND name LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+	<if test="searchType != null and searchType.equals('department_name')">
+		 AND department_name LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+</sql>
+
+<select id="departmentTatalCount" parameterType="scri" resultType="int">
+	SELECT COUNT(*) AS cnt FROM department 
+	WHERE delyn = 'N'
+	<include refid="search"/>
+</select>
+
+<select id="departmentSelectAll" parameterType="HashMap" resultType="dv">
+	SELECT * FROM department
+	WHERE delyn = 'N'
+	<include refid="search"/>
+	ORDER BY didx DESC LIMIT #{startPageNum}, #{perPageNum}
+</select>
+
+<insert id="departmentInsert" parameterType="dv">
+   INSERT INTO department(department_id, department_name, teamLeader, contact, emergency_contact, d_person, created_at, d_notes) 
+   VALUES(#{department_id}, #{department_name}, #{teamLeader}, #{contact}, #{emergency_contact}, #{d_person}, #{created_at}, #{d_notes})
+</insert>
+
+<select id="departmentSelectOne" parameterType="int" resultType="dv">
+	SELECT * FROM department 
+	WHERE delyn = 'N' AND didx = #{didx}
+</select>
+
+<update id="departmentUpdate" parameterType="dv">
+	UPDATE department 
+	SET department_id = #{department_id}, department_name = #{department_name}, teamLeader = #{teamLeader}, contact = #{contact}, emergency_contact = #{emergency_contact}, d_person = #{d_person}, created_at = #{created_at}, d_notes = #{d_notes}
+	WHERE didx = #{didx} 
+</update>
+
+<update id="departmentDelete" parameterType="int">
+	UPDATE department SET delyn = 'Y' 
+	WHERE didx = #{didx}
+</update>
 
 </mapper> 

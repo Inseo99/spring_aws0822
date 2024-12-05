@@ -11,7 +11,7 @@ body, html {
 }
 
 /* 전체 대시보드 레이아웃 */
-.List {
+.calendar {
     display: flex;
     flex-direction: column;
     height: 100%;

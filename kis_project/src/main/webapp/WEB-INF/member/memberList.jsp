@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
-	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/adminDashboard.aws">홈</a></li>
+	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/dashboard.aws">홈</a></li>
 	                <li class="menu-item" id="work-report">업무 보고
 	                    <ul class="submenu">
 	                        <li><a href="${pageContext.request.contextPath}/board/weekWorkList.aws">주간 업무</a></li>
@@ -75,17 +75,21 @@ document.addEventListener('DOMContentLoaded', function () {
 	                        <li><a href="${pageContext.request.contextPath}/board/leaveWrite.aws">휴가 신청</a></li>
 	                        <li><a href="${pageContext.request.contextPath}/board/businessTripWrite.aws">출장 신청</a></li>
 	                        <li><a href="${pageContext.request.contextPath}/board/calendar.aws">일정 관리</a></li>
+	                        <c:if test="${sessionScope.grade == 'admin'}">
 	                        <li><a href="${pageContext.request.contextPath}/board/leaveList.aws">휴가 승인</a></li>
 	                        <li><a href="${pageContext.request.contextPath}/board/businessTripList.aws">출장 승인</a></li>
+	                        </c:if>
 	                    </ul>
 	                </li>
+	                <c:if test="${sessionScope.grade == 'admin'}">
 	                <li class="menu-item" id="employee-management">직원 관리
 	                    <ul class="submenu">
-	                        <li><a href="${pageContext.request.contextPath}/board/departmentList.aws">부서 목록</a></li>
+	                        <li><a href="${pageContext.request.contextPath}/department/departmentList.aws">부서 목록</a></li>
 	                        <li><a href="${pageContext.request.contextPath}/member/memberList.aws">직원 목록</a></li>
 	                        <li><a href="${pageContext.request.contextPath}/member/employeeRegister.aws">직원 등록</a></li>
 	                    </ul>
 	                </li>
+	                </c:if>
 	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/noticeList.aws">공지사항</a></li>
 	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/communityList.aws">커뮤니티</a></li>
 	            </ul>

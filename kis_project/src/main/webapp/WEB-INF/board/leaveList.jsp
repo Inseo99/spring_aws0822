@@ -1,23 +1,12 @@
-<%@page import="java.util.*"%>
-<%@page import="com.kis.management.domain.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-String msg = "";  
-if (request.getAttribute("msg") != null) {
-	msg = (String)request.getAttribute("msg");
-}
-
-if (msg != "") {
-	out.println("<script>alert('" + msg + "');</script>");	
-}
-%>
+<%@page import="com.kis.management.domain.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>부서 목록</title>
+<title>휴가 승인 목록</title>
 <link href="${pageContext.request.contextPath}/resources/css/list.css" rel="stylesheet">
 <script>
 
@@ -49,13 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
 	<div class="List">
         <!-- 상단바 -->
         <div class="header">
-		    <div class="logo">koreacompany</div>
-		    <div class="user-info">
-		        <span id="current-date"></span>
-              	<span id="current-time"></span>
-              	<span id="name">${name}</span>
-              	<a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
-    		</div>
+		  <div class="logo">koreacompany</div>
+          <div class="user-info">
+              <span id="current-date"></span>
+              <span id="current-time"></span>
+              <span id="name">${name}</span>
+              <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
+          </div>
 		</div>
 
         <!-- 리스트 콘텐츠 -->
@@ -97,65 +86,46 @@ document.addEventListener('DOMContentLoaded', function () {
             <!-- 목록 콘텐츠 -->
             <div class="main-list">
                 <header>
-					<h2 class="mainTitle">부서 목록</h2>
-					<form class="search" name="frm" action="${pageContext.request.contextPath}/department/departmentList.aws">
-						<select name="searchType">
-							<option value="teamLeader">팀장 이름</option>
-							<option value="department_name">부서</option>
+					<h2 class="mainTitle">휴가 승인 목록</h2>
+					<form class="search" name = "frm" action = "./employeeList.html">
+						<select name = "searchType">
+							<option value = "name">이름</option>
+							<option value = "department">부서</option>
 						</select>
-						<input type="text" name="keyword">
-						<button type="submit" class="btn">검색</button>
+						<input type="text" name = "keyword">
+						<button type = "submit" class="btn">검색</button>
 					</form>
 				</header>
                 <table class="main-table">
                     <thead>
                         <tr>
                             <th>번호</th>
-                            <th>부서</th>
-                            <th>인원</th>
-                            <th>팀장 이름</th>
-                            <th>부서 연락처</th>
-                            <th>최근 수정 날짜</th>
+                            <th>제목</th>
+                            <th>날짜</th>
+                            <th>승인여부</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items = "${dlist}" var = "dv" varStatus="status"> 
                         <tr>
-                            <td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>
-                            <td><a href="${pageContext.request.contextPath}/department/departmentModify.aws?didx=${dv.didx}">${dv.department_name}</a></td>
-                            <td>${dv.d_person}</td>
-                            <td>${dv.teamLeader}</td>
-                            <td>${dv.contact}</td>
-                            <td>${dv.updated_at.substring(0,10)}</td>
+                            <td>1</td>
+                            <td>연차 신청합니다.</td>
+                            <td>2022-01-15</td>
+                            <td>승인</td>
                         </tr>
-                    </c:forEach>
+                        <tr>
+                            <td>2</td>
+                            <td>개인 사정으로 인한 반차 신청합니다.</td>
+                            <td>2021-11-10</td>
+                            <td>미승인</td>
+                        </tr>
+                        <!-- 추가 직원들 -->
                     </tbody>
                 </table>
-                <div class="btnBox">
-                    <a class="btn aBtn" href="${pageContext.request.contextPath}/department/departmentRegister.aws">부서등록</a>
-                </div>
-                <c:set var = "queryParam" value = "keyword=${pm.scri.keyword}&searchType=${pm.scri.searchType}"></c:set>
-				<div class="page">
-					<ul>
-						<c:if test="${pm.prev == true}">
-							<li><a href = "${pageContext.request.contextPath}/department/departmentList.aws?page=${pm.startPage - 1}&${queryParam}">◀</a></li>
-						</c:if>		
-						<c:forEach var = "i" begin = "${pm.startPage}" end = "${pm.endPage}" step = "1">
-							<li <c:if test="${i == pm.scri.page}"> class = 'on'</c:if>>
-								<a href = "${pageContext.request.contextPath}/department/departmentList.aws?page=${i}&${queryParam}">
-								${i}</a>
-							</li>
-						</c:forEach>
-						<c:if test="${pm.next && pm.endPage > 0 }">
-							<li><a href = "${pageContext.request.contextPath}/department/departmentList.aws?page=${pm.endPage + 1}&${queryParam}">▶</a></li>
-						</c:if>
-					</ul>
-				</div>
             </div>
         </div>
     </div>
     <script>
-	 	// 모든 메뉴 항목 선택
+	 	// 모든 메뉴 항목을 선택
 	    const menuItems = document.querySelectorAll('.menu-item');
 	
 	    // 각 메뉴 항목에 클릭 이벤트 등록

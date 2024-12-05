@@ -297,8 +297,7 @@ public class MemberController {
    @RequestMapping(value = "memberDeleteAction.aws", method = RequestMethod.POST)
 	public String memberDeleteAction(
 			@RequestParam("midx") int midx,
-			RedirectAttributes rttr,
-			HttpSession session
+			RedirectAttributes rttr
 			) {		
 		
 		int value = memberService.memberDelete(midx);

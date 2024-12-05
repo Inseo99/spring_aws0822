@@ -2,22 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.kis.management.domain.*"%>
-<%
-String msg = "";  
-if (request.getAttribute("msg") != null) {
-   msg = (String)request.getAttribute("msg");
-}
-
-if (msg != "") {
-   out.println("<script>alert('" + msg + "');</script>");   
-}
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>개인 정보</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/save.css">
+<title>부서 등록</title>
+<link href="${pageContext.request.contextPath}/resources/css/save.css" rel="stylesheet">
 <script>
 
 function updateTime() {
@@ -40,14 +30,62 @@ setInterval(updateTime, 1000);
 // 최초 실행
 updateTime();
 
-function modifycheck() {
+function djoincheck() {
     const fm = document.frm;
-    const ans = confirm("정보를 수정하겠습니까?");
+	
+    if (fm.department_id.value === "") {
+        alert("부서번호를 입력해주세요.");
+        fm.department_id.focus();
+        return;
+    }
+    if (fm.department_name.value === "") {
+        alert("부서이름을 입력해주세요.");
+        fm.department_name.focus();
+        return;
+    }
+    if (fm.contact.value === "") {
+        alert("연락처를 입력해주세요.");
+        fm.contact.focus();
+        return;
+    }
+    if (fm.teamLeader.value === "") {
+        alert("팀장 이름을 입력해주세요.");
+        fm.teamLeader.focus();
+        return;
+    }
+    if (fm.d_person.value === "") {
+        alert("부서인원을 입력해주세요.");
+        fm.d_person.focus();
+        return;
+    }
+    if (fm.created_at.value === "") {
+        alert("부서생성일을 입력해주세요.");
+        fm.created_at.focus();
+        return;
+    }
+    if (fm.d_notes.value === "") {
+        alert("부서설명을 입력해주세요.");
+        fm.d_notes.focus();
+        return;
+    }
+
+    const ans = confirm("수정하겠습니까?");
+    if (ans) {
+        fm.action = "${pageContext.request.contextPath}/department/departmentModifyAction.aws";
+        fm.method = "post";
+        fm.enctype = "multipart/form-data";
+        fm.submit();
+    }
+}
+
+function ddeletecheck() {
+    const fm = document.frm;
+    const ans = confirm("정보를 삭제하겠습니까?");
     
     if (ans) {
-        fm.action = "${pageContext.request.contextPath}/member/informationAction.aws";
+        fm.action = "${pageContext.request.contextPath}/department/departmentDeleteAction.aws";
         fm.method = "post";
-        fm.enctype="multipart/form-data";
+        fm.enctype = "multipart/form-data";
         fm.submit();
     }
 }
@@ -58,14 +96,14 @@ function modifycheck() {
 	<div class="save">
         <!-- 상단바 -->
         <div class="header">
-	          <div class="logo">koreacompany</div>
-	          <div class="user-info">
-	              <span id="current-date"></span>
-	              <span id="current-time"></span>
-	              <span id="name">${name}</span>
-	              <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
-	          </div>
-	      </div>
+		    <div class="logo">koreacompany</div>
+		    <div class="user-info">
+		        <span id="current-date"></span>
+		        <span id="current-time"></span>
+		        <span id="username">사용자 이름</span>
+		        <a href="../login.jsp">로그 아웃</a>
+    		</div>
+		</div>
         <div class="save-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
@@ -102,87 +140,44 @@ function modifycheck() {
 	            </ul>
             </nav>
 			<div class="info-form">
-			    <h3 class="title-left">개인 정보</h3>
-			    <form name="frm">
-			    <input type="hidden" name="grade" value="${mv.grade }">
-			    <input type="hidden" name="midx" value="${mv.midx }">
-			        <!-- 직원 정보 섹션 -->
+			    <h3 class="title-left">부서 정보 등록</h3>
+			    <form name = "frm">
+			    <input type="hidden" name="didx" value="${dv.didx }">
 			        <table class="info-table">
 			           <tr>
-						    <td class="photo-cell" rowspan="4">
-						        <div class="photo-box">
-						            <c:if test="${!empty mv.photo}"> 
-						            <div class="photo-preview">
-						            <img src="${pageContext.request.contextPath}/member/displayFile.aws?fileName=${mv.photo}">
-						            </div>
-						            </c:if>
-						        </div>
-						    </td>
-						    <th>직원번호</th>
-						    <td><input type="text" id="employee_id" name="employee_id" value="${mv.employee_id}"  aria-labelledby="employee_id-label" readonly></td>
-						    <th>이름</th>
-						    <td><input type="text" id="name" name="name" value="${mv.name}" aria-labelledby="name-label"></td>
+						    <th>부서번호</th>
+						    <td><input type="text" id="department_id" name="department_id" value="${dv.department_id }" aria-labelledby="employee-id-label"></td>
+						    <th>부서이름</th>
+						    <td><input type="text" id=department_name name="department_name" value="${dv.department_name }" aria-labelledby="name-label"></td>
 						</tr>
 			            <tr>
 			                <th>연락처</th>
-			                <td><input type="text" id="contact" name="contact" value="${mv.contact}"></td>
+			                <td><input type="text" id="contact" name="contact" value="${dv.contact }"></td>
 			                <th>긴급 연락처</th>
-			                <td><input type="text" id="emergency_contact" name="emergency_contact" value="${mv.emergency_contact}"></td>
+			                <td><input type="text" id="emergency_contact" name="emergency_contact" value="${dv.emergency_contact }"></td>
 			            </tr>
 			            <tr>
-			                <th>부서</th>
-			                <td><input type="text" id="department_name" name="department_name" value="${mv.department_name}" readonly></td>
-			                <th>직급</th>
-			                <td><input type="text" id="position" name="position" value="${mv.position}" readonly></td> 
+			                <th>팀장 이름</th>
+			                <td><input type="text" id="teamLeader" name="teamLeader" value="${dv.teamLeader }"></td>
+			                <th>부서인원</th>
+			                <td><input type="text" id="d_person" name="d_person" value="${dv.d_person }"></td>
 			            </tr>
 			            <tr>
-			                <th>입사일</th>
-			                <td><input type="date" id="join_date" name="join_date" value="${mv.join_date}" readonly></td>
-			                <th>퇴사일</th>
-			                <td><input type="date" id="leave_date" name="leave_date" value="${mv.leave_date}" readonly></td>
+			                <th style="border-bottom:none;">부서생성일</th>
+			                <td style="border-bottom:none;"><input type="date" id="created_at" name="created_at" value="${dv.created_at.substring(0,10) }"></td>
 			            </tr>
 			        </table>
 			        <table class="combined-info-table">
 					    <tr>
-					        <th style="border-top: none;">근무 상태</th>
-					        <td colspan="3" class="status-options">
-					            <input type="radio" name="work_status" value="재직" disabled
-						            <c:if test="${mv.work_status == '재직'}">checked</c:if>> 재직
-						        <input type="radio" name="work_status" value="휴직" disabled
-						            <c:if test="${mv.work_status == '휴직'}">checked</c:if>> 휴직
-						        <input type="radio" name="work_status" value="퇴직" disabled
-						            <c:if test="${mv.work_status == '퇴직'}">checked</c:if>> 퇴직
-					        </td>
-					    </tr>
-					    <tr>
-					        <th>한자명</th>
-					        <td><input type="text" id="h_name" name="h_name" value="${mv.h_name}"></td>
-					        <th>영문명</th>
-					        <td><input type="text" id="e_name" name="e_name" value="${mv.e_name}"></td>
-					    </tr>
-					    <tr>
-					        <th>이메일</th>
-					        <td><input type="email" id="email" name="email" value="${mv.email}"></td>
-					        <th>생년월일</th>
-					        <td><input type="date" id="birth" name="birth" value="${mv.birth}"></td>
-					    </tr>
-					    <tr>
-					        <th>주소</th>
-					        <td colspan="3"><input type="text" id="address" name="address" value="${mv.address}"></td>
-					    </tr>
-					    <tr>
-					        <th>특이사항</th>
-					        <td colspan="3"><textarea id="notes" name="notes">${mv.notes}</textarea></td>
-					    </tr>
-					    <tr>
-					        <th>남은 연차</th>
-					        <td><input type="number" id="remaining_leave" name="remaining_leave" min="0" value="${mv.remaining_leave}" onblur="setDefault(this)" readonly></td>
+					        <th>부서 설명</th>
+					        <td colspan="3"><textarea id="d_notes" name="d_notes">${dv.d_notes }</textarea></td>
 					    </tr>
 					</table>			
 			        <!-- 저장/취소 버튼 -->
 			        <div class="btnBox">
-			            <button type="button" class="btn" onclick = "modifycheck();">저장</button>
-			            <a class="btn aBtn" href="${pageContext.request.contextPath}/board/dashboard.aws">취소</a>
+			            <button type="button" class="btn" onclick="djoincheck();">저장</button>
+			            <button type="button" class="btn" onclick="ddeletecheck();">삭제</button>
+			            <a class="btn aBtn" onclick="history.back();">취소</a>
 			        </div>
 			    </form>
 			</div>           
