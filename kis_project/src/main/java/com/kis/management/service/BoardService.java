@@ -1,16 +1,13 @@
-package com.kis.management.persistance;
+package com.kis.management.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.kis.management.domain.BoardVo;
 import com.kis.management.domain.SearchCriteria;
 
-public interface BoardMapper {
+public interface BoardService {
 	
 	public BoardVo boardSelectOne(int bidx);
-	
-	public int boardInsert(BoardVo bv);	
 	
 	public int boardUpdate(BoardVo bv);
 	
@@ -18,6 +15,8 @@ public interface BoardMapper {
 
 	public int noticeTatalCount(SearchCriteria scri);
 
-	public ArrayList<BoardVo> noticeSelectAll(HashMap<String, Object> hm);	
-	
+	public ArrayList<BoardVo> noticeSelectAll(SearchCriteria scri);
+
+	public int noticeInsert(BoardVo bv);
+   
 }

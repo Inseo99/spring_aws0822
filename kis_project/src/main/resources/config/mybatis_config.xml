@@ -6,6 +6,7 @@
 <typeAliases>
  <typeAlias alias="mv" type="com.kis.management.domain.MemberVo"/>
  <typeAlias alias="dv" type="com.kis.management.domain.DepartmentVo"/>
+ <typeAlias alias="bv" type="com.kis.management.domain.BoardVo"/>
  <typeAlias alias="scri" type="com.kis.management.domain.SearchCriteria"/>
 
 

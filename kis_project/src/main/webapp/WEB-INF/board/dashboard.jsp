@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                           </div>
                       </div>
                   </div>
-                        <a class="more-button">더보기</a>
+	                        <a class="more-button">더보기</a>
                     </div>
                     <div class="widget">
                         <h3>공지사항</h3>

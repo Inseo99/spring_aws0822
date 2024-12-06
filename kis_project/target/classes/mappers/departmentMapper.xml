@@ -6,7 +6,7 @@
 
 <sql id="search">
 	<if test="searchType != null and searchType.equals('teamLeader')">
-		 AND name LIKE CONCAT('%', #{keyword}, '%')
+		 AND teamLeader LIKE CONCAT('%', #{keyword}, '%')
 	</if>
 	<if test="searchType != null and searchType.equals('department_name')">
 		 AND department_name LIKE CONCAT('%', #{keyword}, '%')

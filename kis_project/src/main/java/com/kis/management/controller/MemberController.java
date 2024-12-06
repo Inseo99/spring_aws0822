@@ -46,7 +46,7 @@ public class MemberController {
    private MemberService memberService;
    
    @Autowired(required = false)
-	private PageMaker pm;
+   private PageMaker pm;
    
    @Resource(name = "uploadPath")
    private String uploadPath;

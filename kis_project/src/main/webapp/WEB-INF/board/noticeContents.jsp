@@ -2,12 +2,22 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.kis.management.domain.*"%>
+<%
+String msg = "";  
+if (request.getAttribute("msg") != null) {
+	msg = (String)request.getAttribute("msg");
+}
+
+if (msg != "") {
+	out.println("<script>alert('" + msg + "');</script>");	
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>공지사항</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/save.css">
+<link href="${pageContext.request.contextPath}/resources/css/contents.css" rel="stylesheet">
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -32,51 +42,35 @@ document.addEventListener('DOMContentLoaded', function () {
     updateTime();
 });
 
-function writecheck() {
+function deletecheck() {
     const fm = document.frm;
-	
-    if (fm.subject.value === "") {
-        alert("제목을 입력해주세요.");
-        fm.subject.focus();
-        return;
-    }
-    if (fm.contents.value === "") {
-        alert("내용을 입력해주세요.");
-        fm.contents.focus();
-        return;
-    }
-    if (fm.writer.value === "") {
-        alert("작성자를 입력해주세요.");
-        fm.writer.focus();
-        return;
-    }
-
-
-    const ans = confirm("공지사항을 등록하겠습니까?");
+    const ans = confirm("글을 삭제하겠습니까?");
+    
     if (ans) {
-        fm.action = "${pageContext.request.contextPath}/board/noticeWriteAction.aws";
+        fm.action = "${pageContext.request.contextPath}/board/noticeDeleteAction.aws";
         fm.method = "post";
-        fm.enctype = "multipart/form-data";
+        fm.enctype="multipart/form-data";
         fm.submit();
     }
 }
+
 </script>
 </head>
 <body>
-	<div class="save"> 
+	<div class="contents">
         <!-- 상단바 -->
         <div class="header">
-          <div class="logo">koreacompany</div>
+		  <div class="logo">koreacompany</div>
           <div class="user-info">
               <span id="current-date"></span>
               <span id="current-time"></span>
               <span id="name">${name}</span>
               <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
           </div>
-      </div>
+		</div>
 
-        <!-- 콘텐츠 -->
-        <div class="save-content">
+        <!-- 리스트 콘텐츠 -->
+        <div class="contents-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
@@ -111,36 +105,51 @@ function writecheck() {
 	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/communityList.aws">커뮤니티</a></li>
 	            </ul>
             </nav>
-			<div class="info-form">
-                <h3>공지사항</h3>
-                <form name = "frm">
-                <input type="hidden" name="type" value="N">
-                    <table class="combined-info-table">
-                        <tr>
-                            <th>제목</th>
-                            <td><input type="text" name="subject" id= "subject"></td>
-                        </tr>
-                        <tr>
-                            <th>내용</th>
-                            <td colspan="3">
-                                <textarea name="contents" id="contents" rows="6"></textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>작성자</th>
-                            <td><input type="text" name="writer" id="writer"></td>
-                        </tr>
-                        <tr>
-							<th>첨부파일</th>
-							<td><input type="file" name = "attachfile"></td>
-						</tr>
-                    </table>
-                    <div class="btnBox">
-			            <button type="button" class="btn" onclick="writecheck();">저장</button>
-			            <a class="btn aBtn" href="${pageContext.request.contextPath}/board/noticeList.aws">취소</a>
-			        </div>
-                </form>
-            </div>
+            <main class="main">
+				<form name="frm">
+				<input type="hidden" name="bidx" value="${bv.bidx }">
+					<div class="main-list">
+		                <header>
+							<h2 class="mainTitle">공지사항</h2>
+						</header>
+						<article class="detailContents">
+							<h4 class="contentTitle">${bv.subject}
+								(조회수:${bv.viewcnt})
+							</h4>
+							<p class="write">${bv.writer}
+								(${bv.writeday})
+							</p>
+							<hr>
+							<div class="content">
+								${bv.contents}
+							</div>
+							<c:if test="${!empty bv.filename}">
+							<img src="${pageContext.request.contextPath}/board/displayFile.aws?fileName=${bv.filename}">
+							<p>
+							<a id="dUrl"  href="#"  class="fileDown">	
+							첨부파일 다운로드</a>
+							</p>
+							</c:if>
+						</article>
+					
+						<div class="btnBox">
+							<!-- <a class="btn aBtn"
+								id="dUrl" href="#">다운</a> -->
+							<c:if test="${sessionScope.grade == 'admin' || sessionScope.midx == bv.midx}">
+							<a class="btn aBtn"
+								href="${pageContext.request.contextPath}/board/noticeModify.aws?bidx=${bv.bidx}">수정</a>
+							</c:if>
+							<c:if test="${sessionScope.grade == 'admin'}">
+							<a class="btn aBtn" 
+								onclick="deletecheck();" >삭제
+							</a>
+							</c:if>
+							<a class="btn aBtn"
+								href="${pageContext.request.contextPath}/board/noticeList.aws">목록</a>
+						</div>
+		            </div> 
+	            </form>
+	       	</main>         
         </div>
     </div>
     <script>

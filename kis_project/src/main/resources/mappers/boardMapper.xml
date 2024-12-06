@@ -4,5 +4,46 @@
 
 <mapper namespace="com.kis.management.persistance.BoardMapper">
 
+<select id="boardSelectOne" parameterType="int" resultType="bv">
+	SELECT * FROM board WHERE delyn = 'N' AND bidx = #{bidx}
+</select>
+
+<insert id="boardInsert" parameterType="bv">
+   INSERT INTO board(type, subject, contents, writer, filename, ip, midx) 
+   VALUES(#{type}, #{subject}, #{contents}, #{writer}, #{uploadedFileName}, #{ip}, #{midx})
+</insert>
+
+<update id="boardUpdate" parameterType="bv">
+	UPDATE board
+	SET subject = #{subject}, contents = #{contents}, writer = #{writer}, filename = #{uploadedFileName}, ip = #{ip}, modifyday = NOW()
+	WHERE bidx = #{bidx} AND midx = #{midx}
+</update>
+
+<update id="boardDelete" parameterType="int">
+	UPDATE board SET delyn = 'Y', modifyday = NOW() 
+	WHERE bidx = #{bidx}
+</update>
+
+<sql id="search">
+	<if test="searchType != null and searchType.equals('writer')">
+		 AND writer LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+	<if test="searchType != null and searchType.equals('subject')">
+		 AND subject LIKE CONCAT('%', #{keyword}, '%')
+	</if>
+</sql>
+
+<select id="noticeTatalCount" parameterType="scri" resultType="int">
+	SELECT COUNT(*) AS cnt FROM board 
+	WHERE delyn = 'N' AND type = 'N'
+	<include refid="search"/>
+</select>
+
+<select id="noticeSelectAll" parameterType="HashMap" resultType="bv">
+	SELECT * FROM board 
+	WHERE delyn = 'N' AND type = 'N'
+	<include refid="search"/>
+	ORDER BY bidx DESC LIMIT #{startPageNum}, #{perPageNum}
+</select>
 
 </mapper> 

@@ -115,20 +115,21 @@ function writecheck() {
                 <h3>공지사항</h3>
                 <form name = "frm">
                 <input type="hidden" name="type" value="N">
+                <input type="hidden" name="bidx" value="${bidx}">
                     <table class="combined-info-table">
                         <tr>
                             <th>제목</th>
-                            <td><input type="text" name="subject" id= "subject"></td>
+                            <td><input type="text" name="subject" id= "subject" value="${bv.subject}"></td>
                         </tr>
                         <tr>
                             <th>내용</th>
                             <td colspan="3">
-                                <textarea name="contents" id="contents" rows="6"></textarea>
+                                <textarea name="contents" id="contents" rows="6">${bv.contents}</textarea>
                             </td>
                         </tr>
                         <tr>
                             <th>작성자</th>
-                            <td><input type="text" name="writer" id="writer"></td>
+                            <td><input type="text" name="writer" id="writer" value="${bv.writer}"></td>
                         </tr>
                         <tr>
 							<th>첨부파일</th>

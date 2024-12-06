@@ -211,7 +211,7 @@ td input {
 }
 
 .combined-info-table td {
-    padding: 10px 15px;
+    padding	: 10px 15px;
 }
 
 /* 근무 상태 옵션 스타일 */
@@ -237,6 +237,13 @@ td input {
     margin: 0; /* 여백 제거 */
     width: 16px; /* 버튼 크기 조정 */
     height: 16px; /* 버튼 크기 조정 */
+}
+
+.status-options label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px; /* 버튼 간의 간격 추가 */
+    font-size: 14px;
 }
 
 /* 입력 필드 및 텍스트 영역 스타일 */

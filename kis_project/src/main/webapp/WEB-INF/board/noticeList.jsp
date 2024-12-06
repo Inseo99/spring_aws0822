@@ -2,6 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.kis.management.domain.*"%>
+<%
+String msg = "";  
+if (request.getAttribute("msg") != null) {
+	msg = (String)request.getAttribute("msg");
+}
+
+if (msg != "") {
+	out.println("<script>alert('" + msg + "');</script>");	
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,10 +96,11 @@ document.addEventListener('DOMContentLoaded', function () {
 			<div class="main-list">
                 <header>
 					<h2 class="mainTitle">공지사항</h2>
-					<form class="search" name = "frm" action = "./employeeList.html">
+					<form class="search" name = "frm" action = "${pageContext.request.contextPath}/board/noticeList.aws">
+					<input type="hidden" name="type" value="N">
 						<select name = "searchType">
-							<option value = "name">작성자</option>
-							<option value = "department">제목</option>
+							<option value = "writer">작성자</option>
+							<option value = "subject">제목</option>
 						</select>
 						<input type="text" name = "keyword">
 						<button type = "submit" class="btn">검색</button>
@@ -105,22 +116,34 @@ document.addEventListener('DOMContentLoaded', function () {
                         </tr>
                     </thead>
                     <tbody>
+                    <c:forEach items = "${blist}" var = "bv" varStatus="status"> 
                         <tr>
-                            <td>1</td>
-                            <td>교육있습니다.</td>
-                            <td>인사팀누구</td>
-                            <td>2022-01-15</td>
+                            <td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>
+                            <td><a href="${pageContext.request.contextPath}/board/noticeContents.aws?bidx=${bv.bidx}">${bv.subject }</a></td>
+                            <td>${bv.writer }</td>
+                            <td>${bv.writeday.substring(0,10) }</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>추가적인 공지사항 드립니다.</td>
-                            <td>개발팀누구</td>
-                            <td>2021-11-10</td>
-                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <div class="btnBox">
-					<a class="btn" href="#">글쓰기</a>
+					<a class="btn" href="${pageContext.request.contextPath}/board/noticeWrite.aws">글쓰기</a>
+				</div>
+				<div class="page">
+					<ul>
+						<c:if test="${pm.prev == true}">
+							<li><a href = "${pageContext.request.contextPath}/board/noticeList.aws?page=${pm.startPage - 1}&${queryParam}">◀</a></li>
+						</c:if>		
+						<c:forEach var = "i" begin = "${pm.startPage}" end = "${pm.endPage}" step = "1">
+							<li <c:if test="${i == pm.scri.page}"> class = 'on'</c:if>>
+								<a href = "${pageContext.request.contextPath}/board/noticeList.aws?page=${i}&${queryParam}">
+								${i}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pm.next && pm.endPage > 0 }">
+							<li><a href = "${pageContext.request.contextPath}/board/noticeList.aws?page=${pm.endPage + 1}&${queryParam}">▶</a></li>
+						</c:if>
+					</ul>
 				</div>
             </div>          
         </div>
