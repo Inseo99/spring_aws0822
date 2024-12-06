@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function deletecheck() {
-    const fm = document.frm;
+    const fm = document.form;
     const ans = confirm("글을 삭제하겠습니까?");
     
     if (ans) {
@@ -88,6 +88,88 @@ function download() {
 	return downLink;
 }
 
+function commentDel(cidx) {
+	
+	let ans = confirm("삭제하시겠습니까?");
+	
+	if (ans == true) {
+		
+		$.ajax({
+			type : "get",	
+			url : "${pageContext.request.contextPath}/comment/"+ cidx +"/commentDeleteAction.aws",
+			dataType : "json",		
+			success : function(result) {	
+				
+				$.boardCommentList();
+			},
+			error : function() {		// 결과가 실패했을 때 받는 영역
+				alert("전송실패");
+			}			
+		});
+	}
+	
+	return;
+}
+
+$.boardCommentList = function(){
+	
+	let block = $("#block").val();
+	
+	
+	$.ajax({
+		type : "get",	
+		url : "${pageContext.request.contextPath}/comment/${bv.bidx}/"+ block +"/commentList.aws",
+		dataType : "json",		
+		success : function(result) {	
+			// alert("전송성공");
+			
+			var strTr = "";
+			$(result.clist).each(function(){
+			
+				var btnn = "";
+				if (this.midx == "${midx}"){		
+				if (this.delyn == 'N') {
+					btnn = "<button class = 'btn' type = 'button' onclick = 'commentDel(" + this.cidx + ")'>삭제</button>";					
+					}				
+				}
+			
+				strTr = strTr + "<tr>"
+				+ "<td>" + this.cidx + "</td>"
+				+ "<td>" + this.cwriter + "</td>"
+				+ "<td class='content'>" + this.ccontents + "</td>"
+				+ "<td>" + this.writeday + "</td>"
+				+ "<td>" + btnn + "</td>"
+				+ "</tr>"
+			
+			});
+		
+			var str = "<table class='replyTable'>"
+			+ "<tr>" 
+			+ "<th>번호</th>"
+			+ "<th>작성자</th>"
+			+ "<th>내용</th>"
+			+ "<th>날짜</th>"
+			+ "<th>DEL</th>"
+			+ "</tr>" + strTr + "</table>"
+			
+			$("#commentListView").html(str);
+	
+			if (result.moreView == "N") {
+				$("#morebtn").css("display", "none");	// 감춘다.
+			} else {
+				$("#morebtn").css("display", "block");	// 보여준다.
+			}
+			
+			$("#block").val(result.nextBlock);	
+		
+		},
+		error : function() {		
+			// alert("전송실패");
+		}			
+	});		
+	
+}
+
 $(document).ready(function() {	// cdn주소 필요	
 	
 	$("#dUrl").html(getOriginalFileName("${bv.filename}"))
@@ -96,6 +178,8 @@ $(document).ready(function() {	// cdn주소 필요
 		$("#dUrl").attr("href", download());
 		return;
 	});
+	
+	$.boardCommentList();
 	
 	$("#btn").click(function() {
 		// alert("추천버튼 클릭")
@@ -114,6 +198,56 @@ $(document).ready(function() {	// cdn주소 필요
 			}			
 		});
 		
+	});
+	
+$("#cmtbtn").click(function() {
+		
+		let loginCheck = "${midx}";
+		if (loginCheck == "" || loginCheck == "null" || loginCheck == null || loginCheck == 0) {
+			alert("로그인을 해주세요.");
+			return;
+		}
+		
+		let cwriter = $("#cwriter").val();
+		let ccontents = $("#ccontents").val();
+		
+		if (cwriter == "") {
+			alert("작성자를 입력해주세요.");
+			$("#cwriter").focus();
+			return;
+			
+		} else if (ccontents == "") {
+			alert("내용을 입력해주세요.");
+			$("#ccontents").focus();
+			return;
+		}
+		
+		$.ajax({
+			type : "post",
+			url : "${pageContext.request.contextPath}/comment/commentWriteAction.aws",
+			data : {"cwriter" : cwriter, 
+					"ccontents" : ccontents, 
+					"bidx" : "${bv.bidx}", 
+					"midx" : "${midx}"
+					},
+			dataType : "json",		
+			success : function(result) {
+		 		alert("댓글이 등록되었습니다.");
+		 		if(result.value == 1) {
+		 			$("#ccontents").val("");
+		 			$("#block").val(1);
+		 		}
+		 		
+		 		$.boardCommentList();
+			},
+			error : function() {
+				alert("전송실패");
+			}			
+		});		
+	});
+	
+	$("#more").click(function() {
+		$.boardCommentList();
 	});
 	
 });
@@ -170,7 +304,7 @@ $(document).ready(function() {	// cdn주소 필요
 	            </ul>
             </nav>
             <main class="main">
-				<form name="frm">
+				<form name="form">
 				<input type="hidden" name="bidx" value="${bv.bidx }">
 					<div class="main-list">
 		                <header>
@@ -216,6 +350,21 @@ $(document).ready(function() {	// cdn주소 필요
 						</div>
 		            </div> 
 	            </form>
+	            <article class="commentContents">
+					<form name="frm">
+						<p class="commentWriter" style="width:100px;">
+						<input type="text" id="cwriter" name="cwriter" value="${name}" readonly="readonly" style="width:100%;border:0px;">
+						</p>	
+						<input type="text" id="ccontents" name="ccontents"style="width:83%;height:25px;">		
+						<button type="button" id="cmtbtn" class="replyBtn">댓글쓰기</button>
+					</form>	
+					<div id = "commentListView"></div>
+					
+					<div id = "morebtn" style = "text-align:center; line-height:50px">
+						<button type = "button" id = "more" >더보기</button>
+						<input type = "hidden" id = "block" value = "1">
+					</div>
+				</article>
 	       	</main>         
         </div>
     </div>
