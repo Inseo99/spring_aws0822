@@ -31,22 +31,23 @@
 	
 	<beans:bean id = "loginInterceptor" class = "com.kis.management.interceptor.LoginInterceptor">
 	</beans:bean>	
-	<!-- <beans:bean id = "authInterceptor" class = "com.kis.management.interceptor.AuthInterceptor">
-	</beans:bean> -->
+	<beans:bean id = "authInterceptor" class = "com.kis.management.interceptor.AuthInterceptor">
+	</beans:bean>
 
 	<interceptors>
 		<interceptor>
 			<mapping path = "/member/memberLoginAction.aws"/>
 			<beans:ref bean = "loginInterceptor"/>
 		</interceptor>
-		<!-- <interceptor>
+		<interceptor>
+			<mapping path = "/member/employeeRegister.aws"/>
+			<mapping path = "/member/information.aws"/>
 			<mapping path = "/member/memberList.aws"/>
-			<mapping path = "/board/boardWrite.aws"/>
-			<mapping path = "/board/boardDelete.aws"/>
-			<mapping path = "/board/boardModify.aws"/>
-			<mapping path = "/board/boardReply.aws"/>
+			<mapping path = "/member/memberModify.aws"/>
+			<mapping path = "/board/*"/>
+			<mapping path = "/department/*"/>
 			<beans:ref bean = "authInterceptor"/>
-		</interceptor> -->
+		</interceptor>
 	</interceptors>
 	
 	<context:component-scan base-package="com.kis.management.controller" />

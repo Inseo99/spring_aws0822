@@ -56,8 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
               <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
           </div>
 		</div>
-
-        <!-- 리스트 콘텐츠 -->
         <div class="list-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
@@ -112,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <th>번호</th>
                             <th>제목</th>
                             <th>작성자</th>
+                            <th>조회</th>
                             <th>날짜</th>
                         </tr>
                     </thead>
@@ -119,8 +118,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <c:forEach items = "${blist}" var = "bv" varStatus="status"> 
                         <tr>
                             <td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>
-                            <td><a href="${pageContext.request.contextPath}/board/noticeContents.aws?bidx=${bv.bidx}">${bv.subject }</a></td>
+                            <td class="title"><a href="${pageContext.request.contextPath}/board/noticeContents.aws?bidx=${bv.bidx}">${bv.subject }</a></td>
                             <td>${bv.writer }</td>
+                            <td>${bv.viewcnt}</td>
                             <td>${bv.writeday.substring(0,10) }</td>
                         </tr>
                     </c:forEach>

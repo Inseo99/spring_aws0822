@@ -9,8 +9,11 @@
 </select>
 
 <insert id="boardInsert" parameterType="bv">
-   INSERT INTO board(type, subject, contents, writer, filename, ip, midx) 
-   VALUES(#{type}, #{subject}, #{contents}, #{writer}, #{uploadedFileName}, #{ip}, #{midx})
+	<selectKey keyProperty="bidx" resultType="int" order = "AFTER">
+	SELECT MAX(bidx) AS bidx FROM board
+	</selectKey>
+   	INSERT INTO board(type, subject, contents, writer, filename, ip, midx) 
+   	VALUES(#{type}, #{subject}, #{contents}, #{writer}, #{uploadedFileName}, #{ip}, #{midx})
 </insert>
 
 <update id="boardUpdate" parameterType="bv">
@@ -45,5 +48,47 @@
 	<include refid="search"/>
 	ORDER BY bidx DESC LIMIT #{startPageNum}, #{perPageNum}
 </select>
+
+<select id="communityTatalCount" parameterType="scri" resultType="int">
+	SELECT COUNT(*) AS cnt FROM board 
+	WHERE delyn = 'N' AND type = 'C'
+	<include refid="search"/>
+</select>
+
+<select id="communitySelectAll" parameterType="HashMap" resultType="bv">
+	SELECT * FROM board 
+	WHERE delyn = 'N' AND type = 'C'
+	<include refid="search"/>
+	ORDER BY originbidx DESC, depth ASC LIMIT #{startPageNum}, #{perPageNum}
+</select>
+
+<update id="communityOriginbidxUpdate" parameterType="int">
+	UPDATE board 
+	SET originbidx = #{bidx}
+	WHERE bidx = #{bidx}
+</update>
+
+<update id="boardViewCntUpdate" parameterType="int">
+	UPDATE board SET viewcnt = viewcnt+1 WHERE bidx = #{bidx}
+</update>
+
+<update id="communityRecomUpdate" parameterType="bv">
+	<selectKey keyProperty="recom" resultType="int" order = "AFTER">
+	SELECT recom FROM board WHERE bidx = #{bidx}
+	</selectKey>
+	UPDATE board SET recom = recom+1 WHERE bidx = #{bidx}
+</update>
+
+<update id="communityReplyUpdate" parameterType="bv">
+	UPDATE board SET depth = depth + 1 WHERE originbidx = #{originbidx} AND depth > #{depth}
+</update>
+
+<insert id="communityReplyInsert" parameterType="bv">
+	<selectKey keyProperty="bidx" resultType="int" order = "AFTER">
+	SELECT MAX(bidx) AS bidx FROM board
+	</selectKey>
+	INSERT INTO board(type, originbidx, depth, level_, subject, contents, writer, midx, filename, ip) 
+	VALUE(#{type}, #{originbidx}, #{depth}+1, #{level_}+1, #{subject}, #{contents}, #{writer}, #{midx}, #{uploadedFileName}, #{ip})
+</insert>
 
 </mapper> 

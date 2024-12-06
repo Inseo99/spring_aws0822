@@ -17,7 +17,8 @@ if (msg != "") {
 <head>
 <meta charset="UTF-8">
 <title>커뮤니티</title>
-<link href="${pageContext.request.contextPath}/resources/css/list.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<link href="${pageContext.request.contextPath}/resources/css/contents.css" rel="stylesheet">
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -42,10 +43,85 @@ document.addEventListener('DOMContentLoaded', function () {
     updateTime();
 });
 
+function deletecheck() {
+    const fm = document.frm;
+    const ans = confirm("글을 삭제하겠습니까?");
+    
+    if (ans) {
+        fm.action = "${pageContext.request.contextPath}/board/communityDeleteAction.aws";
+        fm.method = "post";
+        fm.enctype="multipart/form-data";
+        fm.submit();
+    }
+}
+
+function checkImageType(fileName) {
+	
+	var pattern = /jpg$|gif$|png$|jpeg$/i;	// 자바스크립트 정규표현식
+	
+	return fileName.match(pattern);
+}
+
+function getOriginalFileName(fileName) {	// 원본 파일이름 추출
+	
+	var idx = fileName.lastIndexOf("_") + 1;	
+	
+	return fileName.substr(idx);
+}
+
+function getImageLink(fileName) {	// 이미지 링크 가져오기
+	
+	var front = fileName.substr(0, 12);
+	var end = fileName.substr(14);
+	
+	return front + end;
+}
+
+// download();
+function download() {
+	// 주소사이에 s-는 빼고
+	var downloadImage = getImageLink("${bv.filename}");
+	// alert(downloadImage);
+	var downLink = "${pageContext.request.contextPath}/board/displayFile.aws?fileName="+ downloadImage +"&down=1";	
+	// alert(downLink);
+	
+	return downLink;
+}
+
+$(document).ready(function() {	// cdn주소 필요	
+	
+	$("#dUrl").html(getOriginalFileName("${bv.filename}"))
+
+	$("#dUrl").click(function() {
+		$("#dUrl").attr("href", download());
+		return;
+	});
+	
+	$("#btn").click(function() {
+		// alert("추천버튼 클릭")
+		
+		$.ajax({
+			type : "get",
+			url : "${pageContext.request.contextPath}/board/communityRecom.aws?bidx=${bv.bidx}",
+			dataType : "json",	
+			success : function(result) {	
+				var str = "추천("+result.recom+")";
+		
+				$("#btn").val(str);
+			},
+			error : function() {		// 결과가 실패했을 때 받는 영역
+				alert("전송실패");
+			}			
+		});
+		
+	});
+	
+});
+
 </script>
 </head>
 <body>
-	<div class="List">
+	<div class="contents">
         <!-- 상단바 -->
         <div class="header">
 		  <div class="logo">koreacompany</div>
@@ -56,7 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
               <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
           </div>
 		</div>
-        <div class="list-content">
+
+        <!-- 리스트 콘텐츠 -->
+        <div class="contents-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
@@ -91,69 +169,54 @@ document.addEventListener('DOMContentLoaded', function () {
 	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/communityList.aws">커뮤니티</a></li>
 	            </ul>
             </nav>
-            <div class="main-list">
-                <header>
-					<h2 class="mainTitle">커뮤니티</h2>
-					<form class="search" name = "frm" action = "${pageContext.request.contextPath}/board/communityList.aws">
-					<input type="hidden" name="type" value="C">
-						<select name = "searchType">
-							<option value = "writer">작성자</option>
-							<option value = "subject">제목</option>
-						</select>
-						<input type="text" name = "keyword">
-						<button type = "submit" class="btn">검색</button>
-					</form>
-				</header>
-                <table class="main-table">
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>조회</th>
-							<th>추천</th>
-                            <th>날짜</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items = "${blist}" var = "bv" varStatus="status"> 
-                        <tr>
-                        	<td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>			
-							<td class="title">			
-							<c:forEach var = "i" begin = "1" end = "${bv.level_ }" step = "1">
-								&nbsp;&nbsp;
-								<c:if test="${i == bv.level_}">
-									ㄴ
-								</c:if>				
-							</c:forEach>
-                            <a href="${pageContext.request.contextPath}/board/communityContents.aws?bidx=${bv.bidx}">${bv.subject }</a></td>
-                            <td>${bv.writer }</td>
-                            <td>${bv.viewcnt}</td>
-							<td>${bv.recom}</td>
-                            <td>${bv.writeday.substring(0,10) }</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <div class="btnBox">
-					<a class="btn" href="${pageContext.request.contextPath}/board/communityWrite.aws">글쓰기</a>
-				</div>
-				<div class="page">
-					<ul>
-						<c:if test="${pm.prev == true}">
-							<li><a href = "${pageContext.request.contextPath}/board/communityList.aws?page=${pm.startPage - 1}&${queryParam}">◀</a></li>
-						</c:if>		
-						<c:forEach var = "i" begin = "${pm.startPage}" end = "${pm.endPage}" step = "1">
-							<li <c:if test="${i == pm.scri.page}"> class = 'on'</c:if>>
-								<a href = "${pageContext.request.contextPath}/board/communityList.aws?page=${i}&${queryParam}">
-								${i}</a>
-							</li>
-						</c:forEach>
-						<c:if test="${pm.next && pm.endPage > 0 }">
-							<li><a href = "${pageContext.request.contextPath}/board/communityList.aws?page=${pm.endPage + 1}&${queryParam}">▶</a></li>
-						</c:if>
-					</ul>
-				</div>
-            </div>          
+            <main class="main">
+				<form name="frm">
+				<input type="hidden" name="bidx" value="${bv.bidx }">
+					<div class="main-list">
+		                <header>
+							<h2 class="mainTitle">커뮤니티</h2>
+						</header>
+						<article class="detailContents">
+							<h4 class="contentTitle">${bv.subject}
+								(조회수:${bv.viewcnt}) <input type="button" id="btn"
+									value="추천${bv.recom})">
+							</h4>
+							<p class="write">${bv.writer}
+								(${bv.writeday})
+							</p>
+							<hr>
+							<div class="content">
+								${bv.contents}
+							</div>
+							<c:if test="${!empty bv.filename}">
+							<img src="${pageContext.request.contextPath}/board/displayFile.aws?fileName=${bv.filename}">
+							<p>
+							<a id="dUrl"  href="#"  class="fileDown">	
+							첨부파일 다운로드</a>
+							</p>
+							</c:if>
+						</article>
+					
+						<div class="btnBox">
+							<!-- <a class="btn aBtn"
+								id="dUrl" href="#">다운</a> -->
+							<c:if test="${sessionScope.grade == 'admin' || sessionScope.midx == bv.midx}">
+							<a class="btn aBtn"
+								href="${pageContext.request.contextPath}/board/communityModify.aws?bidx=${bv.bidx}">수정</a>
+							</c:if>
+							<c:if test="${sessionScope.grade == 'admin'}">
+							<a class="btn aBtn" 
+								onclick="deletecheck();" >삭제
+							</a>
+							</c:if>
+							<a class="btn aBtn"
+								href="${pageContext.request.contextPath}/board/communityReply.aws?bidx=${bv.bidx}">답변</a>
+							<a class="btn aBtn"
+								href="${pageContext.request.contextPath}/board/communityList.aws">목록</a>
+						</div>
+		            </div> 
+	            </form>
+	       	</main>         
         </div>
     </div>
     <script>

@@ -2,22 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.kis.management.domain.*"%>
-<%
-String msg = "";  
-if (request.getAttribute("msg") != null) {
-	msg = (String)request.getAttribute("msg");
-}
-
-if (msg != "") {
-	out.println("<script>alert('" + msg + "');</script>");	
-}
-%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>커뮤니티</title>
-<link href="${pageContext.request.contextPath}/resources/css/list.css" rel="stylesheet">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/save.css">
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -42,21 +32,49 @@ document.addEventListener('DOMContentLoaded', function () {
     updateTime();
 });
 
+function writecheck() {
+    const fm = document.frm;
+	
+    if (fm.subject.value === "") {
+        alert("제목을 입력해주세요.");
+        fm.subject.focus();
+        return;
+    }
+    if (fm.contents.value === "") {
+        alert("내용을 입력해주세요.");
+        fm.contents.focus();
+        return;
+    }
+    if (fm.writer.value === "") {
+        alert("작성자를 입력해주세요.");
+        fm.writer.focus();
+        return;
+    }
+
+
+    const ans = confirm("글을 등록하겠습니까?");
+    if (ans) {
+        fm.action = "${pageContext.request.contextPath}/board/communityReplyAction.aws";
+        fm.method = "post";
+        fm.enctype = "multipart/form-data";
+        fm.submit();
+    }
+}
 </script>
 </head>
 <body>
-	<div class="List">
+	<div class="save"> 
         <!-- 상단바 -->
         <div class="header">
-		  <div class="logo">koreacompany</div>
+          <div class="logo">koreacompany</div>
           <div class="user-info">
               <span id="current-date"></span>
               <span id="current-time"></span>
               <span id="name">${name}</span>
               <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
           </div>
-		</div>
-        <div class="list-content">
+      </div>
+        <div class="save-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
                 <ul>
@@ -91,69 +109,40 @@ document.addEventListener('DOMContentLoaded', function () {
 	                <li class="menu-item"><a href="${pageContext.request.contextPath}/board/communityList.aws">커뮤니티</a></li>
 	            </ul>
             </nav>
-            <div class="main-list">
-                <header>
-					<h2 class="mainTitle">커뮤니티</h2>
-					<form class="search" name = "frm" action = "${pageContext.request.contextPath}/board/communityList.aws">
-					<input type="hidden" name="type" value="C">
-						<select name = "searchType">
-							<option value = "writer">작성자</option>
-							<option value = "subject">제목</option>
-						</select>
-						<input type="text" name = "keyword">
-						<button type = "submit" class="btn">검색</button>
-					</form>
-				</header>
-                <table class="main-table">
-                    <thead>
+			<div class="info-form">
+                <h3>커뮤니티</h3>
+                <form name = "frm">
+                <input type="hidden" name="type" value="C">
+                <input type="hidden" name="bidx" value="${bv.bidx}">
+				<input type="hidden" name="originbidx" value="${bv.originbidx}">
+				<input type="hidden" name="depth" value="${bv.depth}">
+				<input type="hidden" name="level_" value="${bv.level_}">
+                    <table class="combined-info-table">
                         <tr>
-                            <th>번호</th>
                             <th>제목</th>
-                            <th>작성자</th>
-                            <th>조회</th>
-							<th>추천</th>
-                            <th>날짜</th>
+                            <td><input type="text" name="subject" id= "subject" ></td>
                         </tr>
-                    </thead>
-                    <c:forEach items = "${blist}" var = "bv" varStatus="status"> 
                         <tr>
-                        	<td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>			
-							<td class="title">			
-							<c:forEach var = "i" begin = "1" end = "${bv.level_ }" step = "1">
-								&nbsp;&nbsp;
-								<c:if test="${i == bv.level_}">
-									ㄴ
-								</c:if>				
-							</c:forEach>
-                            <a href="${pageContext.request.contextPath}/board/communityContents.aws?bidx=${bv.bidx}">${bv.subject }</a></td>
-                            <td>${bv.writer }</td>
-                            <td>${bv.viewcnt}</td>
-							<td>${bv.recom}</td>
-                            <td>${bv.writeday.substring(0,10) }</td>
+                            <th>내용</th>
+                            <td colspan="3">
+                                <textarea name="contents" id="contents" rows="6" ></textarea>
+                            </td>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <div class="btnBox">
-					<a class="btn" href="${pageContext.request.contextPath}/board/communityWrite.aws">글쓰기</a>
-				</div>
-				<div class="page">
-					<ul>
-						<c:if test="${pm.prev == true}">
-							<li><a href = "${pageContext.request.contextPath}/board/communityList.aws?page=${pm.startPage - 1}&${queryParam}">◀</a></li>
-						</c:if>		
-						<c:forEach var = "i" begin = "${pm.startPage}" end = "${pm.endPage}" step = "1">
-							<li <c:if test="${i == pm.scri.page}"> class = 'on'</c:if>>
-								<a href = "${pageContext.request.contextPath}/board/communityList.aws?page=${i}&${queryParam}">
-								${i}</a>
-							</li>
-						</c:forEach>
-						<c:if test="${pm.next && pm.endPage > 0 }">
-							<li><a href = "${pageContext.request.contextPath}/board/communityList.aws?page=${pm.endPage + 1}&${queryParam}">▶</a></li>
-						</c:if>
-					</ul>
-				</div>
-            </div>          
+                        <tr>
+                            <th>작성자</th>
+                            <td><input type="text" name="writer" id="writer" ></td>
+                        </tr>
+                        <tr>
+							<th>첨부파일</th>
+							<td><input type="file" name = "attachfile"></td>
+						</tr>
+                    </table>
+                    <div class="btnBox">
+			            <button type="button" class="btn" onclick="writecheck();">저장</button>
+			            <a class="btn aBtn" href="${pageContext.request.contextPath}/board/communityList.aws">취소</a>
+			        </div>
+                </form>
+            </div>
         </div>
     </div>
     <script>

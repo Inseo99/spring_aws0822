@@ -32,6 +32,34 @@ document.addEventListener('DOMContentLoaded', function () {
     updateTime();
 });
 
+function writecheck() {
+    const fm = document.frm;
+	
+    if (fm.subject.value === "") {
+        alert("제목을 입력해주세요.");
+        fm.subject.focus();
+        return;
+    }
+    if (fm.contents.value === "") {
+        alert("내용을 입력해주세요.");
+        fm.contents.focus();
+        return;
+    }
+    if (fm.writer.value === "") {
+        alert("작성자를 입력해주세요.");
+        fm.writer.focus();
+        return;
+    }
+
+
+    const ans = confirm("글을 등록하겠습니까?");
+    if (ans) {
+        fm.action = "${pageContext.request.contextPath}/board/communityWriteAction.aws";
+        fm.method = "post";
+        fm.enctype = "multipart/form-data";
+        fm.submit();
+    }
+}
 </script>
 </head>
 <body>
@@ -46,8 +74,6 @@ document.addEventListener('DOMContentLoaded', function () {
               <a href="${pageContext.request.contextPath}/member/memberLogout.aws">로그아웃</a>
           </div>
       </div>
-
-        <!-- 콘텐츠 -->
         <div class="save-content">
             <!-- 사이드바 -->
             <nav class="sidebar">
@@ -85,7 +111,8 @@ document.addEventListener('DOMContentLoaded', function () {
             </nav>
 			<div class="info-form">
                 <h3>커뮤니티</h3>
-                <form>
+                <form name = "frm">
+                <input type="hidden" name="type" value="C">
                     <table class="combined-info-table">
                         <tr>
                             <th>제목</th>
@@ -103,12 +130,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         </tr>
                         <tr>
 							<th>첨부파일</th>
-							<td><input type="file" name = "filename"></td>
+							<td><input type="file" name = "attachfile"></td>
 						</tr>
                     </table>
                     <div class="btnBox">
-			            <button type="button" class="btn">저장</button>
-			            <a class="btn aBtn" onclick="history.back();">취소</a>
+			            <button type="button" class="btn" onclick="writecheck();">저장</button>
+			            <a class="btn aBtn" href="${pageContext.request.contextPath}/board/communityList.aws">취소</a>
 			        </div>
                 </form>
             </div>

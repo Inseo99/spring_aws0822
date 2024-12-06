@@ -18,6 +18,20 @@ public interface BoardMapper {
 
 	public int noticeTatalCount(SearchCriteria scri);
 
-	public ArrayList<BoardVo> noticeSelectAll(HashMap<String, Object> hm);	
+	public ArrayList<BoardVo> noticeSelectAll(HashMap<String, Object> hm);
+
+	public int communityTatalCount(SearchCriteria scri);
+
+	public ArrayList<BoardVo> communitySelectAll(HashMap<String, Object> hm);
+
+	public int communityOriginbidxUpdate(int bidx);
+
+	public int boardViewCntUpdate(int bidx);
+
+	public void communityRecomUpdate(BoardVo bv);
+
+	public void communityReplyUpdate(BoardVo bv);
+
+	public void communityReplyInsert(BoardVo bv);	
 	
 }

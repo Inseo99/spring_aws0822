@@ -18,5 +18,17 @@ public interface BoardService {
 	public ArrayList<BoardVo> noticeSelectAll(SearchCriteria scri);
 
 	public int noticeInsert(BoardVo bv);
+
+	public int communityTatalCount(SearchCriteria scri);
+
+	public ArrayList<BoardVo> communitySelectAll(SearchCriteria scri);
+
+	public int communityInsert(BoardVo bv);
+
+	public int boardViewCntUpdate(int bidx);
+
+	public int communityRecomUpdate(int bidx);
+
+	public int communityReply(BoardVo bv);
    
 }

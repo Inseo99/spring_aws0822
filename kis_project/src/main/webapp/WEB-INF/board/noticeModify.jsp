@@ -52,7 +52,7 @@ function writecheck() {
     }
 
 
-    const ans = confirm("공지사항을 등록하겠습니까?");
+    const ans = confirm("수정하겠습니까?");
     if (ans) {
         fm.action = "${pageContext.request.contextPath}/board/noticeWriteAction.aws";
         fm.method = "post";

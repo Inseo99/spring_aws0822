@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -120,6 +122,7 @@ public class BoardController {
 		   Model model
 		   ) {   
 	   
+	  boardService.boardViewCntUpdate(bidx);
 	  BoardVo bv = boardService.boardSelectOne(bidx);
 	  
 	  model.addAttribute("bv", bv);
@@ -198,16 +201,203 @@ public class BoardController {
    }
    
    @RequestMapping(value = "communityList.aws", method = RequestMethod.GET)
-   public String communityList() {   
-
+   public String communityList(
+		   SearchCriteria scri, 
+		   Model model
+		   ) {   
+	
+	  int cnt = boardService.communityTatalCount(scri);
+		  
+	  pm.setScri(scri);		
+	  pm.setTotalCount(cnt);
+		  
+	  ArrayList<BoardVo> blist = boardService.communitySelectAll(scri);
+		  
+	  model.addAttribute("blist", blist);
+	  model.addAttribute("pm", pm);
+		   
       return "WEB-INF/board/communityList";
    }
    
    @RequestMapping(value = "communityWrite.aws", method = RequestMethod.GET)
    public String communityWrite() {   
-
       return "WEB-INF/board/communityWrite";
    }
+   
+   @RequestMapping(value = "communityWriteAction.aws", method = RequestMethod.POST)
+   public String communityWriteAction(
+		   BoardVo bv,
+		   @RequestParam("attachfile") MultipartFile attachfile,
+		   RedirectAttributes rttr,
+		   HttpServletRequest request
+		   ) throws IOException, Exception { 
+	   
+	  MultipartFile file = attachfile;
+	  String uploadedFileName = "";
+		
+	  if (! file.getOriginalFilename().equals("")) {	// 파일업로드
+		  uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());			
+	  }
+	  
+	  int midx = Integer.parseInt(request.getSession().getAttribute("midx").toString());
+	  String ip = userIp.getUserIp(request);
+		
+	  bv.setUploadedFileName(uploadedFileName);
+	  bv.setMidx(midx);
+	  bv.setIp(ip);
+	  
+	  int value = boardService.communityInsert(bv);
+	  
+	  if (value == 2) {	// 넘어가는 화면에다가 msg가 뜨게 넘어가는 화면에다가 msg코드를 작성해야한다.
+			rttr.addFlashAttribute("msg", "글이 등록되었습니다.");
+			path = "redirect:/board/communityList.aws";			
+		} else {			
+			rttr.addFlashAttribute("msg", "입력이 잘못되었습니다.");
+			path = "redirect:/board/communityWrite.aws";
+		}
+		
+      return path;
+   }
+   
+   @RequestMapping(value = "communityContents.aws", method = RequestMethod.GET)
+   public String communityContents(
+		   @RequestParam("bidx") int bidx, 
+		   Model model
+		   ) {   
+	   
+	  boardService.boardViewCntUpdate(bidx);
+	  BoardVo bv = boardService.boardSelectOne(bidx);
+	  
+	  model.addAttribute("bv", bv);
+	  model.addAttribute("bidx", bidx);
+	  
+      return "WEB-INF/board/communityContents";
+   }
+   
+   @ResponseBody
+	@RequestMapping(value = "communityRecom.aws", method = RequestMethod.GET)
+	public JSONObject communityRecom(@RequestParam("bidx") int bidx) {	
+		
+		int value = boardService.communityRecomUpdate(bidx);
+		
+		JSONObject js = new JSONObject();
+		js.put("recom", value);
+		
+		return js;
+	}
+   
+   @RequestMapping(value = "communityModify.aws", method = RequestMethod.GET)
+   public String communityModify(
+		   @RequestParam("bidx") int bidx, 
+		   Model model
+		   ) {   
+	   
+	   BoardVo bv = boardService.boardSelectOne(bidx);
+	   
+	   model.addAttribute("bv", bv);
+	   model.addAttribute("bidx", bidx);
+	   
+	   return "WEB-INF/board/communityModify";
+   }
+   
+   @RequestMapping(value = "communityModifyAction.aws", method = RequestMethod.POST)
+   public String communityModifyAction(
+		   BoardVo bv,
+		   @RequestParam("bidx") int bidx,
+		   @RequestParam("attachfile") MultipartFile attachfile,
+		   RedirectAttributes rttr,
+		   HttpServletRequest request
+		   ) throws IOException, Exception { 
+	   
+	  MultipartFile file = attachfile;
+	  String uploadedFileName = "";
+		
+	  if (! file.getOriginalFilename().equals("")) {	// 파일업로드
+		  uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());			
+	  }
+	  
+	  int midx = Integer.parseInt(request.getSession().getAttribute("midx").toString());
+	  String ip = userIp.getUserIp(request);
+		
+	  bv.setUploadedFileName(uploadedFileName);
+	  bv.setMidx(midx);
+	  bv.setIp(ip);
+	  
+	  int value = boardService.boardUpdate(bv);
+	  
+	  if (value == 1) {	// 넘어가는 화면에다가 msg가 뜨게 넘어가는 화면에다가 msg코드를 작성해야한다.
+			rttr.addFlashAttribute("msg", "글이 수정되었습니다.");
+			path = "redirect:/board/communityList.aws";			
+		} else {			
+			rttr.addFlashAttribute("msg", "입력이 잘못되었습니다.");
+			path = "redirect:/board/communityModify.aws?bidx=" + bidx;
+		}
+		
+      return path;
+   }
+   
+   @RequestMapping(value = "communityDeleteAction.aws", method = RequestMethod.POST)
+   public String communityDeleteAction(
+		   @RequestParam("bidx") int bidx,
+		   RedirectAttributes rttr
+		   ) { 
+	  
+	  int value = boardService.boardDelete(bidx);
+	  
+	  if (value == 1) {
+		  rttr.addFlashAttribute("msg", "글이 삭제되었습니다.");
+		  path = "redirect:/board/communityList.aws";		
+	  } else {			
+		  path = "redirect:/board/communityContents.aws?bidx=" + bidx;
+	  }
+	  
+      return path;
+   }
+   
+   @RequestMapping(value = "communityReply.aws", method = RequestMethod.GET)
+	public String communityReply(@RequestParam("bidx") int bidx, Model model) {
+
+		BoardVo bv = boardService.boardSelectOne(bidx);
+		
+		model.addAttribute("bv", bv);
+		
+		return "WEB-INF/board/communityReply";
+	}
+   
+   @RequestMapping(value = "communityReplyAction.aws", method = RequestMethod.POST)
+	public String communityReplyAction(
+			BoardVo bv,
+			@RequestParam("attachfile") MultipartFile attachfile,
+			RedirectAttributes rttr,
+			HttpServletRequest request
+			) throws Exception {		
+		// logger.info("boardReplyAction 들어옴");
+		MultipartFile file = attachfile;
+		String uploadedFileName = "";
+		
+		if (!file.getOriginalFilename().equals("")) {	// 파일업로드
+			uploadedFileName = UploadFileUtiles.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());			
+		}
+		int midx = Integer.parseInt(request.getSession().getAttribute("midx").toString());
+		String ip = userIp.getUserIp(request);
+
+		bv.setMidx(midx);
+		bv.setUploadedFileName(uploadedFileName);
+		bv.setIp(ip);
+		
+		int maxBidx = 0;
+		maxBidx = boardService.communityReply(bv);
+		
+		if (maxBidx == 0) {
+			rttr.addFlashAttribute("msg", "답변이 등록되지 않았습니다.");
+			path = "redirect:/board/communityReply.aws?bidx=" + bv.getBidx(); 
+		} else {			
+			rttr.addFlashAttribute("msg", "글이 등록되었습니다.");
+			path = "redirect:/board/communityList.aws";			
+			}
+		
+		return path;
+	}
    
    @RequestMapping(value = "weekWorkList.aws", method = RequestMethod.GET)
    public String weekWorkList() {   
