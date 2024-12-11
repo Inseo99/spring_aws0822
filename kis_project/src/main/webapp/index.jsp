@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                <button type="button" class="login-btn">로그인</button>
            </form>
            <a class="find-link" href = "${pageContext.request.contextPath}/member/adminJoin.aws">회원가입</a>
-           <a class="find-link">아이디/비밀번호찾기</a>
+           <a class="find-link" href = "${pageContext.request.contextPath}/email/emailWrite.aws">아이디/비밀번호찾기</a>
        </div>
    </div>
 </body>
