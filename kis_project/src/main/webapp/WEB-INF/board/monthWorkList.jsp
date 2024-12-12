@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <header>
 					<h2 class="mainTitle">월간 보고</h2>
 					<form class="search" name = "frm" action = "${pageContext.request.contextPath}/board/monthWorkList.aws">
-					<input type="hidden" name="type" value="주간">
+					<input type="hidden" name="type" value="월간">
 						<select name = "searchType">
 							<option value = "name">작성자</option>
 							<option value = "department">제목</option>

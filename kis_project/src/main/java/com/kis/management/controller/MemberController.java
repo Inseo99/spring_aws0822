@@ -119,7 +119,12 @@ public class MemberController {
             rttr.addAttribute("photo", mv.getPhoto());
             
             session.setAttribute("mv", mv);
-            rttr.addFlashAttribute("msg", "로그인 되었습니다.");
+            
+            if(grade.equals("admin")) {
+            	rttr.addFlashAttribute("msg", "관리자로 로그인 되었습니다.");            	
+            } else {
+            	rttr.addFlashAttribute("msg", "직원으로 로그인 되었습니다.");  
+            }
             
             path = "redirect:/board/dashboard.aws";         
           
