@@ -126,31 +126,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="widget">
                         <h3>업무 보고</h3>
                         <table class="listTable">
-		                     <tr>
+                        	<tr>
 		                        <td>No</td>
+		                        <td>종류</td>
 		                        <td>제목</td>
 		                        <td>날짜</td>
 		                     </tr>
+		                     <c:forEach items = "${wlist}" var = "wv" varStatus="status"> 
 		                     <tr>
-		                        <td>No</td>
-		                        <td>제목</td>
-		                        <td>날짜</td>
+		                        <td>${wv.wbidx }</td>
+		                        <td>${wv.type }</td>
+		                        <td>${wv.subject }</td>
+		                        <td>${wv.writeday.substring(0,10) }</td>
 		                     </tr>
-		                     <tr>
-		                        <td>No</td>
-		                        <td>제목</td>
-		                        <td>날짜</td>
-		                     </tr>
-		                     <tr>
-		                        <td>No</td>
-		                        <td>제목</td>
-		                        <td>날짜</td>
-		                     </tr>
-		                     <tr>
-		                        <td>No</td>
-		                        <td>제목</td>
-		                        <td>날짜</td>
-		                     </tr>
+		                     </c:forEach>
 		                  </table>
                         <a class="more-button" href="${pageContext.request.contextPath}/board/weekWorkList.aws">더보기</a>
                     </div>

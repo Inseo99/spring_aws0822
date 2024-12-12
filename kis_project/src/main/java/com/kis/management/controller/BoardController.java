@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kis.management.domain.BoardVo;
 import com.kis.management.domain.PageMaker;
 import com.kis.management.domain.SearchCriteria;
+import com.kis.management.domain.WorkBoardVo;
 import com.kis.management.service.BoardService;
 import com.kis.management.util.MediaUtils;
 import com.kis.management.util.UploadFileUtiles;
@@ -38,7 +39,7 @@ import com.kis.management.util.UserIp;
 @RequestMapping(value="/board/")
 public class BoardController {
    
-   private static final Logger logger = LoggerFactory.getLogger(MemberController.class);   
+   private static final Logger logger = LoggerFactory.getLogger(BoardController.class);   
    
    String path = "";
    
@@ -59,9 +60,11 @@ public class BoardController {
 	   
 	  ArrayList<BoardVo> nlist = boardService.noticeSelectdashboard();
 	  ArrayList<BoardVo> clist = boardService.commynitySelectdashboard();
+	  ArrayList<WorkBoardVo> wlist = boardService.workSelectdashboard();
 		  
 	  model.addAttribute("nlist", nlist);
 	  model.addAttribute("clist", clist);
+	  model.addAttribute("wlist", wlist);
 	   
       return "WEB-INF/board/dashboard";
    }
@@ -406,8 +409,21 @@ public class BoardController {
 	}
    
    @RequestMapping(value = "weekWorkList.aws", method = RequestMethod.GET)
-   public String weekWorkList() {   
-
+   public String weekWorkList(
+		   SearchCriteria scri, 
+		   Model model
+		   ) {   
+	
+	  int cnt = boardService.weekWorkTatalCount(scri);
+		  
+	  pm.setScri(scri);		
+	  pm.setTotalCount(cnt);
+		  
+	  ArrayList<WorkBoardVo> blist = boardService.weekWorkSelectAll(scri);
+		  
+	  model.addAttribute("blist", blist);
+	  model.addAttribute("pm", pm);
+	  
       return "WEB-INF/board/weekWorkList";
    }
    
@@ -418,7 +434,20 @@ public class BoardController {
    }
    
    @RequestMapping(value = "monthWorkList.aws", method = RequestMethod.GET)
-   public String monthWorkList() {   
+   public String monthWorkList(
+		   SearchCriteria scri, 
+		   Model model
+		   ) {   
+	
+	  int cnt = boardService.monthWorkTatalCount(scri);
+		  
+	  pm.setScri(scri);		
+	  pm.setTotalCount(cnt);
+		  
+	  ArrayList<WorkBoardVo> blist = boardService.monthWorkSelectAll(scri);
+		  
+	  model.addAttribute("blist", blist);
+	  model.addAttribute("pm", pm);  
 
       return "WEB-INF/board/monthWorkList";
    }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kis.management.domain.BoardVo;
 import com.kis.management.domain.SearchCriteria;
+import com.kis.management.domain.WorkBoardVo;
 import com.kis.management.persistance.BoardMapper;
 
 @Service
@@ -136,7 +137,46 @@ public class BoardServiceImpl implements BoardService{
 		ArrayList<BoardVo> clist = bm.commynitySelectdashboard();
 		return clist;
 	}
-
-
 	
+	@Override
+	public ArrayList<WorkBoardVo> workSelectdashboard() {
+		ArrayList<WorkBoardVo> wlist = bm.workSelectdashboard();
+		return wlist;
+	}
+
+	@Override
+	public int weekWorkTatalCount(SearchCriteria scri) {
+		int cnt = bm.weekWorkTatalCount(scri);
+		return cnt;
+	}
+
+	@Override
+	public ArrayList<WorkBoardVo> weekWorkSelectAll(SearchCriteria scri) {
+		HashMap<String, Object> hm = new HashMap<String, Object>(); // 알아보기
+		hm.put("startPageNum", (scri.getPage()-1) * scri.getPerPageNum());
+		hm.put("perPageNum", scri.getPerPageNum());
+		hm.put("searchType", scri.getSearchType());
+		hm.put("keyword", scri.getKeyword());
+		
+		ArrayList<WorkBoardVo> blist = bm.weekWorkSelectAll(hm);
+		return blist;
+	}
+
+	@Override
+	public int monthWorkTatalCount(SearchCriteria scri) {
+		int cnt = bm.monthWorkTatalCount(scri);
+		return cnt;
+	}
+
+	@Override
+	public ArrayList<WorkBoardVo> monthWorkSelectAll(SearchCriteria scri) {
+		HashMap<String, Object> hm = new HashMap<String, Object>(); // 알아보기
+		hm.put("startPageNum", (scri.getPage()-1) * scri.getPerPageNum());
+		hm.put("perPageNum", scri.getPerPageNum());
+		hm.put("searchType", scri.getSearchType());
+		hm.put("keyword", scri.getKeyword());
+		
+		ArrayList<WorkBoardVo> blist = bm.monthWorkSelectAll(hm);
+		return blist;
+	}
 }

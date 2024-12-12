@@ -86,7 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			<div class="main-list">
                 <header>
 					<h2 class="mainTitle">월간 보고</h2>
-					<form class="search" name = "frm" action = "#">
+					<form class="search" name = "frm" action = "${pageContext.request.contextPath}/board/monthWorkList.aws">
+					<input type="hidden" name="type" value="주간">
 						<select name = "searchType">
 							<option value = "name">작성자</option>
 							<option value = "department">제목</option>
@@ -105,22 +106,34 @@ document.addEventListener('DOMContentLoaded', function () {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>20241128 월간 업무보고합니다.</td>
-                            <td>홍길동</td>
-                            <td>2022-01-15</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>20241128 개발 000 월간 업무보고합니다.</td>
-                            <td>이순신</td>
-                            <td>2021-11-10</td>
-                        </tr>
+                        <c:forEach items = "${blist}" var = "wv" varStatus="status"> 
+	                        <tr>
+	                            <td>${pm.totalCount - (status.index + (pm.scri.page-1) * pm.scri.perPageNum) }</td>
+	                            <td><a href="${pageContext.request.contextPath}/board/weekWorkContents.aws?bidx=${wv.wbidx}">${wv.subject }</a></td>
+	                            <td>${wv.name }</td>
+	                            <td>${wv.writeday.substring(0,10) }</td>
+	                        </tr>
+	                    </c:forEach>
                     </tbody>
                 </table>
                 <div class="btnBox">
 					<a class="btn" href="${pageContext.request.contextPath}/board/monthWorkWrite.aws">보고</a>
+				</div>
+				<div class="page">
+					<ul>
+						<c:if test="${pm.prev == true}">
+							<li><a href = "${pageContext.request.contextPath}/board/noticeList.aws?page=${pm.startPage - 1}&${queryParam}">◀</a></li>
+						</c:if>		
+						<c:forEach var = "i" begin = "${pm.startPage}" end = "${pm.endPage}" step = "1">
+							<li <c:if test="${i == pm.scri.page}"> class = 'on'</c:if>>
+								<a href = "${pageContext.request.contextPath}/board/noticeList.aws?page=${i}&${queryParam}">
+								${i}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${pm.next && pm.endPage > 0 }">
+							<li><a href = "${pageContext.request.contextPath}/board/noticeList.aws?page=${pm.endPage + 1}&${queryParam}">▶</a></li>
+						</c:if>
+					</ul>
 				</div>
             </div>            
         </div>
