@@ -30,5 +30,9 @@ public interface BoardService {
 	public int communityRecomUpdate(int bidx);
 
 	public int communityReply(BoardVo bv);
+
+	public ArrayList<BoardVo> noticeSelectdashboard();
+
+	public ArrayList<BoardVo> commynitySelectdashboard();
    
 }

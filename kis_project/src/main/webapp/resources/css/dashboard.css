@@ -187,6 +187,11 @@ table th, table td {
     padding: 5px 10px;
 }
 
+table td a {
+    color: #000000;
+    text-decoration: none;
+}
+
 /* 버튼 스타일 */
 .widget button {
     position: absolute;

@@ -126,70 +126,108 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="widget">
                         <h3>업무 보고</h3>
                         <table class="listTable">
-                     <tr>
-                        <td>No</td>
-                        <td>제목</td>
-                        <td>날짜</td>
-                     </tr>
-                     <tr>
-                        <td>No</td>
-                        <td>제목</td>
-                        <td>날짜</td>
-                     </tr>
-                     <tr>
-                        <td>No</td>
-                        <td>제목</td>
-                        <td>날짜</td>
-                     </tr>
-                     <tr>
-                        <td>No</td>
-                        <td>제목</td>
-                        <td>날짜</td>
-                     </tr>
-                     <tr>
-                        <td>No</td>
-                        <td>제목</td>
-                        <td>날짜</td>
-                     </tr>
-                  </table>
-                        <a class="more-button">더보기</a>
+		                     <tr>
+		                        <td>No</td>
+		                        <td>제목</td>
+		                        <td>날짜</td>
+		                     </tr>
+		                     <tr>
+		                        <td>No</td>
+		                        <td>제목</td>
+		                        <td>날짜</td>
+		                     </tr>
+		                     <tr>
+		                        <td>No</td>
+		                        <td>제목</td>
+		                        <td>날짜</td>
+		                     </tr>
+		                     <tr>
+		                        <td>No</td>
+		                        <td>제목</td>
+		                        <td>날짜</td>
+		                     </tr>
+		                     <tr>
+		                        <td>No</td>
+		                        <td>제목</td>
+		                        <td>날짜</td>
+		                     </tr>
+		                  </table>
+                        <a class="more-button" href="${pageContext.request.contextPath}/board/weekWorkList.aws">더보기</a>
                     </div>
                     <div class="widget">
                         <h3>커뮤니티</h3>
                         <table class="listTable">
-                     <tr>
-                        <td>No</td>
-                        <td>제목</td>
-                        <td>날짜</td>
-                     </tr>
-                  </table>
-                        <a class="more-button">더보기</a>
+		                     <tr>
+		                        <td>No</td>
+		                        <td>제목</td>
+		                        <td>날짜</td>
+		                     </tr>
+		                     <c:forEach items = "${clist}" var = "bv" varStatus="status"> 
+		                     <tr>
+		                        <td>${bv.bidx }</td>
+		                        <td class="title"><a href="${pageContext.request.contextPath}/board/communityContents.aws?bidx=${bv.bidx}">${bv.subject }</a></td>
+		                        <td>${bv.writeday.substring(0,10) }</td>
+		                     </tr>
+		                     </c:forEach>
+		                  </table>
+                        <a class="more-button" href="${pageContext.request.contextPath}/board/communityList.aws">더보기</a>
                     </div>
                     <div class="widget">
                         <h3>일정관리</h3>
                         <!-- 달력 위젯 -->
-                  <div class="widget widget-calendar">
-                      <div class="calendar">
-                          <div class="calendar-header">
-                              <div>일</div>
-                              <div>월</div>
-                              <div>화</div>
-                              <div>수</div>
-                              <div>목</div>
-                              <div>금</div>
-                              <div>토</div>
-                          </div>
-                          <div class="calendar-days">
-                              <!-- 날짜 예시 -->
-                              <div class="calendar-day empty"></div>
-                              <div class="calendar-day">1</div>
-                              <div class="calendar-day">2</div>
-                              <div class="calendar-day today">3</div> <!-- 오늘 -->
-                              <div class="calendar-day">4</div>
-                          </div>
-                      </div>
-                  </div>
-	                        <a class="more-button">더보기</a>
+		                  <div class="widget widget-calendar">
+		                      <div class="calendar">
+		                          <div class="calendar-header">
+		                              <div>일</div>
+		                              <div>월</div>
+		                              <div>화</div>
+		                              <div>수</div>
+		                              <div>목</div>
+		                              <div>금</div>
+		                              <div>토</div>
+		                          </div>
+		                          <div class="calendar-days">
+		                              <!-- 날짜 예시 -->
+		                              <div class="calendar-day">1</div>
+		                              <div class="calendar-day">2</div>
+		                              <div class="calendar-day">3</div> <!-- 오늘 -->
+		                              <div class="calendar-day">4</div>
+		                              <div class="calendar-day">5</div>
+		                              <div class="calendar-day">6</div>
+		                              <div class="calendar-day">7</div>
+		                              <div class="calendar-day">8</div>
+		                              <div class="calendar-day">9</div>
+		                              <div class="calendar-day">10</div>
+		                              <div class="calendar-day">11</div>
+		                              <div class="calendar-day today">12</div>
+		                              <div class="calendar-day">13</div>
+		                              <div class="calendar-day">14</div>
+		                              <div class="calendar-day">15</div>
+		                              <div class="calendar-day">16</div>
+		                              <div class="calendar-day">17</div>
+		                              <div class="calendar-day">18</div>
+		                              <div class="calendar-day">19</div>
+		                              <div class="calendar-day">20</div>
+		                              <div class="calendar-day">21</div>
+		                              <div class="calendar-day">22</div>
+		                              <div class="calendar-day">23</div>
+		                              <div class="calendar-day">24</div>
+		                              <div class="calendar-day">25</div>
+		                              <div class="calendar-day">26</div>
+		                              <div class="calendar-day">27</div>
+		                              <div class="calendar-day">28</div>
+		                              <div class="calendar-day">29</div>
+		                              <div class="calendar-day">30</div>
+		                              <div class="calendar-day">31</div>
+		                              <div class="calendar-day empty"></div>
+		                              <div class="calendar-day empty"></div>
+		                              <div class="calendar-day empty"></div>
+		                              <div class="calendar-day empty"></div>
+		                              
+		                          </div>
+		                      </div>
+		                  </div>
+	                        <a class="more-button" href="${pageContext.request.contextPath}/board/calendar.aws">더보기</a>
                     </div>
                     <div class="widget">
                         <h3>공지사항</h3>
@@ -199,13 +237,15 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td>제목</td>
                         <td>날짜</td>
                      </tr>
+                     <c:forEach items = "${nlist}" var = "bv" varStatus="status"> 
                      <tr>
-                        <td>No</td>
-                        <td>제목</td>
-                        <td>날짜</td>
+                        <td>${bv.bidx }</td>
+                        <td class="title"><a href="${pageContext.request.contextPath}/board/noticeContents.aws?bidx=${bv.bidx}">${bv.subject }</a></td>
+                        <td>${bv.writeday.substring(0,10) }</td>
                      </tr>
+                     </c:forEach>
                   </table>
-                        <a class="more-button">더보기</a>
+                        <a class="more-button" href="${pageContext.request.contextPath}/board/noticeList.aws">더보기</a>
                     </div>
                 </section>
             </main>

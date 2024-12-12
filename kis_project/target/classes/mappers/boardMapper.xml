@@ -49,6 +49,13 @@
 	ORDER BY bidx DESC LIMIT #{startPageNum}, #{perPageNum}
 </select>
 
+<select id="noticeSelectdashboard" resultType="bv">
+	SELECT * FROM board 
+	WHERE delyn = 'N' AND type = 'N'
+	ORDER BY bidx DESC
+	LIMIT 0, 5
+</select>
+
 <select id="communityTatalCount" parameterType="scri" resultType="int">
 	SELECT COUNT(*) AS cnt FROM board 
 	WHERE delyn = 'N' AND type = 'C'
@@ -60,6 +67,13 @@
 	WHERE delyn = 'N' AND type = 'C'
 	<include refid="search"/>
 	ORDER BY originbidx DESC, depth ASC LIMIT #{startPageNum}, #{perPageNum}
+</select>
+
+<select id="commynitySelectdashboard" resultType="bv">
+	SELECT * FROM board 
+	WHERE delyn = 'N' AND type = 'C'
+	ORDER BY bidx DESC
+	LIMIT 0, 5
 </select>
 
 <update id="communityOriginbidxUpdate" parameterType="int">

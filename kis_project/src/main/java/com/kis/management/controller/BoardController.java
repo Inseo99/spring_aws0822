@@ -55,8 +55,14 @@ public class BoardController {
 	private UserIp userIp;
    
    @RequestMapping(value = "dashboard.aws", method = RequestMethod.GET)
-   public String dashboard() {   
-
+   public String dashboard(Model model) {   
+	   
+	  ArrayList<BoardVo> nlist = boardService.noticeSelectdashboard();
+	  ArrayList<BoardVo> clist = boardService.commynitySelectdashboard();
+		  
+	  model.addAttribute("nlist", nlist);
+	  model.addAttribute("clist", clist);
+	   
       return "WEB-INF/board/dashboard";
    }
    

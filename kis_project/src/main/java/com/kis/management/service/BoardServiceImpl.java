@@ -41,6 +41,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
+	public int boardViewCntUpdate(int bidx) {
+		int value = bm.boardViewCntUpdate(bidx);
+		return value;
+		
+	}
+	
+	@Override
 	public int noticeTatalCount(SearchCriteria scri) {
 		int cnt = bm.noticeTatalCount(scri);
 		return cnt;
@@ -63,6 +70,12 @@ public class BoardServiceImpl implements BoardService{
 	public int noticeInsert(BoardVo bv) {
 		int value = bm.boardInsert(bv);
 		return value;
+	}
+	
+	@Override
+	public ArrayList<BoardVo> noticeSelectdashboard() {
+		ArrayList<BoardVo> nlist = bm.noticeSelectdashboard();
+		return nlist;
 	}
 
 	@Override
@@ -96,13 +109,6 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int boardViewCntUpdate(int bidx) {
-		int value = bm.boardViewCntUpdate(bidx);
-		return value;
-		
-	}
-
-	@Override
 	public int communityRecomUpdate(int bidx) {
 		BoardVo bv = new BoardVo();
 		
@@ -124,6 +130,13 @@ public class BoardServiceImpl implements BoardService{
 		
 		return maxBidx;
 	}
+
+	@Override
+	public ArrayList<BoardVo> commynitySelectdashboard() {
+		ArrayList<BoardVo> clist = bm.commynitySelectdashboard();
+		return clist;
+	}
+
 
 	
 }
