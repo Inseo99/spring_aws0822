@@ -20,25 +20,27 @@ if (msg != "") {
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/save.css">
 <script>
 
-function updateTime() {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
-    const day = now.getDate(); // 일
-    const month = now.getMonth() + 1; // 월 (0부터 시작하므로 +1)
-    const year = now.getFullYear(); // 연도
-    const weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
+document.addEventListener('DOMContentLoaded', function () {
+    function updateTime() {
+        var now = new Date();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+        var day = now.getDate(); // 일
+        var month = (now.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1)
+        var year = now.getFullYear(); // 연도
+        var weekday = now.toLocaleString('default', { weekday: 'short' }); // 요일 (예: Mon, Tue)
 
-    document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
-    document.getElementById('current-date').textContent = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} (${weekday})`; // 날짜 형식 (YYYY-MM-DD)
-}
+        document.getElementById('current-time').textContent = hours + ":" + minutes + ":" + seconds;
+        document.getElementById('current-date').textContent = year + "-" + month + "-" + day + " (" + weekday + ")";
+    }
 
-// 매초마다 시간 갱신
-setInterval(updateTime, 1000);
+    // 매초마다 시간 갱신
+    setInterval(updateTime, 1000);
 
-// 최초 실행
-updateTime();
+    // 최초 실행
+    updateTime();
+});
 
 function modifycheck() {
     const fm = document.frm;
